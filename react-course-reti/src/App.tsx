@@ -1,19 +1,11 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { LoginForm } from './components/login-form'
+import { RouterProvider } from 'react-router';
+import { routes } from '@/routing/routes';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-        <div className="w-full max-w-sm">
-          <LoginForm />
-        </div>
-      </div>
+    <>  
+      <RouterProvider router={routes} />
     </>
   )
 }
