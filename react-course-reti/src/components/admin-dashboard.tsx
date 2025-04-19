@@ -1,6 +1,8 @@
+import { SectionCards } from "./section-cards";
+
 const AdminDashboard = () => {
     return (
-        <div>AdminDashboard</div>
+        <SectionCards />
     )
 }
 export default AdminDashboard;

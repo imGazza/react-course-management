@@ -1,12 +1,8 @@
 import {
-  BadgeCheck,
-  Bell,
   ChevronsUpDown,
-  CreditCard,
   LayoutDashboard,
   LogIn,
   LogOut,
-  Sparkles,
 } from "lucide-react"
 
 import {
@@ -31,7 +27,6 @@ import {
 } from "@/components/ui/sidebar"
 import { User } from "@/providers/auth/auth-context"
 import { Link } from "react-router"
-import { Login } from "../login"
 import { cn } from "@/lib/utils"
 
 interface NavUserProps {

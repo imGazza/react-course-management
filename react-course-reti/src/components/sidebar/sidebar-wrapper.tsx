@@ -1,7 +1,7 @@
-import { Separator } from "@radix-ui/react-separator"
+import { Separator } from "@/components/ui/separator"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "./app-sidebar"
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "../ui/breadcrumb"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { useLocation } from "react-router"
 import { navigationTitles } from "@/routing/routes"
 import React from "react"
@@ -23,10 +23,13 @@ const SidebarWrapper = ({ children }: SidebarWrapperProps) => {
         <SidebarProvider>
             <AppSidebar />
             <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2">
+                <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
                     <div className="flex items-center gap-2 px-4">
                         <SidebarTrigger className="-ml-1" />
-                        <Separator orientation="vertical" className="mr-2 h-4" />
+                        <Separator
+                            orientation="vertical"
+                            className="mx-2 data-[orientation=vertical]:h-4"
+                        />
                         <Breadcrumb>
                             <BreadcrumbList>
                                 {pageTitles.map((title, index) => (
@@ -52,9 +55,11 @@ const SidebarWrapper = ({ children }: SidebarWrapperProps) => {
                         </Breadcrumb>
                     </div>
                 </header>
-                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                    <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min">
-                        {children}
+                <div className="flex flex-1 flex-col">
+                    <div className="@container/main flex flex-1 flex-col gap-2">
+                        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+                            {children}
+                        </div>
                     </div>
                 </div>
             </SidebarInset>
