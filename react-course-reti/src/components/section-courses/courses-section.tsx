@@ -2,15 +2,16 @@ import { useEffect, useState } from "react"
 import { getCourses } from "@/http/course"
 import { Course } from "@/model/Course"
 import CourseCard, { CourseCardSkeleton } from "./course-card"
-import YearSelect from "../utils/year-select"
-import AddNewButton from "../utils/add-new-button"
+import YearSelect from "./year-select"
+import TriggerDialog from "@/components/utils/trigger-dialog"
+import { Plus } from "lucide-react"
+import CourseDialog from "./course-dialog"
 
 const SectionCourses = () => {
 
   const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [year, setYear] = useState<string>("All");
-
 
   useEffect(() => {
     setLoading(true);
@@ -26,13 +27,19 @@ const SectionCourses = () => {
   const filteredCourses = 
     year !== "All" ? 
     allCourses.filter(course => course.year.toString() === year) :
-    allCourses;
-  
+    allCourses;  
+
+  const onSubmit = (course: Course) => {
+    course.id = allCourses.reduce((max, course) => Math.max(max, course.id), 0) + 1;
+    setAllCourses([...allCourses, course]);
+  }
 
   return (
     <>
-      <YearSelect year={year} onSelectedYear={setYear} />
-      <AddNewButton addComponent={(<div>Ciao</div>)} />
+      <div className="flex items-center justify-end px-6">
+        <YearSelect year={year} onSelectedYear={setYear} />
+        <TriggerDialog buttonText="Aggiungi" ButtonIcon={Plus} dialogComponent={(props) => <CourseDialog submit={onSubmit} {...props} />} />
+      </div>
       <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4 grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">
         {!loading ?
           filteredCourses.map(course => (

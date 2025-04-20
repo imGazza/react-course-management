@@ -35,7 +35,7 @@ const Login = ({ className, ...props}: React.ComponentProps<"div">) => {
       navigate('/');
     }
     else {
-      setCardDescription(<span className="text-red-500">Invalid email or password</span>);
+      setCardDescription(<span className="text-red-400">Invalid email or password</span>);
     }
   }
 
@@ -56,7 +56,7 @@ const Login = ({ className, ...props}: React.ComponentProps<"div">) => {
                   <div className="grid gap-3">
                     <Label htmlFor="email">Email</Label>
                     <Input
-                      {...register("email", { required: true })}
+                      {...register("email", { required: true })}                      
                       id="email"
                       type="email"
                       placeholder="admin@example.com"

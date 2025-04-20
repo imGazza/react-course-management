@@ -1,4 +1,4 @@
-import SectionCourses from "./section-courses/section-courses";
+import SectionCourses from "./section-courses/courses-section";
 
 const AdminDashboard = () => {
     return (
