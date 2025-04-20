@@ -25,7 +25,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { User } from "@/providers/auth/auth-context"
+import { User } from "@/model/User"
 import { Link } from "react-router"
 import { cn } from "@/lib/utils"
 
@@ -34,7 +34,7 @@ interface NavUserProps {
   logout: () => void,
 }
 
-export function NavUser({ user, logout }: NavUserProps) {
+const NavUser = ({ user, logout }: NavUserProps) => {
   const { isMobile } = useSidebar()  
   
   const UserInfo = () => {
@@ -165,3 +165,4 @@ export function NavUser({ user, logout }: NavUserProps) {
     </SidebarMenu>
   )
 }
+export default NavUser

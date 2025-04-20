@@ -17,7 +17,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 
-export function NavMain({
+const NavMain = ({
   items,
 }: {
   items: {
@@ -30,7 +30,7 @@ export function NavMain({
       url: string
     }[]
   }[]
-}) {
+}) => {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -74,3 +74,4 @@ export function NavMain({
     </SidebarGroup>
   )
 }
+export default NavMain

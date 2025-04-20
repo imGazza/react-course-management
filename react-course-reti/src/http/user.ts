@@ -1,4 +1,4 @@
-import { User } from "@/providers/auth/auth-context";
+import { User } from "@/model/User";
 import { httpClient } from "./client";
 
 const BASE_URL = "users/"

@@ -15,10 +15,7 @@ import { AuthContext } from "@/providers/auth/auth-context"
 import { useNavigate } from "react-router"
 import { useForm } from "react-hook-form"
 
-export function Login({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+const Login = ({ className, ...props}: React.ComponentProps<"div">) => {
 
   const [cardDescription, setCardDescription] = useState(<span>Enter your email below to login to your account</span>);
   const navigate = useNavigate();
@@ -90,3 +87,4 @@ export function Login({
     </div>
   )
 }
+export default Login

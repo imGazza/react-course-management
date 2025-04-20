@@ -3,7 +3,7 @@ import HomePage from "../components/homepage";
 import Root from "@/components/root";
 import ProtectedRoute from "@/components/utils/protected-route";
 import AdminDashboard from "../components/admin-dashboard";
-import { Login } from "@/components/login";
+import Login from "@/components/login";
 
 export const routes = createBrowserRouter([
     {
@@ -45,6 +45,6 @@ export const routes = createBrowserRouter([
 export const navigationTitles: Record<string, string> = {
     "": "Home",
     "login": "Login",
-    "admin": "Admin Dashboard",
+    "admin": "Dashboard",
     "create": "Create",
 }

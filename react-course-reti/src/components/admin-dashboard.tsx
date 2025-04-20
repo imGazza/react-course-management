@@ -1,8 +1,8 @@
-import { SectionCards } from "./section-cards";
+import SectionCourses from "./section-courses/section-courses";
 
 const AdminDashboard = () => {
     return (
-        <SectionCards />
+        <SectionCourses />
     )
 }
 export default AdminDashboard;

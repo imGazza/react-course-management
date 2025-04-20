@@ -13,10 +13,10 @@ import {
   SunMoon,
 } from "lucide-react"
 
-import { NavMain } from "@/components/sidebar/nav-main"
-import { NavProjects } from "@/components/sidebar/nav-projects"
-import { NavSecondary } from "@/components/sidebar/nav-secondary"
-import { NavUser } from "@/components/sidebar/nav-user"
+import NavMain from "@/components/sidebar/nav-main"
+import NavProjects from "@/components/sidebar/nav-projects"
+import NavSecondary from "@/components/sidebar/nav-secondary"
+import NavUser from "@/components/sidebar/nav-user"
 import {
   Sidebar,
   SidebarContent,
@@ -143,7 +143,7 @@ const data = {
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
 
   const { user, removeSessionUser } = React.useContext(AuthContext);
   const [ darkMode, setDarkMode ] = React.useState(true);
@@ -201,3 +201,4 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   )
 }
+export default AppSidebar

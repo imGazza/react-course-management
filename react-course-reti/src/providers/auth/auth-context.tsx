@@ -1,11 +1,5 @@
+import { User } from "@/model/User";
 import { createContext } from "react";
-
-export interface User{
-    id: number;
-    username: string;
-    email: string;
-    isAdmin: boolean;
-}
 
 export const AuthContext = createContext<{
     user: User | null,
