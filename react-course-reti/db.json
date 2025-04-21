@@ -1,33 +1,32 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "Admin",
       "email": "admin@example.com",
       "password": "password",
       "isAdmin": true
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "Gazza",
-      "email": "gazza@it.it", 
+      "email": "gazza@it.it",
       "password": "password",
       "isAdmin": false
     }
   ],
   "courses": [
     {
-      "id": 1,
-      "name": "Corso React",
+      "id": "1",
+      "name": "Corso React2",
       "description": "React è una libreria JavaScript per la creazione di interfacce utente interattive.",
       "image": "https://miro.medium.com/v2/resize:fit:1200/1*5PxGgx_aOWpTkul_D3nnbw.png",
       "status": "Pianificato",
       "subscribers": 25,
-      "year": 2026,
-      "closeDate": null
+      "year": 2026
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Corso Angular",
       "description": "Angular è un framework per lo sviluppo di applicazioni web moderne e scalabili.",
       "image": "https://www.esenceweb.com/backend/uploads/angular-framework-tutorial-for-absolute-beginners.png",
@@ -37,7 +36,7 @@
       "closeDate": null
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Corso Vue.js",
       "description": "Vue.js è un framework progressivo per la costruzione di interfacce utente dinamiche.",
       "image": "https://cdn.shopify.com/s/files/1/0533/2089/files/vuejs-tutorial_2d2a853c-aa2f-44b0-80df-933b495f77f8.png?v=1509478492",
@@ -47,7 +46,7 @@
       "closeDate": null
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Corso Node.js",
       "description": "Node.js è un runtime JavaScript che permette di eseguire codice JavaScript lato server.",
       "image": "https://railsware.com/blog/wp-content/uploads/2018/09/2400%D1%851260-rw-blog-node-js.png",
@@ -57,7 +56,7 @@
       "closeDate": "2023-09-15"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Corso TypeScript",
       "description": "TypeScript è un linguaggio di programmazione che estende JavaScript con tipi statici.",
       "image": "https://blog.theodo.com/_astro/ts_logo.BstCNrTU_1Dbxpr.webp",
@@ -67,7 +66,7 @@
       "closeDate": null
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Corso Redux",
       "description": "Redux è una libreria per la gestione dello stato delle applicazioni JavaScript.",
       "image": "https://miro.medium.com/v2/resize:fit:1400/1*7nLBkCmTiyXKFMk4fVCVqw.jpeg",
@@ -77,7 +76,7 @@
       "closeDate": null
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Corso MongoDB",
       "description": "MongoDB è un database NoSQL orientato ai documenti per applicazioni moderne.",
       "image": "https://miro.medium.com/v2/resize:fit:1200/1*gf_XcvKMkfwiQLxTVqGiaA.png",
@@ -87,7 +86,7 @@
       "closeDate": "2022-11-30"
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Corso GraphQL",
       "description": "GraphQL è un linguaggio di query per le API che offre maggiore efficienza e flessibilità.",
       "image": "https://www.gravitee.io/hubfs/graphql.png",
@@ -97,7 +96,7 @@
       "closeDate": null
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Corso Docker",
       "description": "Docker è una piattaforma per lo sviluppo, la distribuzione e l'esecuzione di applicazioni containerizzate.",
       "image": "https://velog.velcdn.com/images/eunseong/post/3b161eb8-860a-47b8-a9eb-e6f4da33016c/image.png",
@@ -107,7 +106,7 @@
       "closeDate": null
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "Corso Kubernetes",
       "description": "Kubernetes è un sistema di orchestrazione di container per applicazioni cloud native.",
       "image": "https://cdn.prod.website-files.com/6527fe8ad7301efb15574cc7/65535c0459f914d06ddeef7a_Kubernetes-Everything-You-Need-to-Know-2048x1159.png",

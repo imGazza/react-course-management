@@ -145,18 +145,21 @@ const data = {
 
 const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
 
+  //TODO: Create a ThemeProvider following shadcn docs
+  
   const { user, removeSessionUser } = React.useContext(AuthContext);
   const [ darkMode, setDarkMode ] = React.useState(true);
 
   useEffect(() => {
-    const body = document.querySelector('body');
-    if(!body) return;
+    const root = window.document.documentElement
+
+    if(!root) return;
 
     if (darkMode) {
-      body.classList.add('dark');
+      root.classList.add('dark');
     }
     else {
-      body.classList.remove('dark');
+      root.classList.remove('dark');
     }
   }, [darkMode]);
 

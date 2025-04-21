@@ -4,36 +4,38 @@ import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/di
 import { Input } from "../ui/input";
 import { Course } from "@/model/Course";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Textarea } from "../ui/textarea";
 import { useEffect } from "react";
+import { DialogDescription, } from "@radix-ui/react-dialog";
+import { DialogBaseProps } from "../utils/interfaces/dialog-base-props";
 
-interface CourseDialogProps {
+interface CourseDialogProps extends DialogBaseProps {
     course?: Course;
-    setOpen: (open: boolean) => void;
     submit: (course: Course) => void;
 }
 
-const CourseDialog = ({ course, setOpen, submit }: CourseDialogProps) => {
+//TODO: Fix warning when opening the dropdown in the dialog
+
+const CourseDialog = ({ course, submit, setOpen, open }: CourseDialogProps) => {
 
     const defaultValues = {
+        id: course ? course.id : undefined,
         name: course ? course.name : "",
-        description: course? course.description : "",
-        image: course? course.image : "",
-        status: course? course.status : "Pianificato",
-        subscribers: course? course.subscribers : 0,
-        year: course? course.year : new Date().getFullYear()
+        description: course ? course.description : "",
+        image: course ? course.image : "",
+        status: course ? course.status : "Pianificato",
+        subscribers: course ? course.subscribers : 0,
+        year: course ? course.year : new Date().getFullYear()
     }
 
-    const { register, handleSubmit, formState: { errors, isSubmitSuccessful }, reset } = useForm<Course>({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<Course>({
         defaultValues: defaultValues
     });
 
     useEffect(() => {
-        if(isSubmitSuccessful){
-            reset(defaultValues);
-        }
-    })
+        reset(defaultValues);
+    }, [open])
 
     const onSubmit = (data: Course) => {        
         submit(data);
@@ -45,6 +47,9 @@ const CourseDialog = ({ course, setOpen, submit }: CourseDialogProps) => {
             <DialogHeader>
                 <DialogTitle>{course ? "Modifica" : "Aggiungi"} Corso</DialogTitle>
             </DialogHeader>
+            <DialogDescription>
+                Compila i campi per { course ? "modificare" : "aggiungere" } un corso.
+            </DialogDescription>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-6 pt-4">
                     <div className="grid gap-3">
@@ -73,7 +78,7 @@ const CourseDialog = ({ course, setOpen, submit }: CourseDialogProps) => {
                             <Label htmlFor="status" className="text-right">
                                 Stato
                             </Label>
-                            <Select {...register("status", { required: true })} value={"Pianificato"} onValueChange={() => { }}>
+                            <Select {...register("status", { required: true })} defaultValue={defaultValues.status}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Anno" />
                                 </SelectTrigger>

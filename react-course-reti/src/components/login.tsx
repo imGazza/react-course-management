@@ -17,7 +17,9 @@ import { useForm } from "react-hook-form"
 
 const Login = ({ className, ...props}: React.ComponentProps<"div">) => {
 
-  const [cardDescription, setCardDescription] = useState(<span>Enter your email below to login to your account</span>);
+  //TODO: Fix the scrolling in the login page
+
+  const [cardDescription, setCardDescription] = useState(<span>Inserisci la tua mail e la password</span>);
   const navigate = useNavigate();
   const { setSessionUser } = useContext(AuthContext);
 
@@ -35,7 +37,7 @@ const Login = ({ className, ...props}: React.ComponentProps<"div">) => {
       navigate('/');
     }
     else {
-      setCardDescription(<span className="text-red-400">Invalid email or password</span>);
+      setCardDescription(<span className="text-red-400">L'email o la password è errata</span>);
     }
   }
 
@@ -45,7 +47,7 @@ const Login = ({ className, ...props}: React.ComponentProps<"div">) => {
         <div className={cn("flex flex-col gap-6", className)} {...props}>
           <Card>
             <CardHeader>
-              <CardTitle>Login to your account</CardTitle>
+              <CardTitle>Effettua l'accesso al tuo account</CardTitle>
               <CardDescription>
                 {cardDescription}
               </CardDescription>

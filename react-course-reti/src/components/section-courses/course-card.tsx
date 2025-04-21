@@ -1,9 +1,12 @@
-import { Edit, Users } from "lucide-react"
+import { Edit, Trash2, Users } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Course } from "@/model/Course"
 import { Skeleton } from "../ui/skeleton"
+import CourseDialog from "./course-dialog"
+import GazzaDialog from "../utils/gazza-dialog"
+import GazzaConfirmDialog from "../utils/gazza-confirm-dialog"
 
 const statusColors = {
   "Pianificato": "bg-yellow-100 text-yellow-800 hover:bg-yellow-100",
@@ -13,11 +16,13 @@ const statusColors = {
 
 interface CourseProps {
   course: Course;
+  onEdit: (data: Course) => void;
+  onDelete: (id: string) => void;
 }
 
-const CourseCard = ({ course }: CourseProps) => {  
+const CourseCard = ({ course, onEdit, onDelete }: CourseProps) => {  
 
-  const statusColor = statusColors[course.status] || statusColors["Pianificato"];
+  const statusColor = statusColors[course.status] || statusColors["Pianificato"];  
   
   return (
     <Card className="overflow-hidden w-full max-w-sm pt-0">
@@ -39,10 +44,17 @@ const CourseCard = ({ course }: CourseProps) => {
       <CardContent>
         <p className="text-sm text-muted-foreground line-clamp-2">{course.description}</p>
       </CardContent>
-      <CardFooter className="flex justify-end">
-        <Button variant="outline" size="icon" onClick={() => console.log("TODO")} className="flex items-center">
-          <Edit />
-        </Button>        
+      <CardFooter className="flex justify-between">
+        <GazzaDialog dialogComponent={(props) => <CourseDialog course={course} submit={onEdit} {...props} />}>
+          <Button variant="outline" size="icon" className="flex items-center gap-1 cursor-pointer">
+            <Edit />
+          </Button>
+        </GazzaDialog>
+        <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete(course.id)}>
+          <Button variant="outline" size="icon" className="flex items-center hover:border-red-400 hover:bg-red-950">
+            <Trash2 />
+          </Button>  
+        </GazzaConfirmDialog>
       </CardFooter>
     </Card>
   )

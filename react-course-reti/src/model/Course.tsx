@@ -1,7 +1,7 @@
 //TODO: Transform status in enum
 
 export interface Course {
-    id: number;
+    id: string;
     name: string;
     description: string;
     image: string;

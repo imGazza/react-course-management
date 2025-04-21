@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react"
-import { getCourses } from "@/http/course"
+import { addCourse, deleteCourse, editCourse, getCourses } from "@/http/course"
 import { Course } from "@/model/Course"
 import CourseCard, { CourseCardSkeleton } from "./course-card"
 import YearSelect from "./year-select"
-import TriggerDialog from "@/components/utils/trigger-dialog"
 import { Plus } from "lucide-react"
 import CourseDialog from "./course-dialog"
+import GazzaDialog from "@/components/utils/gazza-dialog"
+import { Button } from "../ui/button"
+
+const areThereDifferences = (course: Course, editedCourse: Course) => {
+  return course.name !== editedCourse.name || course.description !== editedCourse.description || course.year !== editedCourse.year || course.status !== editedCourse.status;
+}
 
 const SectionCourses = () => {
 
@@ -18,6 +23,7 @@ const SectionCourses = () => {
     async function fetchCourses(){      
       const courses = await getCourses();
       setAllCourses(courses);
+      console.log(courses);
       setLoading(false);
     }
     fetchCourses();
@@ -29,21 +35,59 @@ const SectionCourses = () => {
     allCourses.filter(course => course.year.toString() === year) :
     allCourses;  
 
-  const onSubmit = (course: Course) => {
-    course.id = allCourses.reduce((max, course) => Math.max(max, course.id), 0) + 1;
-    setAllCourses([...allCourses, course]);
+  const onAddCourse = async (course: Course) => {
+    try{
+      setLoading(true);
+      const addedCourse = await addCourse(course);
+      setAllCourses([...allCourses, addedCourse]);
+    } catch(e){
+      console.log(e);
+      setLoading(false);
+    }
   }
+
+  const onEditCourse = async (course: Course) => {
+    if(!areThereDifferences(allCourses.find(c => c.id === course.id)!, course))
+      return;
+
+    try {
+      setLoading(true);
+      const editedCourse = await editCourse(course);
+      setAllCourses(allCourses.map(c => c.id === course.id ? c : editedCourse));
+    } catch(e) {
+      console.log(e);
+      setLoading(false);
+    }    
+  }
+
+  const onDeleteCourse = async (id: string) => {
+    try {
+      setLoading(true);
+      await deleteCourse(id);
+      setAllCourses(allCourses.filter(course => course.id !== id));
+    } catch(e) {
+      console.log(e);
+      setLoading(false);
+    }
+  }
+
+  //TODO: dividere in due componenti diversi, altrimenti anche i bottoni vengono renderizzati quando ci sono modifiche ai corsi
 
   return (
     <>
       <div className="flex items-center justify-end px-6">
         <YearSelect year={year} onSelectedYear={setYear} />
-        <TriggerDialog buttonText="Aggiungi" ButtonIcon={Plus} dialogComponent={(props) => <CourseDialog submit={onSubmit} {...props} />} />
+        <GazzaDialog dialogComponent={(props) => <CourseDialog submit={onAddCourse} {...props} />}>
+          <Button variant="outline" className="flex items-center gap-1 cursor-pointer">
+            <Plus className="h-4 w-4" />
+            Aggiungi
+          </Button>          
+        </GazzaDialog>
       </div>
       <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4 grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">
         {!loading ?
           filteredCourses.map(course => (
-            <CourseCard key={course.id} course={course} />
+            <CourseCard key={course.id} course={course} onEdit={onEditCourse} onDelete={onDeleteCourse}/>
           ))
           :
           Array.from({ length: 12 }).map((_, index) => (
