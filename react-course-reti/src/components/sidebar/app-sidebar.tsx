@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/sidebar"
 import { AuthContext } from "@/providers/auth/auth-context"
 import { useEffect, useMemo } from "react"
+import { Theme, ThemeContext } from "@/providers/theme/theme-context"
 
 const data = {
   navMain: [
@@ -148,31 +149,22 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   //TODO: Create a ThemeProvider following shadcn docs
   
   const { user, removeSessionUser } = React.useContext(AuthContext);
-  const [ darkMode, setDarkMode ] = React.useState(true);
-
-  useEffect(() => {
-    const root = window.document.documentElement
-
-    if(!root) return;
-
-    if (darkMode) {
-      root.classList.add('dark');
-    }
-    else {
-      root.classList.remove('dark');
-    }
-  }, [darkMode]);
+  const { setTheme, theme } = React.useContext(ThemeContext);
+  
+  const toggleTheme = () => {
+    return theme === "dark" ? "light" : "dark";
+  }  
 
   const navData = useMemo(() => ({
     ...data,
     navSecondary: [
       {
-        title: "Theme",
-        onClick: () => setDarkMode(!darkMode),
+        title: "Tema",
+        onClick: () => setTheme(toggleTheme()),
         icon: SunMoon,
       }
     ],
-  }), [darkMode])
+  }), [theme])
 
   return (
     <Sidebar variant="inset" {...props}>

@@ -18,7 +18,7 @@
   "courses": [
     {
       "id": "1",
-      "name": "Corso React2",
+      "name": "Corso React",
       "description": "React è una libreria JavaScript per la creazione di interfacce utente interattive.",
       "image": "https://miro.medium.com/v2/resize:fit:1200/1*5PxGgx_aOWpTkul_D3nnbw.png",
       "status": "Pianificato",
