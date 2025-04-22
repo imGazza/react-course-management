@@ -1,10 +1,10 @@
-import { Edit, Trash2, Users } from "lucide-react"
+import { Edit, SquareArrowOutUpRight, Trash2, Users } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Course } from "@/model/Course"
 import { Skeleton } from "../ui/skeleton"
-import CourseDialog from "./course-dialog"
+import CourseDialog from "@/components/utils/dialogs/course-dialog"
 import GazzaDialog from "../utils/gazza-dialog"
 import GazzaConfirmDialog from "../utils/gazza-confirm-dialog"
 
@@ -45,16 +45,25 @@ const CourseCard = ({ course, onEdit, onDelete }: CourseProps) => {
         <p className="text-sm text-muted-foreground line-clamp-2">{course.description}</p>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <GazzaDialog dialogComponent={(props) => <CourseDialog course={course} submit={onEdit} {...props} />}>
-          <Button variant="outline" size="icon" className="flex items-center gap-1 cursor-pointer">
-            <Edit />
-          </Button>
-        </GazzaDialog>
         <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete(course.id)}>
-          <Button variant="outline" size="icon" className="flex items-center hover:border-red-400 hover:bg-red-950">
-            <Trash2 />
-          </Button>  
+            <Button variant="outline" size="icon" className="flex items-center">
+              <SquareArrowOutUpRight />
+            </Button>
         </GazzaConfirmDialog>
+        <div className="flex justify-between gap-2">
+          <GazzaDialog dialogComponent={(props) => <CourseDialog course={course} submit={onEdit} {...props} />}>
+            <Button variant="outline" size="icon" className="flex items-center gap-1">
+              <Edit />
+            </Button>
+          </GazzaDialog>
+          {course.status === "Pianificato" ?
+            <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete(course.id)}>
+              <Button variant="outline" size="icon" className="flex items-center hover:border-delete-red-foreground hover:bg-delete-red">
+                <Trash2 />
+              </Button>
+            </GazzaConfirmDialog> : null
+          }
+        </div>
       </CardFooter>
     </Card>
   )

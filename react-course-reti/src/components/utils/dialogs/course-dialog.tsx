@@ -1,21 +1,18 @@
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
-import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
-import { Input } from "../ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Course } from "@/model/Course";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { useForm } from "react-hook-form";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
 import { DialogDescription, } from "@radix-ui/react-dialog";
-import { DialogBaseProps } from "../utils/interfaces/dialog-base-props";
+import { DialogBaseProps } from "@/components/utils/interfaces/dialog-base-props";
 
 interface CourseDialogProps extends DialogBaseProps {
     course?: Course;
     submit: (course: Course) => void;
 }
-
-//TODO: Fix warning when opening the dropdown in the dialog
 
 const CourseDialog = ({ course, submit, setOpen, open }: CourseDialogProps) => {
 
@@ -73,7 +70,7 @@ const CourseDialog = ({ course, submit, setOpen, open }: CourseDialogProps) => {
                         <Input {...register("image", { required: true })} aria-invalid={errors.image ? "true" : "false"} id="image" className="col-span-3" />
                         {errors.image && errors.image.type === "required" && <span className="text-xs text-red-400" role="alert">Campo obbligatorio</span>}
                     </div>
-                    <div className="flex gap-4">
+                    {/* <div className="flex gap-4">
                         <div className="grid gap-3 flex-1">
                             <Label htmlFor="status" className="text-right">
                                 Stato
@@ -97,13 +94,13 @@ const CourseDialog = ({ course, submit, setOpen, open }: CourseDialogProps) => {
                             </Label>
                             <Input {...register("subscribers", { required: true })} type="number" min={0} id="subscribers" placeholder="0" className="col-span-3" />
                         </div>
-                    </div>
+                    </div> */}
                     
                     <div className="grid gap-3">
                         <Label htmlFor="year" className="text-right">
                             Anno
                         </Label>
-                        <Input {...register("year", { required: true })} aria-invalid={errors.year ? "true" : "false"} type="number" min={2020} id="year" placeholder="2025" className="col-span-3" />
+                        <Input {...register("year", { required: true })} aria-invalid={errors.year ? "true" : "false"} type="number" min={2020} id="year" placeholder={new Date().getFullYear().toString()} className="col-span-3" />
                         {errors.year && errors.year.type === "required" && <span className="text-xs text-red-400" role="alert">Campo obbligatorio</span>}
                     </div>
                     <div className="grid gap-3">

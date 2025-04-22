@@ -1,5 +1,7 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
+//TODO: Passando il minimo e il massimo anno in base ai corsi presenti nel padre.
+
 interface YearSelectProps {
    year: string;
    onSelectedYear: (year: string) => void;

@@ -1,13 +1,13 @@
 import { Separator } from "@/components/ui/separator"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import AppSidebar from "./app-sidebar"
+import AppSidebar from "./sidebar/app-sidebar"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { Outlet, useLocation } from "react-router"
 import { navigationTitles } from "@/routing/routes"
 import React from "react"
-import MainContent from "../main-content"
+import MainContent from "./main-content"
 
-const SidebarWrapper = () => {
+const MainWrapper = () => {
 
     const location = useLocation();
 
@@ -59,4 +59,4 @@ const SidebarWrapper = () => {
         </SidebarProvider>
     )
 }
-export default SidebarWrapper
+export default MainWrapper

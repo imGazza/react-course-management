@@ -4,7 +4,7 @@ import { Course } from "@/model/Course"
 import CourseCard, { CourseCardSkeleton } from "./course-card"
 import YearSelect from "./year-select"
 import { Plus } from "lucide-react"
-import CourseDialog from "./course-dialog"
+import CourseDialog from "@/components/utils/dialogs/course-dialog"
 import GazzaDialog from "@/components/utils/gazza-dialog"
 import { Button } from "../ui/button"
 
@@ -23,7 +23,6 @@ const SectionCourses = () => {
     async function fetchCourses(){      
       const courses = await getCourses();
       setAllCourses(courses);
-      console.log(courses);
       setLoading(false);
     }
     fetchCourses();
@@ -70,8 +69,6 @@ const SectionCourses = () => {
       setLoading(false);
     }
   }
-
-  //TODO: dividere in due componenti diversi, altrimenti anche i bottoni vengono renderizzati quando ci sono modifiche ai corsi
 
   return (
     <>

@@ -1,13 +1,13 @@
 import AuthProvider from "@/providers/auth/auth-provider";
-import SidebarWrapper from "./sidebar/sidebar-wrapper";
 import { ThemeProvider } from "@/providers/theme/theme-provider";
+import MainWrapper from "./main-wrapper";
 
 const Root = () => {
     return (
         <>
             <AuthProvider>
                 <ThemeProvider>
-                    <SidebarWrapper />
+                    <MainWrapper />
                 </ThemeProvider>
             </AuthProvider>
         </>
