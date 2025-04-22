@@ -4,6 +4,7 @@ import Root from "@/components/root";
 import ProtectedRoute from "@/components/utils/protected-route";
 import AdminDashboard from "../components/admin-dashboard";
 import Login from "@/components/login";
+import CourseDetail from "@/components/course-detail/course-detail";
 
 export const routes = createBrowserRouter([
     {
@@ -15,7 +16,7 @@ export const routes = createBrowserRouter([
                 Component: HomePage,
             },
             {
-                path: "/login",
+                path: "login",
                 children: [
                     {
                         index: true,
@@ -24,15 +25,15 @@ export const routes = createBrowserRouter([
                 ]
             },
             {
-                path: "/admin",
+                path: "admin",
                 children: [
                     {
                         index: true,
                         element: <ProtectedRoute><AdminDashboard /></ProtectedRoute>
                     },
                     {
-                        path: "create",
-                        Component: HomePage
+                        path: "detail/:id",
+                        Component: CourseDetail
                     }
                 ]
             }
@@ -46,5 +47,5 @@ export const navigationTitles: Record<string, string> = {
     "": "Home",
     "login": "Login",
     "admin": "Dashboard",
-    "create": "Create",
+    "detail": "Dettaglio corso"
 }

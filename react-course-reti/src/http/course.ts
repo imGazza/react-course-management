@@ -25,9 +25,8 @@ export const deleteCourse = async (id: string): Promise<void> => {
     await httpClient.delete(BASE_URL + "/" + id);
 }
 
-// export const getCourse = async (email: string, password: string): Promise<Course> => {
-//     const params = "?email=" + email + "&password=" + password;
-//     const user = await httpClient.get(BASE_URL + params);
+export const getCourse = async (id: string): Promise<Course> => {
+    const course = await httpClient.get(BASE_URL + "/" + id);
 
-//     return user.data[0];
-// }
+    return course.data;
+}

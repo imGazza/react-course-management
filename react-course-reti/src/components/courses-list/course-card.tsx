@@ -7,6 +7,7 @@ import { Skeleton } from "../ui/skeleton"
 import CourseDialog from "@/components/utils/dialogs/course-dialog"
 import GazzaDialog from "../utils/gazza-dialog"
 import GazzaConfirmDialog from "../utils/gazza-confirm-dialog"
+import { Link } from "react-router"
 
 const statusColors = {
   "Pianificato": "bg-yellow-100 text-yellow-800 hover:bg-yellow-100",
@@ -46,9 +47,11 @@ const CourseCard = ({ course, onEdit, onDelete }: CourseProps) => {
       </CardContent>
       <CardFooter className="flex justify-between">
         <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete(course.id)}>
-            <Button variant="outline" size="icon" className="flex items-center">
-              <SquareArrowOutUpRight />
-            </Button>
+            <Link to={`/admin/detail/${course.id}`}>
+              <Button variant="outline" size="icon" className="flex items-center">
+                <SquareArrowOutUpRight />
+              </Button>
+            </Link>
         </GazzaConfirmDialog>
         <div className="flex justify-between gap-2">
           <GazzaDialog dialogComponent={(props) => <CourseDialog course={course} submit={onEdit} {...props} />}>

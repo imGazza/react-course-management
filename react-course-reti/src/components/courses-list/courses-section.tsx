@@ -78,7 +78,7 @@ const SectionCourses = () => {
           <Button variant="outline" className="flex items-center gap-1 cursor-pointer">
             <Plus className="h-4 w-4" />
             Aggiungi
-          </Button>          
+          </Button>
         </GazzaDialog>
       </div>
       <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4 grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">

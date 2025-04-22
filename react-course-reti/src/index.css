@@ -41,6 +41,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-delete-red: var(--delete-red);
   --color-delete-red-foreground: var(--delete-red-foreground);
+  --4xl: var(--4xl);
 }
 
 :root {
@@ -78,6 +79,7 @@
   --sidebar-ring: oklch(0.705 0.015 286.067);
   --delete-red: oklch(0.94 0.03 18);
   --delete-red-foreground: oklch(0.71 0.17 22);
+  --4xl: 2.25rem;
 }
 
 .dark {
@@ -114,6 +116,7 @@
   --sidebar-ring: oklch(0.552 0.016 285.938);
   --delete-red: oklch(0.26 0.09 26);
   --delete-red-foreground: oklch(0.71 0.17 22);
+  --4xl: 2.25rem;
 }
 
 @layer base {
