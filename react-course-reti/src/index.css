@@ -41,6 +41,8 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-delete-red: var(--delete-red);
   --color-delete-red-foreground: var(--delete-red-foreground);
+  --color-success-green: var(--success-green);
+  --color-success-green-foreground: var(--success-green-foreground);
   --4xl: var(--4xl);
 }
 
@@ -79,6 +81,8 @@
   --sidebar-ring: oklch(0.705 0.015 286.067);
   --delete-red: oklch(0.94 0.03 18);
   --delete-red-foreground: oklch(0.71 0.17 22);
+  --success-green: oklch(0.96 0.04 157);
+  --success-green-foreground: oklch(0.80 0.18 152);
   --4xl: 2.25rem;
 }
 
@@ -116,6 +120,8 @@
   --sidebar-ring: oklch(0.552 0.016 285.938);
   --delete-red: oklch(0.26 0.09 26);
   --delete-red-foreground: oklch(0.71 0.17 22);
+  --success-green: oklch(0.27 0.06 153);
+  --success-green-foreground: oklch(0.80 0.18 152);
   --4xl: 2.25rem;
 }
 

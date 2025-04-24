@@ -7,20 +7,17 @@ import { Plus } from "lucide-react"
 import CourseDialog from "@/components/utils/dialogs/course-dialog"
 import GazzaDialog from "@/components/utils/gazza-dialog"
 import { Button } from "../ui/button"
-
-const areThereDifferences = (course: Course, editedCourse: Course) => {
-  return course.name !== editedCourse.name || course.description !== editedCourse.description || course.year !== editedCourse.year || course.status !== editedCourse.status;
-}
+import { areThereDifferences } from "../utils/course/course-utils"
 
 const SectionCourses = () => {
 
   const [allCourses, setAllCourses] = useState<Course[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [year, setYear] = useState<string>("All");
 
   useEffect(() => {
     setLoading(true);
-    async function fetchCourses(){      
+    async function fetchCourses() {
       const courses = await getCourses();
       setAllCourses(courses);
       setLoading(false);
@@ -29,34 +26,37 @@ const SectionCourses = () => {
 
   }, [])
 
-  const filteredCourses = 
-    year !== "All" ? 
-    allCourses.filter(course => course.year.toString() === year) :
-    allCourses;  
+  const filteredCourses =
+    year !== "All" ?
+      allCourses.filter(course => course.year.toString() === year) :
+      allCourses;
 
   const onAddCourse = async (course: Course) => {
-    try{
+    try {
       setLoading(true);
       const addedCourse = await addCourse(course);
       setAllCourses([...allCourses, addedCourse]);
-    } catch(e){
-      console.log(e);
+    } catch (e) {
+      
+    }
+    finally{
       setLoading(false);
     }
   }
 
   const onEditCourse = async (course: Course) => {
-    if(!areThereDifferences(allCourses.find(c => c.id === course.id)!, course))
+    if (!areThereDifferences(allCourses.find(c => c.id === course.id)!, course))
       return;
 
     try {
       setLoading(true);
       const editedCourse = await editCourse(course);
-      setAllCourses(allCourses.map(c => c.id === course.id ? c : editedCourse));
-    } catch(e) {
-      console.log(e);
+      setAllCourses(allCourses.map(c => c.id === course.id ? editedCourse : c));
+    } catch (e) {
+    }
+    finally{
       setLoading(false);
-    }    
+    }
   }
 
   const onDeleteCourse = async (id: string) => {
@@ -64,8 +64,9 @@ const SectionCourses = () => {
       setLoading(true);
       await deleteCourse(id);
       setAllCourses(allCourses.filter(course => course.id !== id));
-    } catch(e) {
-      console.log(e);
+    } catch (e) {
+    }
+    finally{
       setLoading(false);
     }
   }
@@ -83,8 +84,8 @@ const SectionCourses = () => {
       </div>
       <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4 grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">
         {!loading ?
-          filteredCourses.map(course => (
-            <CourseCard key={course.id} course={course} onEdit={onEditCourse} onDelete={onDeleteCourse}/>
+          filteredCourses.map((course) => (
+            <CourseCard key={course.id} course={course} onEdit={onEditCourse} onDelete={onDeleteCourse} />
           ))
           :
           Array.from({ length: 12 }).map((_, index) => (

@@ -115,5 +115,187 @@
       "year": 2024,
       "closeDate": "2024-06-20"
     }
+  ],
+  "materials": [
+    {
+      "id": "1",
+      "fileName": "Slide Lezione 1 - Intro React.pptx",
+      "courseId": "1",
+      "uploadDate": "2026-01-15"
+    },
+    {
+      "id": "2",
+      "fileName": "React Hooks Examples.zip",
+      "courseId": "1",
+      "uploadDate": "2026-02-10"
+    },
+    {
+      "id": "3",
+      "fileName": "React Router Setup Guide.pdf",
+      "courseId": "1",
+      "uploadDate": "2026-03-01"
+    },
+    {
+      "id": "4",
+      "fileName": "Angular Basics Slides.pptx",
+      "courseId": "2",
+      "uploadDate": "2025-01-20"
+    },
+    {
+      "id": "5",
+      "fileName": "Angular Services Demo.zip",
+      "courseId": "2",
+      "uploadDate": "2025-02-15"
+    },
+    {
+      "id": "6",
+      "fileName": "Angular Forms Workshop.pdf",
+      "courseId": "2",
+      "uploadDate": "2025-03-10"
+    },
+    {
+      "id": "7",
+      "fileName": "Vue.js Introduction.pptx",
+      "courseId": "3",
+      "uploadDate": "2025-04-05"
+    },
+    {
+      "id": "8",
+      "fileName": "Vue Components Example.zip",
+      "courseId": "3",
+      "uploadDate": "2025-05-12"
+    },
+    {
+      "id": "9",
+      "fileName": "Vue State Management Guide.pdf",
+      "courseId": "3",
+      "uploadDate": "2025-06-20"
+    },
+    {
+      "id": "10",
+      "fileName": "Node.js Fundamentals.pptx",
+      "courseId": "4",
+      "uploadDate": "2023-03-10"
+    },
+    {
+      "id": "11",
+      "fileName": "Express API Project.zip",
+      "courseId": "4",
+      "uploadDate": "2023-04-15"
+    },
+    {
+      "id": "12",
+      "fileName": "Node.js Security Best Practices.pdf",
+      "courseId": "4",
+      "uploadDate": "2023-05-20"
+    },
+    {
+      "id": "13",
+      "fileName": "TypeScript Basics Slides.pptx",
+      "courseId": "5",
+      "uploadDate": "2025-02-10"
+    },
+    {
+      "id": "14",
+      "fileName": "TypeScript Interfaces Demo.zip",
+      "courseId": "5",
+      "uploadDate": "2025-03-15"
+    },
+    {
+      "id": "15",
+      "fileName": "Advanced TypeScript Features.pdf",
+      "courseId": "5",
+      "uploadDate": "2025-04-20"
+    },
+    {
+      "id": "16",
+      "fileName": "Redux Core Concepts.pptx",
+      "courseId": "6",
+      "uploadDate": "2026-05-10"
+    },
+    {
+      "id": "17",
+      "fileName": "Redux Toolkit Examples.zip",
+      "courseId": "6",
+      "uploadDate": "2026-06-15"
+    },
+    {
+      "id": "18",
+      "fileName": "Redux Middleware Guide.pdf",
+      "courseId": "6",
+      "uploadDate": "2026-07-20"
+    },
+    {
+      "id": "19",
+      "fileName": "MongoDB Schema Design.pptx",
+      "courseId": "7",
+      "uploadDate": "2022-08-10"
+    },
+    {
+      "id": "20",
+      "fileName": "MongoDB CRUD Operations.zip",
+      "courseId": "7",
+      "uploadDate": "2022-09-15"
+    },
+    {
+      "id": "21",
+      "fileName": "MongoDB Aggregation Pipeline.pdf",
+      "courseId": "7",
+      "uploadDate": "2022-10-20"
+    },
+    {
+      "id": "22",
+      "fileName": "GraphQL Schema Design.pptx",
+      "courseId": "8",
+      "uploadDate": "2025-03-10"
+    },
+    {
+      "id": "23",
+      "fileName": "GraphQL Resolvers Example.zip",
+      "courseId": "8",
+      "uploadDate": "2025-04-15"
+    },
+    {
+      "id": "24",
+      "fileName": "GraphQL Authentication Guide.pdf",
+      "courseId": "8",
+      "uploadDate": "2025-05-20"
+    },
+    {
+      "id": "25",
+      "fileName": "Docker Containers Basics.pptx",
+      "courseId": "9",
+      "uploadDate": "2025-06-10"
+    },
+    {
+      "id": "26",
+      "fileName": "Docker Compose Examples.zip",
+      "courseId": "9",
+      "uploadDate": "2025-07-15"
+    },
+    {
+      "id": "27",
+      "fileName": "Docker Networking Guide.pdf",
+      "courseId": "9",
+      "uploadDate": "2025-08-20"
+    },
+    {
+      "id": "28",
+      "fileName": "Kubernetes Architecture.pptx",
+      "courseId": "10",
+      "uploadDate": "2024-01-10"
+    },
+    {
+      "id": "29",
+      "fileName": "Kubernetes Deployments Demo.zip",
+      "courseId": "10",
+      "uploadDate": "2024-02-15"
+    },
+    {
+      "id": "30",
+      "fileName": "Kubernetes Security Guide.pdf",
+      "courseId": "10",
+      "uploadDate": "2024-03-20"
+    }
   ]
 }
