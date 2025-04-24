@@ -1,6 +1,8 @@
 export interface Material {
-  id: string;
+  id: string,
   fileName: string;
   courseId: string;
-  uploadDate: Date;
+  uploadDate: string;
+  size: number;
+  filePath: string;
 }

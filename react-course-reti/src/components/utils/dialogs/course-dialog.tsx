@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
 import { DialogDescription, } from "@radix-ui/react-dialog";
 import { DialogBaseProps } from "@/components/utils/interfaces/dialog-base-props";
+import { GenerateId } from "../misc";
 
 interface CourseDialogProps extends DialogBaseProps {
     course?: Course;
@@ -17,7 +18,7 @@ interface CourseDialogProps extends DialogBaseProps {
 const CourseDialog = ({ course, submit, setOpen, open }: CourseDialogProps) => {
 
     const defaultValues = {
-        id: course ? course.id : undefined,
+        id: course ? course.id : GenerateId(),
         name: course ? course.name : "",
         description: course ? course.description : "",
         image: course ? course.image : "",

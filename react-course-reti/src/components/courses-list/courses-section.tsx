@@ -7,7 +7,7 @@ import { Plus } from "lucide-react"
 import CourseDialog from "@/components/utils/dialogs/course-dialog"
 import GazzaDialog from "@/components/utils/gazza-dialog"
 import { Button } from "../ui/button"
-import { areThereDifferences } from "../utils/course/course-utils"
+import { AreThereDifferences } from "../utils/course/course-utils"
 
 const SectionCourses = () => {
 
@@ -45,7 +45,7 @@ const SectionCourses = () => {
   }
 
   const onEditCourse = async (course: Course) => {
-    if (!areThereDifferences(allCourses.find(c => c.id === course.id)!, course))
+    if (!AreThereDifferences(allCourses.find(c => c.id === course.id)!, course))
       return;
 
     try {

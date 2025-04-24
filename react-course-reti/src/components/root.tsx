@@ -14,3 +14,8 @@ const Root = () => {
     )
 }
 export default Root;
+
+//TODO: Refactora le cartelle
+//TODO: Controlla tutti gli error handling
+//TODO: Controlla i nomi delle varie variabili e componenti
+//TODO: Sostituisci le parti che possono diventare troppo lunghe con ScrollArea

@@ -14,7 +14,8 @@ const MainWrapper = () => {
     // Splitting url routes
     const pageRoutesTree = location.pathname.split("/"); // e.g. /admin/create -> ['', 'admin', 'create']
     // Slice the first element because it's an empty string, then build an array with all the titles of the current route 
-    const pageTitles = pageRoutesTree.slice(1).map(item => navigationTitles[item]); // e.g. ['Admin Dashboard', 'Create']
+    const pageTitles = pageRoutesTree.slice(1).map((item) => navigationTitles[item]); // e.g. ['Admin Dashboard', 'Create']
+    //TODO: transform this into a context
 
     return (
         <SidebarProvider>

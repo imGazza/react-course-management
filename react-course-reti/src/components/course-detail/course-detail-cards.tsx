@@ -12,14 +12,59 @@ import GazzaDialog from "../utils/gazza-dialog";
 import CourseDialog from "../utils/dialogs/course-dialog";
 import GazzaConfirmDialog from "../utils/gazza-confirm-dialog";
 import { Skeleton } from "../ui/skeleton";
+import { useEffect, useState } from "react";
+import { deleteCourse, editCourse, getCourse } from "@/http/course";
+import { useNavigate, useParams } from "react-router";
+import { AreThereDifferences } from "../utils/course/course-utils";
 
-interface CourseProps {
-  course: Course;
-  onEdit: (course: Course) => void;
-  onDelete: (id: string) => void;
-}
+const CourseDetailCards = () => {
 
-const CourseDetailCards = ({ course, onEdit, onDelete }: CourseProps) => {
+  const { id } = useParams();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [course, setCourse] = useState<Course | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    async function fetchCourses() {
+      const course = await getCourse(id!);
+      setCourse(course);
+      setLoading(false);
+    }
+    fetchCourses();
+  }, [])
+
+  const navigate = useNavigate();
+
+  const onEditCourse = async (editedCourse: Course) => {
+    if (!AreThereDifferences(course!, editedCourse))
+      return;
+
+    try {
+      setLoading(true);
+      const course = await editCourse(editedCourse);
+      setCourse(course);
+    } catch (e) {
+
+    }
+    finally {
+      setLoading(false);
+    }
+  }
+
+  const onDeleteCourse = async (id: string) => {
+    try {
+      setLoading(true);
+      await deleteCourse(id);
+      navigate("/admin");
+    } catch(e) {
+      setLoading(false);
+    }
+  }
+
+  if (loading || !course)
+    return (
+      <CourseDetailCardsSkeleton />
+    )
 
   return (
     <div className="grid grid-cols-1 @xl/main:grid-cols-4 gap-4 px-4 *:data-[slot=card]:shadow-xs *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">
@@ -31,18 +76,13 @@ const CourseDetailCards = ({ course, onEdit, onDelete }: CourseProps) => {
       <Card className="py-6 flex flex-col gap-8">
         <CardHeader className="relative">
           <div className="absolute right-6 flex gap-2">
-            <GazzaDialog dialogComponent={(props) => <CourseDialog course={course} submit={onEdit} {...props} />}>
-              <Button
-                variant="outline"
-                size="icon"
-                className="flex items-center gap-1"
-                onClick={() => {/* Handle edit */ }}
-              >
+            <GazzaDialog dialogComponent={(props) => <CourseDialog course={course} submit={onEditCourse} {...props} />}>
+              <Button variant="outline" size="icon" className="flex items-center gap-1">
                 <Pencil className="h-4 w-4" />
               </Button>
             </GazzaDialog>
             {course.status === "Pianificato" ?
-              <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete(course.id)}>
+              <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDeleteCourse(course.id)}>
                 <Button variant="outline" size="icon" className="flex items-center hover:border-delete-red-foreground hover:bg-delete-red hover:text-delete-red-foreground">
                   <Trash2 />
                 </Button>
@@ -149,4 +189,3 @@ const CourseDetailCardsSkeleton = () => {
     </div>
   )
 }
-export { CourseDetailCardsSkeleton };
