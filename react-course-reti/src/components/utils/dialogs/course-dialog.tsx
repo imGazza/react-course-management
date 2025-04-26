@@ -71,31 +71,6 @@ const CourseDialog = ({ course, submit, setOpen, open }: CourseDialogProps) => {
                         <Input {...register("image", { required: true })} aria-invalid={errors.image ? "true" : "false"} id="image" className="col-span-3" />
                         {errors.image && errors.image.type === "required" && <span className="text-xs text-red-400" role="alert">Campo obbligatorio</span>}
                     </div>
-                    {/* <div className="flex gap-4">
-                        <div className="grid gap-3 flex-1">
-                            <Label htmlFor="status" className="text-right">
-                                Stato
-                            </Label>
-                            <Select {...register("status", { required: true })} defaultValue={defaultValues.status}>
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Anno" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectItem value="Pianificato">Pianificato</SelectItem>
-                                        <SelectItem value="In corso">In corso</SelectItem>
-                                        <SelectItem value="Chiuso">Chiuso</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="grid gap-3 flex-1">
-                            <Label htmlFor="subscribers" className="text-right">
-                                Numero iscrizioni
-                            </Label>
-                            <Input {...register("subscribers", { required: true })} type="number" min={0} id="subscribers" placeholder="0" className="col-span-3" />
-                        </div>
-                    </div> */}
                     
                     <div className="grid gap-3">
                         <Label htmlFor="year" className="text-right">

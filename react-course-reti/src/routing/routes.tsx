@@ -32,7 +32,7 @@ export const routes = createBrowserRouter([
                         element: <ProtectedRoute><AdminDashboard /></ProtectedRoute>
                     },
                     {
-                        path: "detail/:id",
+                        path: "detail/:courseId",
                         Component: CourseDetail
                     }
                 ]

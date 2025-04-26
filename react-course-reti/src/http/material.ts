@@ -3,7 +3,7 @@ import { Material } from "@/model/Material";
 
 const BASE_URL = "materials"
 
-export const getMaterialsForCourse = async (courseId: string): Promise<Material[]> => {
+export const getCourseMaterials = async (courseId: string): Promise<Material[]> => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     const params = "?courseId=" + courseId;
 

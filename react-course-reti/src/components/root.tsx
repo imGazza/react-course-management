@@ -19,3 +19,6 @@ export default Root;
 //TODO: Controlla tutti gli error handling
 //TODO: Controlla i nomi delle varie variabili e componenti
 //TODO: Sostituisci le parti che possono diventare troppo lunghe con ScrollArea
+//TODO: Togli tutti gli import non usati
+//TODO: Add all toasts
+//TODO: Test test test

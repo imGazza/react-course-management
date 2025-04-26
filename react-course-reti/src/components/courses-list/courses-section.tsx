@@ -7,11 +7,11 @@ import { Plus } from "lucide-react"
 import CourseDialog from "@/components/utils/dialogs/course-dialog"
 import GazzaDialog from "@/components/utils/gazza-dialog"
 import { Button } from "../ui/button"
-import { AreThereDifferences } from "../utils/course/course-utils"
+import { AreCoursesDifferent } from "../utils/course/course-utils"
 
 const SectionCourses = () => {
 
-  const [allCourses, setAllCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [year, setYear] = useState<string>("All");
 
@@ -19,7 +19,7 @@ const SectionCourses = () => {
     setLoading(true);
     async function fetchCourses() {
       const courses = await getCourses();
-      setAllCourses(courses);
+      setCourses(courses);
       setLoading(false);
     }
     fetchCourses();
@@ -28,14 +28,14 @@ const SectionCourses = () => {
 
   const filteredCourses =
     year !== "All" ?
-      allCourses.filter(course => course.year.toString() === year) :
-      allCourses;
+      courses.filter(course => course.year.toString() === year) :
+      courses;
 
   const onAddCourse = async (course: Course) => {
     try {
       setLoading(true);
       const addedCourse = await addCourse(course);
-      setAllCourses([...allCourses, addedCourse]);
+      setCourses([...courses, addedCourse]);
     } catch (e) {
       
     }
@@ -45,13 +45,13 @@ const SectionCourses = () => {
   }
 
   const onEditCourse = async (course: Course) => {
-    if (!AreThereDifferences(allCourses.find(c => c.id === course.id)!, course))
+    if (!AreCoursesDifferent(courses.find(c => c.id === course.id)!, course))
       return;
 
     try {
       setLoading(true);
       const editedCourse = await editCourse(course);
-      setAllCourses(allCourses.map(c => c.id === course.id ? editedCourse : c));
+      setCourses(courses.map(c => c.id === course.id ? editedCourse : c));
     } catch (e) {
     }
     finally{
@@ -63,7 +63,7 @@ const SectionCourses = () => {
     try {
       setLoading(true);
       await deleteCourse(id);
-      setAllCourses(allCourses.filter(course => course.id !== id));
+      setCourses(courses.filter(course => course.id !== id));
     } catch (e) {
     }
     finally{

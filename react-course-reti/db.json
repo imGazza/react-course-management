@@ -2,15 +2,409 @@
   "users": [
     {
       "id": "1",
-      "username": "Admin",
+      "firstName": "Admin",
+      "lastName": "Admin",
       "email": "admin@example.com",
       "password": "password",
       "isAdmin": true
     },
     {
       "id": "2",
-      "username": "Gazza",
+      "firstName": "Gazza",
+      "lastName": "Gazza",
       "email": "gazza@it.it",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "3",
+      "firstName": "John",
+      "lastName": "Smith",
+      "email": "john.smith@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "4",
+      "firstName": "Emma",
+      "lastName": "Johnson",
+      "email": "emma.johnson@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "5",
+      "firstName": "Michael",
+      "lastName": "Brown",
+      "email": "michael.brown@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "6",
+      "firstName": "Sophia",
+      "lastName": "Davis",
+      "email": "sophia.davis@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "7",
+      "firstName": "William",
+      "lastName": "Wilson",
+      "email": "william.wilson@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "8",
+      "firstName": "Olivia",
+      "lastName": "Taylor",
+      "email": "olivia.taylor@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "9",
+      "firstName": "James",
+      "lastName": "Anderson",
+      "email": "james.anderson@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "10",
+      "firstName": "Isabella",
+      "lastName": "Thomas",
+      "email": "isabella.thomas@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "11",
+      "firstName": "Alexander",
+      "lastName": "Martinez",
+      "email": "alexander.martinez@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "12",
+      "firstName": "Mia",
+      "lastName": "Robinson",
+      "email": "mia.robinson@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "13",
+      "firstName": "Ethan",
+      "lastName": "Clark",
+      "email": "ethan.clark@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "14",
+      "firstName": "Ava",
+      "lastName": "Rodriguez",
+      "email": "ava.rodriguez@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "15",
+      "firstName": "Daniel",
+      "lastName": "Lewis",
+      "email": "daniel.lewis@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "16",
+      "firstName": "Charlotte",
+      "lastName": "Lee",
+      "email": "charlotte.lee@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "17",
+      "firstName": "Joseph",
+      "lastName": "Walker",
+      "email": "joseph.walker@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "18",
+      "firstName": "Amelia",
+      "lastName": "Hall",
+      "email": "amelia.hall@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "19",
+      "firstName": "David",
+      "lastName": "Allen",
+      "email": "david.allen@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "20",
+      "firstName": "Harper",
+      "lastName": "Young",
+      "email": "harper.young@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "21",
+      "firstName": "Matthew",
+      "lastName": "King",
+      "email": "matthew.king@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "22",
+      "firstName": "Evelyn",
+      "lastName": "Wright",
+      "email": "evelyn.wright@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "23",
+      "firstName": "Christopher",
+      "lastName": "Lopez",
+      "email": "christopher.lopez@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "24",
+      "firstName": "Abigail",
+      "lastName": "Hill",
+      "email": "abigail.hill@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "25",
+      "firstName": "Andrew",
+      "lastName": "Scott",
+      "email": "andrew.scott@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "26",
+      "firstName": "Elizabeth",
+      "lastName": "Green",
+      "email": "elizabeth.green@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "27",
+      "firstName": "Joshua",
+      "lastName": "Adams",
+      "email": "joshua.adams@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "28",
+      "firstName": "Sofia",
+      "lastName": "Baker",
+      "email": "sofia.baker@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "29",
+      "firstName": "Christopher",
+      "lastName": "Nelson",
+      "email": "christopher.nelson@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "30",
+      "firstName": "Victoria",
+      "lastName": "Carter",
+      "email": "victoria.carter@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "31",
+      "firstName": "Ryan",
+      "lastName": "Mitchell",
+      "email": "ryan.mitchell@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "32",
+      "firstName": "Grace",
+      "lastName": "Perez",
+      "email": "grace.perez@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "33",
+      "firstName": "Nathan",
+      "lastName": "Roberts",
+      "email": "nathan.roberts@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "34",
+      "firstName": "Chloe",
+      "lastName": "Turner",
+      "email": "chloe.turner@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "35",
+      "firstName": "Kevin",
+      "lastName": "Phillips",
+      "email": "kevin.phillips@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "36",
+      "firstName": "Zoe",
+      "lastName": "Campbell",
+      "email": "zoe.campbell@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "37",
+      "firstName": "Eric",
+      "lastName": "Parker",
+      "email": "eric.parker@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "38",
+      "firstName": "Penelope",
+      "lastName": "Evans",
+      "email": "penelope.evans@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "39",
+      "firstName": "Stephen",
+      "lastName": "Edwards",
+      "email": "stephen.edwards@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "40",
+      "firstName": "Nora",
+      "lastName": "Collins",
+      "email": "nora.collins@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "41",
+      "firstName": "Timothy",
+      "lastName": "Stewart",
+      "email": "timothy.stewart@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "42",
+      "firstName": "Scarlett",
+      "lastName": "Morris",
+      "email": "scarlett.morris@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "43",
+      "firstName": "Steven",
+      "lastName": "Murphy",
+      "email": "steven.murphy@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "44",
+      "firstName": "Aurora",
+      "lastName": "Rogers",
+      "email": "aurora.rogers@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "45",
+      "firstName": "Peter",
+      "lastName": "Cook",
+      "email": "peter.cook@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "46",
+      "firstName": "Luna",
+      "lastName": "Morgan",
+      "email": "luna.morgan@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "47",
+      "firstName": "Bryan",
+      "lastName": "Cooper",
+      "email": "bryan.cooper@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "48",
+      "firstName": "Hazel",
+      "lastName": "Peterson",
+      "email": "hazel.peterson@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "49",
+      "firstName": "George",
+      "lastName": "Reed",
+      "email": "george.reed@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "50",
+      "firstName": "Violet",
+      "lastName": "Bailey",
+      "email": "violet.bailey@email.com",
+      "password": "password",
+      "isAdmin": false
+    },
+    {
+      "id": "51",
+      "firstName": "Frank",
+      "lastName": "Howard",
+      "email": "frank.howard@email.com",
       "password": "password",
       "isAdmin": false
     }
@@ -118,238 +512,514 @@
   ],
   "materials": [
     {
-      "id": "1",
-      "fileName": "Slide Lezione 1 - Intro React.pptx",
+      "id": "gd4s1",
+      "name": "Project.pdf",
       "courseId": "1",
-      "uploadDate": "2026-01-15",
-      "size": 3145728
+      "uploadDate": "2025-04-26T08:31:02.360Z",
+      "size": 176962,
+      "fileName": "1745656262351-Project.pdf"
     },
     {
-      "id": "2",
-      "fileName": "React Hooks Examples.zip",
+      "id": "0g7uc",
+      "name": "Lesson1.pptx",
       "courseId": "1",
-      "uploadDate": "2026-02-10",
-      "size": 7340032
+      "uploadDate": "2025-04-26T08:35:41.627Z",
+      "size": 5142127,
+      "fileName": "1745656541568-Lesson1.pptx"
+    },
+    {
+      "id": "bxi4e",
+      "name": "Lesson2.pptx",
+      "courseId": "1",
+      "uploadDate": "2025-04-26T08:35:44.900Z",
+      "size": 5655903,
+      "fileName": "1745656544847-Lesson2.pptx"
+    },
+    {
+      "id": "jbdu1",
+      "name": "Lesson4.pptx",
+      "courseId": "1",
+      "uploadDate": "2025-04-26T13:39:59.882Z",
+      "size": 4442560,
+      "fileName": "1745674799837-Lesson4.pptx"
+    }
+  ],
+  "subscribers": [
+    {
+      "id": "2",
+      "userId": "3",
+      "courseId": "1",
+      "subscriptionDate": "2026-02-15T10:00:00.000Z"
     },
     {
       "id": "3",
-      "fileName": "React Router Setup Guide.pdf",
+      "userId": "4",
       "courseId": "1",
-      "uploadDate": "2026-03-01",
-      "size": 2097152
+      "subscriptionDate": "2026-03-20T14:30:00.000Z"
     },
     {
       "id": "4",
-      "fileName": "Angular Basics Slides.pptx",
-      "courseId": "2",
-      "uploadDate": "2025-01-20",
-      "size": 2621440
-    },
-    {
-      "id": "5",
-      "fileName": "Angular Services Demo.zip",
-      "courseId": "2",
-      "uploadDate": "2025-02-15",
-      "size": 8388608
+      "userId": "5",
+      "courseId": "1",
+      "subscriptionDate": "2026-01-05T09:15:00.000Z"
     },
     {
       "id": "6",
-      "fileName": "Angular Forms Workshop.pdf",
+      "userId": "7",
       "courseId": "2",
-      "uploadDate": "2025-03-10",
-      "size": 1572864
+      "subscriptionDate": "2025-12-10T11:20:00.000Z"
     },
     {
       "id": "7",
-      "fileName": "Vue.js Introduction.pptx",
-      "courseId": "3",
-      "uploadDate": "2025-04-05",
-      "size": 3670016
+      "userId": "8",
+      "courseId": "2",
+      "subscriptionDate": "2025-11-25T13:40:00.000Z"
     },
     {
       "id": "8",
-      "fileName": "Vue Components Example.zip",
-      "courseId": "3",
-      "uploadDate": "2025-05-12",
-      "size": 6291456
+      "userId": "9",
+      "courseId": "2",
+      "subscriptionDate": "2025-10-15T15:10:00.000Z"
     },
     {
       "id": "9",
-      "fileName": "Vue State Management Guide.pdf",
-      "courseId": "3",
-      "uploadDate": "2025-06-20",
-      "size": 2359296
+      "userId": "10",
+      "courseId": "2",
+      "subscriptionDate": "2025-09-20T10:30:00.000Z"
     },
     {
       "id": "10",
-      "fileName": "Node.js Fundamentals.pptx",
-      "courseId": "4",
-      "uploadDate": "2023-03-10",
-      "size": 4194304
+      "userId": "11",
+      "courseId": "2",
+      "subscriptionDate": "2025-08-05T14:20:00.000Z"
     },
     {
       "id": "11",
-      "fileName": "Express API Project.zip",
-      "courseId": "4",
-      "uploadDate": "2023-04-15",
-      "size": 5242880
+      "userId": "12",
+      "courseId": "3",
+      "subscriptionDate": "2025-12-20T09:45:00.000Z"
     },
     {
       "id": "12",
-      "fileName": "Node.js Security Best Practices.pdf",
-      "courseId": "4",
-      "uploadDate": "2023-05-20",
-      "size": 1835008
+      "userId": "13",
+      "courseId": "3",
+      "subscriptionDate": "2025-11-15T16:30:00.000Z"
     },
     {
       "id": "13",
-      "fileName": "TypeScript Basics Slides.pptx",
-      "courseId": "5",
-      "uploadDate": "2025-02-10",
-      "size": 3145728
+      "userId": "14",
+      "courseId": "3",
+      "subscriptionDate": "2025-10-25T11:50:00.000Z"
     },
     {
       "id": "14",
-      "fileName": "TypeScript Interfaces Demo.zip",
-      "courseId": "5",
-      "uploadDate": "2025-03-15",
-      "size": 7864320
+      "userId": "15",
+      "courseId": "3",
+      "subscriptionDate": "2025-09-30T13:15:00.000Z"
     },
     {
       "id": "15",
-      "fileName": "Advanced TypeScript Features.pdf",
-      "courseId": "5",
-      "uploadDate": "2025-04-20",
-      "size": 2621440
+      "userId": "16",
+      "courseId": "3",
+      "subscriptionDate": "2025-08-15T15:40:00.000Z"
     },
     {
       "id": "16",
-      "fileName": "Redux Core Concepts.pptx",
-      "courseId": "6",
-      "uploadDate": "2026-05-10",
-      "size": 2883584
+      "userId": "17",
+      "courseId": "4",
+      "subscriptionDate": "2023-06-10T10:20:00.000Z"
     },
     {
       "id": "17",
-      "fileName": "Redux Toolkit Examples.zip",
-      "courseId": "6",
-      "uploadDate": "2026-06-15",
-      "size": 6815744
+      "userId": "18",
+      "courseId": "4",
+      "subscriptionDate": "2023-05-25T14:45:00.000Z"
     },
     {
       "id": "18",
-      "fileName": "Redux Middleware Guide.pdf",
-      "courseId": "6",
-      "uploadDate": "2026-07-20",
-      "size": 1966080
+      "userId": "19",
+      "courseId": "4",
+      "subscriptionDate": "2023-04-15T11:30:00.000Z"
     },
     {
       "id": "19",
-      "fileName": "MongoDB Schema Design.pptx",
-      "courseId": "7",
-      "uploadDate": "2022-08-10",
-      "size": 3932160
+      "userId": "20",
+      "courseId": "4",
+      "subscriptionDate": "2023-03-20T16:15:00.000Z"
     },
     {
       "id": "20",
-      "fileName": "MongoDB CRUD Operations.zip",
-      "courseId": "7",
-      "uploadDate": "2022-09-15",
-      "size": 7077888
+      "userId": "21",
+      "courseId": "4",
+      "subscriptionDate": "2023-02-05T09:40:00.000Z"
     },
     {
       "id": "21",
-      "fileName": "MongoDB Aggregation Pipeline.pdf",
-      "courseId": "7",
-      "uploadDate": "2022-10-20",
-      "size": 2228224
+      "userId": "22",
+      "courseId": "5",
+      "subscriptionDate": "2025-12-15T13:25:00.000Z"
     },
     {
       "id": "22",
-      "fileName": "GraphQL Schema Design.pptx",
-      "courseId": "8",
-      "uploadDate": "2025-03-10",
-      "size": 3407872
+      "userId": "23",
+      "courseId": "5",
+      "subscriptionDate": "2025-11-20T15:50:00.000Z"
     },
     {
       "id": "23",
-      "fileName": "GraphQL Resolvers Example.zip",
-      "courseId": "8",
-      "uploadDate": "2025-04-15",
-      "size": 8912896
+      "userId": "24",
+      "courseId": "5",
+      "subscriptionDate": "2025-10-10T10:15:00.000Z"
     },
     {
       "id": "24",
-      "fileName": "GraphQL Authentication Guide.pdf",
-      "courseId": "8",
-      "uploadDate": "2025-05-20",
-      "size": 1703936
+      "userId": "25",
+      "courseId": "5",
+      "subscriptionDate": "2025-09-25T14:30:00.000Z"
     },
     {
       "id": "25",
-      "fileName": "Docker Containers Basics.pptx",
-      "courseId": "9",
-      "uploadDate": "2025-06-10",
-      "size": 2752512
+      "userId": "26",
+      "courseId": "5",
+      "subscriptionDate": "2025-08-15T11:45:00.000Z"
     },
     {
       "id": "26",
-      "fileName": "Docker Compose Examples.zip",
-      "courseId": "9",
-      "uploadDate": "2025-07-15",
-      "size": 5767168
+      "userId": "27",
+      "courseId": "6",
+      "subscriptionDate": "2026-02-20T16:10:00.000Z"
     },
     {
       "id": "27",
-      "fileName": "Docker Networking Guide.pdf",
-      "courseId": "9",
-      "uploadDate": "2025-08-20",
-      "size": 2490368
+      "userId": "28",
+      "courseId": "6",
+      "subscriptionDate": "2026-01-15T09:35:00.000Z"
     },
     {
       "id": "28",
-      "fileName": "Kubernetes Architecture.pptx",
-      "courseId": "10",
-      "uploadDate": "2024-01-10",
-      "size": 3276800
+      "userId": "29",
+      "courseId": "6",
+      "subscriptionDate": "2026-03-25T13:50:00.000Z"
     },
     {
       "id": "29",
-      "fileName": "Kubernetes Deployments Demo.zip",
-      "courseId": "10",
-      "uploadDate": "2024-02-15",
-      "size": 7516192
+      "userId": "30",
+      "courseId": "6",
+      "subscriptionDate": "2026-02-28T15:15:00.000Z"
     },
     {
       "id": "30",
-      "fileName": "Kubernetes Security Guide.pdf",
+      "userId": "31",
+      "courseId": "6",
+      "subscriptionDate": "2026-01-15T10:40:00.000Z"
+    },
+    {
+      "id": "31",
+      "userId": "32",
+      "courseId": "7",
+      "subscriptionDate": "2022-09-10T14:25:00.000Z"
+    },
+    {
+      "id": "32",
+      "userId": "33",
+      "courseId": "7",
+      "subscriptionDate": "2022-08-25T11:50:00.000Z"
+    },
+    {
+      "id": "33",
+      "userId": "34",
+      "courseId": "7",
+      "subscriptionDate": "2022-07-15T16:15:00.000Z"
+    },
+    {
+      "id": "34",
+      "userId": "35",
+      "courseId": "7",
+      "subscriptionDate": "2022-06-20T09:40:00.000Z"
+    },
+    {
+      "id": "35",
+      "userId": "36",
+      "courseId": "7",
+      "subscriptionDate": "2022-05-05T13:05:00.000Z"
+    },
+    {
+      "id": "36",
+      "userId": "37",
+      "courseId": "8",
+      "subscriptionDate": "2025-12-10T15:30:00.000Z"
+    },
+    {
+      "id": "37",
+      "userId": "38",
+      "courseId": "8",
+      "subscriptionDate": "2025-11-25T10:55:00.000Z"
+    },
+    {
+      "id": "38",
+      "userId": "39",
+      "courseId": "8",
+      "subscriptionDate": "2025-10-15T14:20:00.000Z"
+    },
+    {
+      "id": "39",
+      "userId": "40",
+      "courseId": "8",
+      "subscriptionDate": "2025-09-20T11:45:00.000Z"
+    },
+    {
+      "id": "40",
+      "userId": "41",
+      "courseId": "8",
+      "subscriptionDate": "2025-08-05T16:10:00.000Z"
+    },
+    {
+      "id": "41",
+      "userId": "42",
+      "courseId": "9",
+      "subscriptionDate": "2025-12-20T09:35:00.000Z"
+    },
+    {
+      "id": "42",
+      "userId": "43",
+      "courseId": "9",
+      "subscriptionDate": "2025-11-15T13:50:00.000Z"
+    },
+    {
+      "id": "43",
+      "userId": "44",
+      "courseId": "9",
+      "subscriptionDate": "2025-10-25T15:15:00.000Z"
+    },
+    {
+      "id": "44",
+      "userId": "45",
+      "courseId": "9",
+      "subscriptionDate": "2025-09-30T10:40:00.000Z"
+    },
+    {
+      "id": "45",
+      "userId": "46",
+      "courseId": "9",
+      "subscriptionDate": "2025-08-15T14:05:00.000Z"
+    },
+    {
+      "id": "46",
+      "userId": "47",
       "courseId": "10",
-      "uploadDate": "2024-03-20",
-      "size": 1835008
+      "subscriptionDate": "2024-12-10T11:30:00.000Z"
     },
     {
-      "id": "v11c7",
-      "fileName": "Project.pdf",
-      "courseId": "1",
-      "uploadDate": "2025-04-24T22:27:48.777Z",
-      "size": 176962,
-      "filePath": "/materials/1745533668767-Project.pdf"
+      "id": "47",
+      "userId": "48",
+      "courseId": "10",
+      "subscriptionDate": "2024-11-25T15:55:00.000Z"
     },
     {
-      "id": "yhvur",
-      "fileName": "Lesson1.pptx",
-      "courseId": "1",
-      "uploadDate": "2025-04-24T22:39:08.210Z",
-      "size": 5142127,
-      "filePath": "/materials/1745534348152-Lesson1.pptx"
+      "id": "48",
+      "userId": "49",
+      "courseId": "10",
+      "subscriptionDate": "2024-10-15T10:20:00.000Z"
     },
     {
-      "id": "nok1j",
-      "fileName": "CopyMetadata.bat",
+      "id": "49",
+      "userId": "50",
+      "courseId": "10",
+      "subscriptionDate": "2024-09-20T14:45:00.000Z"
+    },
+    {
+      "id": "50",
+      "userId": "51",
+      "courseId": "10",
+      "subscriptionDate": "2024-08-05T11:10:00.000Z"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "1",
+      "name": "Introduzione a React",
       "courseId": "1",
-      "uploadDate": "2025-04-24T22:47:46.348Z",
-      "size": 1117,
-      "filePath": "/materials/1745534866345-CopyMetadata.bat"
+      "lessonDate": "2026-02-15T09:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "name": "Component Lifecycle e Hooks",
+      "courseId": "1",
+      "lessonDate": "2026-03-15T09:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "name": "State Management con Redux",
+      "courseId": "1",
+      "lessonDate": "2026-04-15T09:00:00.000Z"
+    },
+    {
+      "id": "4",
+      "name": "Fondamenti di Angular",
+      "courseId": "2",
+      "lessonDate": "2025-02-10T09:00:00.000Z"
+    },
+    {
+      "id": "5",
+      "name": "Services e Dependency Injection",
+      "courseId": "2",
+      "lessonDate": "2025-03-10T09:00:00.000Z"
+    },
+    {
+      "id": "6",
+      "name": "Routing e Navigation",
+      "courseId": "2",
+      "lessonDate": "2025-04-10T09:00:00.000Z"
+    },
+    {
+      "id": "7",
+      "name": "Introduzione a Vue.js",
+      "courseId": "3",
+      "lessonDate": "2025-09-05T09:00:00.000Z"
+    },
+    {
+      "id": "8",
+      "name": "Composizione dei Componenti",
+      "courseId": "3",
+      "lessonDate": "2025-10-05T09:00:00.000Z"
+    },
+    {
+      "id": "9",
+      "name": "Vuex per la Gestione dello Stato",
+      "courseId": "3",
+      "lessonDate": "2025-11-05T09:00:00.000Z"
+    },
+    {
+      "id": "10",
+      "name": "Architettura Node.js",
+      "courseId": "4",
+      "lessonDate": "2023-03-15T09:00:00.000Z"
+    },
+    {
+      "id": "11",
+      "name": "Express.js e REST API",
+      "courseId": "4",
+      "lessonDate": "2023-04-15T09:00:00.000Z"
+    },
+    {
+      "id": "12",
+      "name": "Database Integration",
+      "courseId": "4",
+      "lessonDate": "2023-05-15T09:00:00.000Z"
+    },
+    {
+      "id": "13",
+      "name": "Tipi Base e Interfacce",
+      "courseId": "5",
+      "lessonDate": "2025-03-20T09:00:00.000Z"
+    },
+    {
+      "id": "14",
+      "name": "Generics e Decoratori",
+      "courseId": "5",
+      "lessonDate": "2025-04-20T09:00:00.000Z"
+    },
+    {
+      "id": "15",
+      "name": "TypeScript con React",
+      "courseId": "5",
+      "lessonDate": "2025-05-20T09:00:00.000Z"
+    },
+    {
+      "id": "16",
+      "name": "Fondamenti di Redux",
+      "courseId": "6",
+      "lessonDate": "2026-06-10T09:00:00.000Z"
+    },
+    {
+      "id": "17",
+      "name": "Actions e Reducers",
+      "courseId": "6",
+      "lessonDate": "2026-07-10T09:00:00.000Z"
+    },
+    {
+      "id": "18",
+      "name": "Redux Middleware",
+      "courseId": "6",
+      "lessonDate": "2026-08-10T09:00:00.000Z"
+    },
+    {
+      "id": "19",
+      "name": "Introduzione a MongoDB",
+      "courseId": "7",
+      "lessonDate": "2022-09-12T09:00:00.000Z"
+    },
+    {
+      "id": "20",
+      "name": "CRUD Operations",
+      "courseId": "7",
+      "lessonDate": "2022-10-12T09:00:00.000Z"
+    },
+    {
+      "id": "21",
+      "name": "Aggregation Pipeline",
+      "courseId": "7",
+      "lessonDate": "2022-11-12T09:00:00.000Z"
+    },
+    {
+      "id": "22",
+      "name": "Schema e Types GraphQL",
+      "courseId": "8",
+      "lessonDate": "2025-06-25T09:00:00.000Z"
+    },
+    {
+      "id": "23",
+      "name": "Queries e Mutations",
+      "courseId": "8",
+      "lessonDate": "2025-07-25T09:00:00.000Z"
+    },
+    {
+      "id": "24",
+      "name": "GraphQL con Apollo",
+      "courseId": "8",
+      "lessonDate": "2025-08-25T09:00:00.000Z"
+    },
+    {
+      "id": "25",
+      "name": "Container Basics",
+      "courseId": "9",
+      "lessonDate": "2025-05-15T09:00:00.000Z"
+    },
+    {
+      "id": "26",
+      "name": "Docker Compose",
+      "courseId": "9",
+      "lessonDate": "2025-06-15T09:00:00.000Z"
+    },
+    {
+      "id": "27",
+      "name": "Docker Networking",
+      "courseId": "9",
+      "lessonDate": "2025-07-15T09:00:00.000Z"
+    },
+    {
+      "id": "28",
+      "name": "Kubernetes Architecture",
+      "courseId": "10",
+      "lessonDate": "2024-04-05T09:00:00.000Z"
+    },
+    {
+      "id": "29",
+      "name": "Pods e Deployments",
+      "courseId": "10",
+      "lessonDate": "2024-05-05T09:00:00.000Z"
+    },
+    {
+      "id": "30",
+      "name": "Services e Ingress",
+      "courseId": "10",
+      "lessonDate": "2024-06-05T09:00:00.000Z"
+    },
+    {
+      "id": "jd5rm",
+      "name": "Context API",
+      "courseId": "1",
+      "lessonDate": "2026-05-15T22:00:00.000Z"
     }
   ]
 }

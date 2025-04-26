@@ -15,18 +15,18 @@ import { Skeleton } from "../ui/skeleton";
 import { useEffect, useState } from "react";
 import { deleteCourse, editCourse, getCourse } from "@/http/course";
 import { useNavigate, useParams } from "react-router";
-import { AreThereDifferences } from "../utils/course/course-utils";
+import { AreCoursesDifferent } from "../utils/course/course-utils";
 
 const CourseDetailCards = () => {
 
-  const { id } = useParams();
+  const { courseId } = useParams();
   const [loading, setLoading] = useState<boolean>(true);
   const [course, setCourse] = useState<Course | null>(null);
 
   useEffect(() => {
     setLoading(true);
     async function fetchCourses() {
-      const course = await getCourse(id!);
+      const course = await getCourse(courseId!);
       setCourse(course);
       setLoading(false);
     }
@@ -36,7 +36,7 @@ const CourseDetailCards = () => {
   const navigate = useNavigate();
 
   const onEditCourse = async (editedCourse: Course) => {
-    if (!AreThereDifferences(course!, editedCourse))
+    if (!AreCoursesDifferent(course!, editedCourse))
       return;
 
     try {
