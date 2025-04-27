@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { DialogDescription, } from "@radix-ui/react-dialog";
 import { DialogBaseProps } from "@/components/utils/interfaces/dialog-base-props";
 import { GenerateId } from "../misc";
@@ -48,6 +48,8 @@ const LessonDialog = ({ lesson, submit, setOpen, open, courseId }: LessonDialogP
         setOpen(false);
     }
 
+    const [openCalendar, setOpenCalendar] = useState(false);
+
     return (
         <DialogContent className="sm:max-w-[450px]">
             <DialogHeader>
@@ -80,16 +82,18 @@ const LessonDialog = ({ lesson, submit, setOpen, open, courseId }: LessonDialogP
                                     )}
                                 >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {selectedDate ? format(selectedDate, "PPP") : <span>Scegli una data</span>}
+                                    {selectedDate ? format(selectedDate, "PPP", { locale: it }) : <span>Scegli una data</span>}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
                                 <Calendar
                                     mode="single"
                                     selected={selectedDate ? new Date(selectedDate) : undefined}
-                                    onSelect={(date) => setValue('lessonDate', date?.toISOString() ?? '', { 
-                                        shouldValidate: true 
-                                    })}
+                                    onSelect={(date) => {
+                                        setValue('lessonDate', date?.toISOString() ?? '', { 
+                                            shouldValidate: true 
+                                        });
+                                    }}
                                     initialFocus
                                     locale={it}
                                 />

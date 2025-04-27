@@ -13,7 +13,7 @@ import CourseDialog from "../utils/dialogs/course-dialog";
 import GazzaConfirmDialog from "../utils/gazza-confirm-dialog";
 import { Skeleton } from "../ui/skeleton";
 import { useEffect, useState } from "react";
-import { deleteCourse, editCourse, getCourse } from "@/http/course";
+import { advanceStatus, deleteCourse, editCourse, getCourse } from "@/http/course";
 import { useNavigate, useParams } from "react-router";
 import { AreCoursesDifferent } from "../utils/course/course-utils";
 
@@ -22,18 +22,27 @@ const CourseDetailCards = () => {
   const { courseId } = useParams();
   const [loading, setLoading] = useState<boolean>(true);
   const [course, setCourse] = useState<Course | null>(null);
+  const [nextStatus, setNextStatus] = useState<"Pianificato" | "In corso" | "Chiuso">("Pianificato");
 
   useEffect(() => {
     setLoading(true);
     async function fetchCourses() {
       const course = await getCourse(courseId!);
       setCourse(course);
+      getNextStatus(course);
       setLoading(false);
     }
     fetchCourses();
   }, [])
 
   const navigate = useNavigate();
+
+  const getNextStatus = (course: Course) => {
+    if (course!.status === "Pianificato")
+      setNextStatus("In corso");
+    else if (course!.status === "In corso")
+      setNextStatus("Chiuso");
+  }
 
   const onEditCourse = async (editedCourse: Course) => {
     if (!AreCoursesDifferent(course!, editedCourse))
@@ -56,7 +65,23 @@ const CourseDetailCards = () => {
       setLoading(true);
       await deleteCourse(id);
       navigate("/admin");
-    } catch(e) {
+    } catch (e) {
+      // Toast
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const onAdvanceStatus = async () => {
+    try {
+      setLoading(true);
+      course!.status = nextStatus;
+      const editedCourse = await advanceStatus(course!);
+      setCourse(editedCourse);
+      getNextStatus(editedCourse);
+    } catch (e) {
+      // TODO: Toast
+    } finally {
       setLoading(false);
     }
   }
@@ -131,11 +156,12 @@ const CourseDetailCards = () => {
           </CardTitle>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1 text-sm">
-          <Button variant="outline" className="flex items-center gap-1 cursor-pointer w-full hover:border-success-green-foreground hover:bg-success-green hover:text-success-green-foreground">
-            <ChevronsRight className="mr-2 h-4 w-4" />
-            Passa a In corso
-            {/* TODO: Aggiungi il dato sullo stato e la logica per cambiare lo stato */}
-          </Button>
+          {course.status !== "Chiuso" ?
+            <Button variant="outline" onClick={onAdvanceStatus} className="flex items-center gap-1 cursor-pointer w-full hover:border-success-green-foreground hover:bg-success-green hover:text-success-green-foreground">
+              <ChevronsRight className="mr-2 h-4 w-4" />
+              Passa a {nextStatus}
+            </Button> : null
+          }
         </CardFooter>
       </Card>
     </div>

@@ -417,7 +417,7 @@
       "image": "https://miro.medium.com/v2/resize:fit:1200/1*5PxGgx_aOWpTkul_D3nnbw.png",
       "status": "Pianificato",
       "subscribers": 25,
-      "year": 2026
+      "year": "2026"
     },
     {
       "id": "2",
@@ -545,12 +545,6 @@
     }
   ],
   "subscribers": [
-    {
-      "id": "2",
-      "userId": "3",
-      "courseId": "1",
-      "subscriptionDate": "2026-02-15T10:00:00.000Z"
-    },
     {
       "id": "3",
       "userId": "4",
@@ -832,6 +826,24 @@
       "userId": "51",
       "courseId": "10",
       "subscriptionDate": "2024-08-05T11:10:00.000Z"
+    },
+    {
+      "id": "rtk7n",
+      "userId": "20",
+      "courseId": "1",
+      "subscriptionDate": "2025-04-27T07:58:52.635Z"
+    },
+    {
+      "id": "5j74u",
+      "userId": "35",
+      "courseId": "1",
+      "subscriptionDate": "2025-04-27T07:58:53.148Z"
+    },
+    {
+      "id": "39dzz",
+      "userId": "37",
+      "courseId": "1",
+      "subscriptionDate": "2025-04-27T07:58:53.658Z"
     }
   ],
   "lessons": [
