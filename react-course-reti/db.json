@@ -844,6 +844,24 @@
       "userId": "37",
       "courseId": "1",
       "subscriptionDate": "2025-04-27T07:58:53.658Z"
+    },
+    {
+      "id": "qhocm",
+      "userId": "11",
+      "courseId": "1",
+      "subscriptionDate": "2025-04-27T16:24:11.478Z"
+    },
+    {
+      "id": "utkg5",
+      "userId": "23",
+      "courseId": "1",
+      "subscriptionDate": "2025-04-27T16:24:11.997Z"
+    },
+    {
+      "id": "us9mj",
+      "userId": "24",
+      "courseId": "1",
+      "subscriptionDate": "2025-04-27T16:24:12.514Z"
     }
   ],
   "lessons": [
@@ -1032,6 +1050,98 @@
       "name": "Context API",
       "courseId": "1",
       "lessonDate": "2026-05-15T22:00:00.000Z"
+    }
+  ],
+  "grades": [
+    {
+      "id": "1",
+      "userId": "17",
+      "courseId": "4",
+      "grade": 28
+    },
+    {
+      "id": "2",
+      "userId": "18",
+      "courseId": "4",
+      "grade": 25
+    },
+    {
+      "id": "3",
+      "userId": "19",
+      "courseId": "4",
+      "grade": 30
+    },
+    {
+      "id": "4",
+      "userId": "20",
+      "courseId": "4",
+      "grade": 27
+    },
+    {
+      "id": "5",
+      "userId": "21",
+      "courseId": "4",
+      "grade": 24
+    },
+    {
+      "id": "6",
+      "userId": "32",
+      "courseId": "7",
+      "grade": 26
+    },
+    {
+      "id": "7",
+      "userId": "33",
+      "courseId": "7",
+      "grade": 29
+    },
+    {
+      "id": "8",
+      "userId": "34",
+      "courseId": "7",
+      "grade": 23
+    },
+    {
+      "id": "9",
+      "userId": "35",
+      "courseId": "7",
+      "grade": 28
+    },
+    {
+      "id": "10",
+      "userId": "36",
+      "courseId": "7",
+      "grade": 30
+    },
+    {
+      "id": "11",
+      "userId": "47",
+      "courseId": "10",
+      "grade": 25
+    },
+    {
+      "id": "12",
+      "userId": "48",
+      "courseId": "10",
+      "grade": 27
+    },
+    {
+      "id": "13",
+      "userId": "49",
+      "courseId": "10",
+      "grade": 29
+    },
+    {
+      "id": "14",
+      "userId": "50",
+      "courseId": "10",
+      "grade": 24
+    },
+    {
+      "id": "15",
+      "userId": "51",
+      "courseId": "10",
+      "grade": 26
     }
   ]
 }

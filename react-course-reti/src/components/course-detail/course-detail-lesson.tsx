@@ -52,11 +52,11 @@ const CourseDetailLesson = () => {
         }
     }
 
-    if (lessons.length === 0 || loading)
+    if (loading)
         return <CourseDetailLessonSkeleton />
 
     return (
-        <Card className="col-span-1 lg:col-span-1 min-h-[405px] flex flex-col">
+        <Card className="col-span-1 lg:col-span-2 min-h-[405px] flex flex-col">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <BookOpenText className="h-5 w-5" />
@@ -66,28 +66,38 @@ const CourseDetailLesson = () => {
             <CardContent className="flex-1">
                 <ScrollArea className="h-[245px]">
                     <div className="space-y-4">
-                        {lessons.map((lesson) => (
-                            <div key={lesson.id} className="flex items-center justify-between p-3 border rounded-md">
-                                <div className="flex items-center gap-3">
-                                    <Presentation className="h-5 w-5 text-muted-foreground" />
-                                    <div>
-                                        <p className="font-medium">{lesson.name}</p>
-                                        <p className="text-sm text-muted-foreground">
-                                            {
-                                                new Date() <= new Date(lesson.lessonDate) ?
-                                                    `La lezione si terrà in data ${new Date(lesson.lessonDate).toLocaleDateString('it-IT')}` :
-                                                    `La lezione si è tenuta in data ${new Date(lesson.lessonDate).toLocaleDateString('it-IT')}`
-                                            }
-                                        </p>
+                        {
+                            lessons.length !== 0 ?
+
+                            lessons.map((lesson) => (
+                                <div key={lesson.id} className="flex items-center justify-between p-3 border rounded-md">
+                                    <div className="flex items-center gap-3">
+                                        <Presentation className="h-5 w-5 text-muted-foreground" />
+                                        <div>
+                                            <p className="font-medium">{lesson.name}</p>
+                                            <p className="text-sm text-muted-foreground">
+                                                {
+                                                    new Date() <= new Date(lesson.lessonDate) ?
+                                                        `La lezione si terrà in data ${new Date(lesson.lessonDate).toLocaleDateString('it-IT')}` :
+                                                        `La lezione si è tenuta in data ${new Date(lesson.lessonDate).toLocaleDateString('it-IT')}`
+                                                }
+                                            </p>
+                                        </div>
                                     </div>
+                                    <GazzaDialog dialogComponent={(props) => <LessonDialog submit={onEditLesson} lesson={lesson} courseId={courseId!} {...props} />}>
+                                        <Button variant="ghost" size="sm">
+                                            Modifica
+                                        </Button>
+                                    </GazzaDialog>
                                 </div>
-                                <GazzaDialog dialogComponent={(props) => <LessonDialog submit={onEditLesson} lesson={lesson} courseId={courseId!} {...props} />}>
-                                    <Button variant="ghost" size="sm">
-                                        Modifica
-                                    </Button>
-                                </GazzaDialog>
+                            ))
+
+                            :
+
+                            <div className="space-y-4 text-center">
+                                Non ci sono lezioni per questo corso.
                             </div>
-                        ))}
+                        }
                     </div>
                 </ScrollArea>
             </CardContent>
@@ -106,7 +116,7 @@ export default CourseDetailLesson;
 
 const CourseDetailLessonSkeleton = () => {
     return (
-        <Card className="col-span-1 lg:col-span-1 min-h-[405px] flex flex-col">
+        <Card className="col-span-1 lg:col-span-2 min-h-[405px] flex flex-col">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Skeleton className="h-5 w-5" />

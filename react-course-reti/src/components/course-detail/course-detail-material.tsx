@@ -1,7 +1,7 @@
 import { FileText, Book, Upload } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Material } from "@/model/Material";
 import { addMaterial, getCourseMaterials } from "@/http/material";
 import { Skeleton } from "../ui/skeleton";
@@ -49,11 +49,11 @@ const CourseDetailMaterial = () => {
     }
   }
 
-  if (materials.length === 0 || loading)
+  if (loading)
     return <CourseDetailMaterialSkeleton />
 
   return (
-    <Card className="col-span-1 lg:col-span-1 min-h-[405px] flex flex-col">
+    <Card className="col-span-1 lg:col-span-2 min-h-[405px] flex flex-col">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileText className="h-5 w-5" />
@@ -63,22 +63,32 @@ const CourseDetailMaterial = () => {
       <CardContent className="flex-1">
         <ScrollArea className="h-[245px]">
           <div className="space-y-4">
-            {materials.map((material) => (
-              <div key={material.id} className="flex items-center justify-between p-3 border rounded-md">
-                <div className="flex items-center gap-3">
-                  <Book className="h-5 w-5 text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">{material.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {(GetFileSizeInMB(material.size))} MB • Caricato in data {new Date(material.uploadDate).toLocaleDateString('it-IT')}
-                    </p>
+            {
+              materials.length !== 0 ?
+
+              materials.map((material) => (
+                <div key={material.id} className="flex items-center justify-between p-3 border rounded-md">
+                  <div className="flex items-center gap-3">
+                    <Book className="h-5 w-5 text-muted-foreground" />
+                    <div>
+                      <p className="font-medium">{material.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {(GetFileSizeInMB(material.size))} MB • Caricato in data {new Date(material.uploadDate).toLocaleDateString('it-IT')}
+                      </p>
+                    </div>
                   </div>
+                  <Button variant="ghost" size="sm" onClick={() => handleFileDownload(material)}>
+                    Download
+                  </Button>
                 </div>
-                <Button variant="ghost" size="sm" onClick={() => handleFileDownload(material)}>
-                  Download
-                </Button>
+              ))
+
+              :
+              
+              <div className="space-y-4 text-center">
+                Non ci sono materiali caricati per questo corso.
               </div>
-            ))}
+            }
           </div>
         </ScrollArea>
       </CardContent>
@@ -96,7 +106,7 @@ export default CourseDetailMaterial;
 
 const CourseDetailMaterialSkeleton = () => {
   return (
-    <Card className="col-span-1 lg:col-span-1 min-h-[405px] flex flex-col">
+    <Card className="col-span-1 lg:col-span-2 min-h-[405px] flex flex-col">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Skeleton className="h-5 w-5" />

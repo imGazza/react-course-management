@@ -92,7 +92,7 @@ const CourseDetailCards = () => {
     )
 
   return (
-    <div className="grid grid-cols-1 @xl/main:grid-cols-4 gap-4 px-4 *:data-[slot=card]:shadow-xs *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">
+    <>
       <Card className="@container/card  flex flex-col md:flex-row overflow-hidden p-0">
         <div className="relative h-48 md:h-auto">
           <img src={course.image} alt={course.name} className="object-cover w-full h-full" />
@@ -164,14 +164,14 @@ const CourseDetailCards = () => {
           }
         </CardFooter>
       </Card>
-    </div>
+    </>
   )
 }
 export default CourseDetailCards
 
 const CourseDetailCardsSkeleton = () => {
   return (
-    <div className="grid grid-cols-1 @xl/main:grid-cols-4 gap-4 px-4 *:data-[slot=card]:shadow-xs *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">
+    <>
       <Card className="@container/card flex flex-col md:flex-row overflow-hidden p-0">
         <Skeleton className="w-full h-[215px]" />
       </Card>
@@ -212,6 +212,6 @@ const CourseDetailCardsSkeleton = () => {
           <Skeleton className="h-10 w-full" />
         </CardFooter>
       </Card>
-    </div>
+    </>
   )
 }
