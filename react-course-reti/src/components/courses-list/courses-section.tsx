@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { addCourse, deleteCourse, editCourse, getCourses } from "@/http/course"
 import { Course } from "@/model/Course"
 import CourseCard, { CourseCardSkeleton } from "./course-card"
@@ -8,12 +8,14 @@ import CourseDialog from "@/components/utils/dialogs/course-dialog"
 import GazzaDialog from "@/components/utils/gazza-dialog"
 import { Button } from "../ui/button"
 import { AreCoursesDifferent } from "../utils/course/course-utils"
+import { BreadcrumbContext } from "@/providers/breadcrumb/breadcrumb-context"
 
 const SectionCourses = () => {
 
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [year, setYear] = useState<string>("All");
+  const { setBreadcrumbs } = useContext(BreadcrumbContext);
 
   useEffect(() => {
     setLoading(true);
@@ -23,6 +25,9 @@ const SectionCourses = () => {
       setLoading(false);
     }
     fetchCourses();
+    setBreadcrumbs([
+      { label: "Corsi", url: "/courses" } 
+    ])
 
   }, [])
 

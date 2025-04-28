@@ -8,5 +8,5 @@ export interface Course {
     status: "Pianificato" | "In corso" | "Chiuso";
     subscribers: number;
     year: number;
-    closeDate: Date;
+    closeDate: string;
 }

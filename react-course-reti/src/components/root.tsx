@@ -1,13 +1,16 @@
 import AuthProvider from "@/providers/auth/auth-provider";
 import { ThemeProvider } from "@/providers/theme/theme-provider";
 import MainWrapper from "./main-wrapper";
+import BreadcrumbProvider from "@/providers/breadcrumb/breadcrumb-provider";
 
 const Root = () => {
     return (
         <>
             <AuthProvider>
                 <ThemeProvider>
-                    <MainWrapper />
+                    <BreadcrumbProvider>
+                        <MainWrapper />
+                    </BreadcrumbProvider>
                 </ThemeProvider>
             </AuthProvider>
         </>
@@ -21,4 +24,5 @@ export default Root;
 //TODO: Sostituisci le parti che possono diventare troppo lunghe con ScrollArea
 //TODO: Togli tutti gli import non usati
 //TODO: Add all toasts
+// Aggiungi commenti 
 //TODO: Test test test

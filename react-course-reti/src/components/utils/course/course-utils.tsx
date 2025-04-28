@@ -9,7 +9,7 @@ const TO_MB_DIVIDER = 1024 * 1024;
 const ACCEPTED_FILE_EXTENSIONS = ['pdf', 'ppt', 'pptx', 'txt'];
 
 export const AreCoursesDifferent = (course: Course, editedCourse: Course) => {
-    return course.name !== editedCourse.name || course.description !== editedCourse.description || course.year !== editedCourse.year || course.status !== editedCourse.status;
+    return course.name !== editedCourse.name || course.description !== editedCourse.description || course.year !== editedCourse.year || course.status !== editedCourse.status || course.closeDate !== editedCourse.closeDate;
 }
 
 export const AreLessonsDifferent = (lesson: Lesson, editedLesson: Lesson) => {
@@ -84,7 +84,7 @@ export const GetFileSizeInMB = (fileSize: number) => {
 
 export const FetchInitialData = async <T, U>(
     setLoading: (value: React.SetStateAction<boolean>) => void,
-    setData: (value: React.SetStateAction<T>) => void,
+    setData: ((value: React.SetStateAction<T> ) => void) | ((value: T) => void),
     fetchFunc: (key: U) => Promise<T>,
     key: U
 ) => {

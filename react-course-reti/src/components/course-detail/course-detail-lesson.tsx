@@ -56,7 +56,7 @@ const CourseDetailLesson = () => {
         return <CourseDetailLessonSkeleton />
 
     return (
-        <Card className="col-span-1 lg:col-span-2 min-h-[405px] flex flex-col">
+        <Card className="col-span-1 sm:col-span-2 min-h-[405px] flex flex-col">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <BookOpenText className="h-5 w-5" />
@@ -116,7 +116,7 @@ export default CourseDetailLesson;
 
 const CourseDetailLessonSkeleton = () => {
     return (
-        <Card className="col-span-1 lg:col-span-2 min-h-[405px] flex flex-col">
+        <Card className="col-span-1 sm:col-span-2 min-h-[405px] flex flex-col">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Skeleton className="h-5 w-5" />

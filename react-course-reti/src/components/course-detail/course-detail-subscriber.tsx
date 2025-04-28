@@ -41,7 +41,7 @@ const CourseDetailSubscriber = ({ subscribers, users, onAddSubscriber, onDeleteS
         <>
             <CardHeader className="px-0">
                 <Popover>
-                    <div className="flex items-center gap-2 w-full justify-end">
+                    <div className="flex items-center gap-2 w-full max-md:justify-between justify-end">
                         <PopoverTrigger asChild>
                             <Button variant="outline" role="combobox" className="w-[200px] justify-between">
                                 {"Aggiungi utenti..."}
@@ -83,11 +83,11 @@ const CourseDetailSubscriber = ({ subscribers, users, onAddSubscriber, onDeleteS
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="text-foreground/50 font-normal w-[200px]">Nome</TableHead>
-                                <TableHead className="text-foreground/50 font-normal w-[200px]">Cognome</TableHead>
-                                <TableHead className="text-foreground/50 font-normal w-[200px]">Email</TableHead>
-                                <TableHead className="text-foreground/50 font-normal w-[150px]">Data Iscrizione</TableHead>
-                                <TableHead className="text-foreground/50 text-right font-normal w-[80px]">Elimina</TableHead>
+                                <TableHead className="text-foreground/50 font-normal">Nome</TableHead>
+                                <TableHead className="text-foreground/50 font-normal">Cognome</TableHead>
+                                <TableHead className="text-foreground/50 font-normal max-md:hidden">Email</TableHead>
+                                <TableHead className="text-foreground/50 font-normal max-md:hidden">Data Iscrizione</TableHead>
+                                <TableHead className="text-foreground/50 text-right font-normal">Elimina</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -95,8 +95,8 @@ const CourseDetailSubscriber = ({ subscribers, users, onAddSubscriber, onDeleteS
                                 <TableRow key={subscriber.id}>
                                     <TableCell className="font-medium">{`${subscriber.user.firstName}`}</TableCell>
                                     <TableCell className="font-medium">{`${subscriber.user.lastName}`}</TableCell>
-                                    <TableCell className="font-medium">{`${subscriber.user.email}`}</TableCell>
-                                    <TableCell className="font-medium">{`${new Date(subscriber.subscriptionDate).toLocaleDateString('it-IT')}`}</TableCell>
+                                    <TableCell className="font-medium max-md:hidden">{`${subscriber.user.email}`}</TableCell>
+                                    <TableCell className="font-medium max-md:hidden">{`${new Date(subscriber.subscriptionDate).toLocaleDateString('it-IT')}`}</TableCell>
                                     <TableCell className="text-right">
                                         <Button variant="ghost" size="icon" onClick={() => onDeleteSubscriber(subscriber.id)}>
                                             <Trash2 className="h-4 w-4" />
@@ -116,7 +116,7 @@ export default CourseDetailSubscriber;
 
 const CourseDetailSubscriberSkeleton = () => {
     return (
-        <Card className="col-span-1 lg:col-span-4 min-h-[405px] flex flex-col">
+        <Card className="col-span-1 sm:col-span-4 min-h-[405px] flex flex-col">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Skeleton className="h-5 w-5" />

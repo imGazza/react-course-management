@@ -35,10 +35,3 @@ export const getCourse = async (id: string): Promise<Course> => {
 
     return course.data;
 }
-
-export const advanceStatus = async (course: Course): Promise<Course> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    const updatedCourse = await httpClient.put(BASE_URL + "/" + course.id, course);
-    return updatedCourse.data;
-}

@@ -4,12 +4,14 @@ import AppSidebar from "./sidebar/app-sidebar"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { Outlet, useLocation } from "react-router"
 import { navigationTitles } from "@/routing/routes"
-import React from "react"
+import React, { useContext } from "react"
 import MainContent from "./main-content"
+import { BreadcrumbContext } from "@/providers/breadcrumb/breadcrumb-context"
 
 const MainWrapper = () => {
 
     const location = useLocation();
+    const { breadcrumbs } = useContext(BreadcrumbContext);
 
     // Splitting url routes
     const pageRoutesTree = location.pathname.split("/"); // e.g. /admin/create -> ['', 'admin', 'create']
@@ -30,18 +32,11 @@ const MainWrapper = () => {
                         />
                         <Breadcrumb>
                             <BreadcrumbList>
-                                {pageTitles.map((title, index) => (
+                                {breadcrumbs.map(({ label, url }, index) => (
                                     <React.Fragment key={index}>
-                                        <BreadcrumbItem className="hidden md:block">
-                                            {/*                                             
-                                                For every breadcrumb item the href value is assigned building the route until the item route 
-                                                +2: one because index is zero based and one because slice does not include the end element
-                                                e.g. pageRoutesTree = ['', 'admin', 'create']
-                                                e.g. first element is Admin Dashboard: index = 0[+2] - ['', 'admin'] - '/admin'
-                                                e.g. second element is Create: index = 1[+2] - ['', 'admin', 'create'] - '/admin/create'
-                                             */}
-                                            <BreadcrumbLink href={pageRoutesTree.slice(0, index+2).join("/")}>
-                                                {title}
+                                        <BreadcrumbItem className="hidden md:block">                                            
+                                            <BreadcrumbLink href={url}>
+                                                {label}
                                             </BreadcrumbLink>
                                         </BreadcrumbItem>
                                         {index !== pageTitles.length - 1 && (

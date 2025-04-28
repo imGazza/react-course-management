@@ -12,27 +12,40 @@ import GazzaDialog from "../utils/gazza-dialog";
 import CourseDialog from "../utils/dialogs/course-dialog";
 import GazzaConfirmDialog from "../utils/gazza-confirm-dialog";
 import { Skeleton } from "../ui/skeleton";
-import { useEffect, useState } from "react";
-import { advanceStatus, deleteCourse, editCourse, getCourse } from "@/http/course";
+import { useContext, useEffect, useState } from "react";
+import { deleteCourse, editCourse, getCourse } from "@/http/course";
 import { useNavigate, useParams } from "react-router";
-import { AreCoursesDifferent } from "../utils/course/course-utils";
+import { AreCoursesDifferent, FetchInitialData } from "../utils/course/course-utils";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Calendar } from "../ui/calendar";
+import { CourseContext } from "@/providers/course/course-context";
 
 const CourseDetailCards = () => {
 
   const { courseId } = useParams();
   const [loading, setLoading] = useState<boolean>(true);
-  const [course, setCourse] = useState<Course | null>(null);
+  const { course, setCourseData } = useContext(CourseContext);
   const [nextStatus, setNextStatus] = useState<"Pianificato" | "In corso" | "Chiuso">("Pianificato");
+  const [closeDate, setCloseDate] = useState<Date>();
 
   useEffect(() => {
     setLoading(true);
-    async function fetchCourses() {
-      const course = await getCourse(courseId!);
-      setCourse(course);
-      getNextStatus(course);
-      setLoading(false);
+    async function fetchCourse() {
+      try{
+        await FetchInitialData(setLoading, setCourseData, getCourse, courseId!);
+
+        if (!course)
+          throw new Error("Errore nel recupero del corso");
+
+        getNextStatus(course);
+        setCloseDate(new Date(course.closeDate));
+      } catch (e) {
+        // TODO: Toast 
+      } finally {
+        setLoading(false);
+      }
     }
-    fetchCourses();
+    fetchCourse();
   }, [])
 
   const navigate = useNavigate();
@@ -43,7 +56,7 @@ const CourseDetailCards = () => {
     else if (course!.status === "In corso")
       setNextStatus("Chiuso");
   }
-
+  
   const onEditCourse = async (editedCourse: Course) => {
     if (!AreCoursesDifferent(course!, editedCourse))
       return;
@@ -51,7 +64,7 @@ const CourseDetailCards = () => {
     try {
       setLoading(true);
       const course = await editCourse(editedCourse);
-      setCourse(course);
+      setCourseData(course);
     } catch (e) {
 
     }
@@ -75,12 +88,29 @@ const CourseDetailCards = () => {
   const onAdvanceStatus = async () => {
     try {
       setLoading(true);
-      course!.status = nextStatus;
-      const editedCourse = await advanceStatus(course!);
-      setCourse(editedCourse);
+      const updatedCourse = {...course!, status: nextStatus };
+      const editedCourse = await editCourse(updatedCourse!);
+      setCourseData(editedCourse);
       getNextStatus(editedCourse);
     } catch (e) {
       // TODO: Toast
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const onCloseDateChange = async (date: Date | undefined) => {
+    if (!date)
+      return;
+
+    try {
+      setLoading(true);
+      const updatedCourse = { ...course!, closeDate: date.toISOString() };
+      const editedCourse = await editCourse(updatedCourse);
+      setCourseData(editedCourse);
+      setCloseDate(date);
+    } catch (e) {
+      // Handle error
     } finally {
       setLoading(false);
     }
@@ -93,12 +123,12 @@ const CourseDetailCards = () => {
 
   return (
     <>
-      <Card className="@container/card  flex flex-col md:flex-row overflow-hidden p-0">
+      <Card className="@container/card p-0 overflow-hidden">
         <div className="relative h-48 md:h-auto">
           <img src={course.image} alt={course.name} className="object-cover w-full h-full" />
         </div>
       </Card>
-      <Card className="py-6 flex flex-col gap-8">
+      <Card className="@container/card gap-8">
         <CardHeader className="relative">
           <div className="absolute right-6 flex gap-2">
             <GazzaDialog dialogComponent={(props) => <CourseDialog course={course} submit={onEditCourse} {...props} />}>
@@ -115,7 +145,7 @@ const CourseDetailCards = () => {
             }
           </div>
           <CardDescription>{course.year}</CardDescription>
-          <CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums">
+          <CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums line-clamp-1">
             {course.name}
           </CardTitle>
         </CardHeader>
@@ -148,7 +178,7 @@ const CourseDetailCards = () => {
           </div>
         </CardFooter>
       </Card>
-      <Card className="@container/card justify-between">
+      <Card className={`@container/card gap-8 ${course.status !== "Chiuso" && "justify-between"}`}>
         <CardHeader className="relative">
           <CardDescription>Stato</CardDescription>
           <CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums">
@@ -160,7 +190,31 @@ const CourseDetailCards = () => {
             <Button variant="outline" onClick={onAdvanceStatus} className="flex items-center gap-1 cursor-pointer w-full hover:border-success-green-foreground hover:bg-success-green hover:text-success-green-foreground">
               <ChevronsRight className="mr-2 h-4 w-4" />
               Passa a {nextStatus}
-            </Button> : null
+            </Button>
+            :
+            <>
+              <div className="line-clamp-1 flex gap-2 font-medium items-center">
+                Chiusura
+              </div>
+              <div className="text-muted-foreground flex items-center gap-1">
+                Chiuso in data
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" className="text-sm underline p-0 cursor-pointer hover:bg-transparent">
+                      {new Date(course.closeDate).toLocaleDateString('it-IT')}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={closeDate}
+                      onSelect={(date) => onCloseDateChange(date)}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </>
           }
         </CardFooter>
       </Card>

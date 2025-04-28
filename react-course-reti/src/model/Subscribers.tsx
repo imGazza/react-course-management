@@ -5,6 +5,7 @@ export interface Subscriber {
   userId: string;
   courseId: string;
   subscriptionDate: string;
+  grade: number | null;
 }
 
 export interface SubscriberEntity extends Subscriber{

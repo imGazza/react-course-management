@@ -10,10 +10,3 @@ export const getCourseGrades = async (courseId: string): Promise<Grade[]> => {
     const subscribers = await httpClient.get(BASE_URL + params);
     return subscribers.data;
 }
-
-export const setGrade = async (grade: Grade): Promise<Grade> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const addedGrade = await httpClient.post(BASE_URL, grade);
-    
-    return addedGrade.data; 
-}

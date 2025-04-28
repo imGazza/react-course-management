@@ -22,3 +22,9 @@ export const deleteSubscriber = async (id: string): Promise<void> => {
     await new Promise(resolve => setTimeout(resolve, 500));
     await httpClient.delete(BASE_URL + "/" + id);
 }
+
+export const setGrade = async (subscriber: Subscriber): Promise<Subscriber> => {
+    const updatedSubscriber = await httpClient.put(BASE_URL + "/" + subscriber.id, subscriber);
+    
+    return updatedSubscriber.data;
+}
