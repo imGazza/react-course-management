@@ -1,8 +1,8 @@
 import SectionCourses from "./courses-list/courses-section";
 
-const AdminDashboard = () => {
+const AdminCourses = () => {
     return (
         <SectionCourses />
     )
 }
-export default AdminDashboard;
+export default AdminCourses;

@@ -416,7 +416,6 @@
       "description": "React è una libreria JavaScript per la creazione di interfacce utente interattive.",
       "image": "https://miro.medium.com/v2/resize:fit:1200/1*5PxGgx_aOWpTkul_D3nnbw.png",
       "status": "Pianificato",
-      "subscribers": 25,
       "year": "2026"
     },
     {
@@ -425,7 +424,6 @@
       "description": "Angular è un framework per lo sviluppo di applicazioni web moderne e scalabili.",
       "image": "https://www.esenceweb.com/backend/uploads/angular-framework-tutorial-for-absolute-beginners.png",
       "status": "In corso",
-      "subscribers": 32,
       "year": 2025,
       "closeDate": null
     },
@@ -435,7 +433,6 @@
       "description": "Vue.js è un framework progressivo per la costruzione di interfacce utente dinamiche.",
       "image": "https://cdn.shopify.com/s/files/1/0533/2089/files/vuejs-tutorial_2d2a853c-aa2f-44b0-80df-933b495f77f8.png?v=1509478492",
       "status": "Pianificato",
-      "subscribers": 18,
       "year": 2025,
       "closeDate": null
     },
@@ -445,7 +442,6 @@
       "description": "Node.js è un runtime JavaScript che permette di eseguire codice JavaScript lato server.",
       "image": "https://railsware.com/blog/wp-content/uploads/2018/09/2400%D1%851260-rw-blog-node-js.png",
       "status": "Chiuso",
-      "subscribers": 40,
       "year": 2023,
       "closeDate": "2023-09-15"
     },
@@ -455,7 +451,6 @@
       "description": "TypeScript è un linguaggio di programmazione che estende JavaScript con tipi statici.",
       "image": "https://blog.theodo.com/_astro/ts_logo.BstCNrTU_1Dbxpr.webp",
       "status": "In corso",
-      "subscribers": 28,
       "year": 2025,
       "closeDate": null
     },
@@ -465,7 +460,6 @@
       "description": "Redux è una libreria per la gestione dello stato delle applicazioni JavaScript.",
       "image": "https://miro.medium.com/v2/resize:fit:1400/1*7nLBkCmTiyXKFMk4fVCVqw.jpeg",
       "status": "Pianificato",
-      "subscribers": 15,
       "year": 2026,
       "closeDate": null
     },
@@ -475,7 +469,6 @@
       "description": "MongoDB è un database NoSQL orientato ai documenti per applicazioni moderne.",
       "image": "https://miro.medium.com/v2/resize:fit:1200/1*gf_XcvKMkfwiQLxTVqGiaA.png",
       "status": "Chiuso",
-      "subscribers": 35,
       "year": 2022,
       "closeDate": "2022-11-30"
     },
@@ -485,7 +478,6 @@
       "description": "GraphQL è un linguaggio di query per le API che offre maggiore efficienza e flessibilità.",
       "image": "https://www.gravitee.io/hubfs/graphql.png",
       "status": "In corso",
-      "subscribers": 22,
       "year": 2025,
       "closeDate": null
     },
@@ -495,7 +487,6 @@
       "description": "Docker è una piattaforma per lo sviluppo, la distribuzione e l'esecuzione di applicazioni containerizzate.",
       "image": "https://velog.velcdn.com/images/eunseong/post/3b161eb8-860a-47b8-a9eb-e6f4da33016c/image.png",
       "status": "Pianificato",
-      "subscribers": 38,
       "year": 2025,
       "closeDate": null
     },
@@ -505,45 +496,11 @@
       "description": "Kubernetes è un sistema di orchestrazione di container per applicazioni cloud native.",
       "image": "https://cdn.prod.website-files.com/6527fe8ad7301efb15574cc7/65535c0459f914d06ddeef7a_Kubernetes-Everything-You-Need-to-Know-2048x1159.png",
       "status": "Chiuso",
-      "subscribers": 30,
       "year": 2024,
       "closeDate": "2025-04-30T22:00:00.000Z"
     }
   ],
-  "materials": [
-    {
-      "id": "gd4s1",
-      "name": "Project.pdf",
-      "courseId": "1",
-      "uploadDate": "2025-04-26T08:31:02.360Z",
-      "size": 176962,
-      "fileName": "1745656262351-Project.pdf"
-    },
-    {
-      "id": "0g7uc",
-      "name": "Lesson1.pptx",
-      "courseId": "1",
-      "uploadDate": "2025-04-26T08:35:41.627Z",
-      "size": 5142127,
-      "fileName": "1745656541568-Lesson1.pptx"
-    },
-    {
-      "id": "bxi4e",
-      "name": "Lesson2.pptx",
-      "courseId": "1",
-      "uploadDate": "2025-04-26T08:35:44.900Z",
-      "size": 5655903,
-      "fileName": "1745656544847-Lesson2.pptx"
-    },
-    {
-      "id": "jbdu1",
-      "name": "Lesson4.pptx",
-      "courseId": "1",
-      "uploadDate": "2025-04-26T13:39:59.882Z",
-      "size": 4442560,
-      "fileName": "1745674799837-Lesson4.pptx"
-    }
-  ],
+  "materials": [],
   "subscribers": [
     {
       "id": "3",
@@ -926,24 +883,6 @@
   ],
   "lessons": [
     {
-      "id": "1",
-      "name": "Introduzione a React",
-      "courseId": "1",
-      "lessonDate": "2026-02-15T09:00:00.000Z"
-    },
-    {
-      "id": "2",
-      "name": "Component Lifecycle e Hooks",
-      "courseId": "1",
-      "lessonDate": "2026-03-15T09:00:00.000Z"
-    },
-    {
-      "id": "3",
-      "name": "State Management con Redux",
-      "courseId": "1",
-      "lessonDate": "2026-04-15T09:00:00.000Z"
-    },
-    {
       "id": "4",
       "name": "Fondamenti di Angular",
       "courseId": "2",
@@ -1106,102 +1045,16 @@
       "lessonDate": "2024-06-05T09:00:00.000Z"
     },
     {
-      "id": "jd5rm",
+      "id": "1rax1",
       "name": "Context API",
       "courseId": "1",
-      "lessonDate": "2026-05-15T22:00:00.000Z"
-    }
-  ],
-  "grades": [
-    {
-      "id": "1",
-      "userId": "17",
-      "courseId": "4",
-      "grade": 28
+      "lessonDate": "2026-02-28T23:00:00.000Z"
     },
     {
-      "id": "2",
-      "userId": "18",
-      "courseId": "4",
-      "grade": 25
-    },
-    {
-      "id": "3",
-      "userId": "19",
-      "courseId": "4",
-      "grade": 30
-    },
-    {
-      "id": "4",
-      "userId": "20",
-      "courseId": "4",
-      "grade": 27
-    },
-    {
-      "id": "5",
-      "userId": "21",
-      "courseId": "4",
-      "grade": 24
-    },
-    {
-      "id": "6",
-      "userId": "32",
-      "courseId": "7",
-      "grade": 26
-    },
-    {
-      "id": "7",
-      "userId": "33",
-      "courseId": "7",
-      "grade": 29
-    },
-    {
-      "id": "8",
-      "userId": "34",
-      "courseId": "7",
-      "grade": 23
-    },
-    {
-      "id": "9",
-      "userId": "35",
-      "courseId": "7",
-      "grade": 28
-    },
-    {
-      "id": "10",
-      "userId": "36",
-      "courseId": "7",
-      "grade": 30
-    },
-    {
-      "id": "11",
-      "userId": "47",
-      "courseId": "10",
-      "grade": 25
-    },
-    {
-      "id": "12",
-      "userId": "48",
-      "courseId": "10",
-      "grade": 27
-    },
-    {
-      "id": "13",
-      "userId": "49",
-      "courseId": "10",
-      "grade": 29
-    },
-    {
-      "id": "14",
-      "userId": "50",
-      "courseId": "10",
-      "grade": 24
-    },
-    {
-      "id": "15",
-      "userId": "51",
-      "courseId": "10",
-      "grade": 26
+      "id": "v7my4",
+      "name": "Hooks e useEffect",
+      "courseId": "1",
+      "lessonDate": "2026-03-31T22:00:00.000Z"
     }
   ]
 }

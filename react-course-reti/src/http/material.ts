@@ -12,7 +12,13 @@ export const getCourseMaterials = async (courseId: string): Promise<Material[]> 
     return materials.data;
 }
 export const addMaterial = async (material: Material): Promise<Material> => {
+    await new Promise(resolve => setTimeout(resolve, 500));
     const response = await httpClient.post(BASE_URL, material);
     
     return response.data;
+}
+
+export const deleteMaterial = async (materialId: string): Promise<void> => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    await httpClient.delete(BASE_URL + "/" + materialId);
 }

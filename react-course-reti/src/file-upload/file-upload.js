@@ -2,6 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import cors from 'cors';
 import path from 'path';
+import fs from 'fs';  // Add this import
 
 console.log('Server starting...');
 
@@ -22,7 +23,7 @@ const upload = multer({ storage });
 
 app.post('/api/upload', upload.single('material'), (req, res) => {
     if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded' });
+        return res.status(400).json({ error: 'Nessun file caricato' });
     }
     res.json({ fileName: req.file.filename });
 });
@@ -35,6 +36,18 @@ app.get('/api/download/:fileName', (req, res) => {
         if (err) {
             res.status(404).send('File non trovato');
         }
+    });
+});
+
+app.delete('/api/delete/:fileName', (req, res) => {
+    const fileName = req.params.fileName;
+    const filePath = path.join('public/materials/', fileName);
+    
+    fs.unlink(filePath, (err) => {
+        if (err) {
+            return res.status(404).json({ error: 'File non trovato' });
+        }
+        res.json({ message: 'File cancellato correttamente' });
     });
 });
 

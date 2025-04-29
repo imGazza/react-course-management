@@ -24,7 +24,7 @@ const CourseDetailCards = () => {
 
   const { courseId } = useParams();
   const [loading, setLoading] = useState<boolean>(true);
-  const { course, setCourseData } = useContext(CourseContext);
+  const { course, setCourseData, lessonsNumber, subscribersNumber } = useContext(CourseContext);
   const [nextStatus, setNextStatus] = useState<"Pianificato" | "In corso" | "Chiuso">("Pianificato");
   const [closeDate, setCloseDate] = useState<Date>();
 
@@ -77,7 +77,7 @@ const CourseDetailCards = () => {
     try {
       setLoading(true);
       await deleteCourse(id);
-      navigate("/admin");
+      navigate("/courses");
     } catch (e) {
       // Toast
     } finally {
@@ -116,7 +116,7 @@ const CourseDetailCards = () => {
     }
   }
 
-  if (loading || !course)
+  if (loading || !course || !lessonsNumber || !subscribersNumber)
     return (
       <CourseDetailCardsSkeleton />
     )
@@ -165,7 +165,7 @@ const CourseDetailCards = () => {
             Iscrizioni
           </CardDescription>
           <CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums">
-            {course.subscribers}
+            {subscribersNumber}
           </CardTitle>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1 text-sm">
@@ -173,8 +173,7 @@ const CourseDetailCards = () => {
             Lezioni <BookOpenText className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            Non ci sono ancora lezioni per questo corso.
-            {/* TODO: Aggiungi il dato sulle lezioni */}
+            {`Questo corso ha ${lessonsNumber} ${lessonsNumber === 1 ? "lezione" : "lezioni"}`}
           </div>
         </CardFooter>
       </Card>

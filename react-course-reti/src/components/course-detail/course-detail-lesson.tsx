@@ -1,21 +1,27 @@
-import { Plus, Presentation, BookOpenText } from "lucide-react"
+import { Plus, Presentation, BookOpenText, Edit, Trash2 } from "lucide-react"
 import { Button } from "../ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { AreLessonsDifferent, FetchInitialData } from "../utils/course/course-utils"
 import { useParams } from "react-router"
 import { Lesson } from "@/model/Lesson"
-import { addNewLesson, editLesson, getCourseLessons } from "@/http/lesson"
+import { addNewLesson, deleteLesson, editLesson, getCourseLessons } from "@/http/lesson"
 import GazzaDialog from "../utils/gazza-dialog"
 import LessonDialog from "../utils/dialogs/lesson-dialog"
 import { Skeleton } from "../ui/skeleton"
 import { ScrollArea } from "../ui/scroll-area"
+import { CourseContext } from "@/providers/course/course-context"
 
 const CourseDetailLesson = () => {
 
     const [lessons, setLessons] = useState<Lesson[]>([]);
     const [loading, setLoading] = useState(true);
     const { courseId } = useParams();
+    const { setLessonsNumber } = useContext(CourseContext);
+
+    useEffect(() => {
+        setLessonsNumber(lessons.length);
+    }, [lessons])
 
     useEffect(() => {
         const fetchLessons = async () => {
@@ -52,6 +58,18 @@ const CourseDetailLesson = () => {
         }
     }
 
+    const onDeleteLesson = async (lessonId: string) => {
+        try {
+            setLoading(true);
+            await deleteLesson(lessonId);
+            setLessons(lessons.filter(c => c.id !== lessonId)); 
+        } catch (e) {
+           // Toast 
+        } finally {
+            setLoading(false); 
+        }
+    }
+
     if (loading)
         return <CourseDetailLessonSkeleton />
 
@@ -84,11 +102,16 @@ const CourseDetailLesson = () => {
                                             </p>
                                         </div>
                                     </div>
-                                    <GazzaDialog dialogComponent={(props) => <LessonDialog submit={onEditLesson} lesson={lesson} courseId={courseId!} {...props} />}>
-                                        <Button variant="ghost" size="sm">
-                                            Modifica
-                                        </Button>
-                                    </GazzaDialog>
+                                    <div>
+                                        <GazzaDialog dialogComponent={(props) => <LessonDialog submit={onEditLesson} lesson={lesson} courseId={courseId!} {...props} />}>
+                                            <Button variant="ghost" size="icon">
+                                                <Edit />
+                                            </Button>
+                                        </GazzaDialog>
+                                        <Button variant="ghost" size="sm" onClick={() => onDeleteLesson(lesson.id)}>
+                                            <Trash2 />
+                                        </Button>            
+                                    </div>                                    
                                 </div>
                             ))
 

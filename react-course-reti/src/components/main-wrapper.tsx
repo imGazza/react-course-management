@@ -2,22 +2,14 @@ import { Separator } from "@/components/ui/separator"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import AppSidebar from "./sidebar/app-sidebar"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
-import { Outlet, useLocation } from "react-router"
-import { navigationTitles } from "@/routing/routes"
+import { Outlet } from "react-router"
 import React, { useContext } from "react"
 import MainContent from "./main-content"
 import { BreadcrumbContext } from "@/providers/breadcrumb/breadcrumb-context"
 
 const MainWrapper = () => {
 
-    const location = useLocation();
     const { breadcrumbs } = useContext(BreadcrumbContext);
-
-    // Splitting url routes
-    const pageRoutesTree = location.pathname.split("/"); // e.g. /admin/create -> ['', 'admin', 'create']
-    // Slice the first element because it's an empty string, then build an array with all the titles of the current route 
-    const pageTitles = pageRoutesTree.slice(1).map((item) => navigationTitles[item]); // e.g. ['Admin Dashboard', 'Create']
-    //TODO: transform this into a context
 
     return (
         <SidebarProvider>
@@ -39,7 +31,7 @@ const MainWrapper = () => {
                                                 {label}
                                             </BreadcrumbLink>
                                         </BreadcrumbItem>
-                                        {index !== pageTitles.length - 1 && (
+                                        {index !== breadcrumbs.length - 1 && (
                                             <BreadcrumbSeparator className="hidden md:block" />
                                         )}
                                     </React.Fragment>

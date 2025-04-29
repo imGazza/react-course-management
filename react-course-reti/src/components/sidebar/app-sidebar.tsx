@@ -2,19 +2,23 @@ import * as React from "react"
 import {
   BookOpen,
   Bot,
+  ChartLine,
   Command,
   Frame,
+  Library,
   LifeBuoy,
+  LogIn,
   Map,
   PieChart,
   Send,
   Settings2,
   SquareTerminal,
   SunMoon,
+  UserPen,
+  Users,
 } from "lucide-react"
 
 import NavMain from "@/components/sidebar/nav-main"
-import NavProjects from "@/components/sidebar/nav-projects"
 import NavSecondary from "@/components/sidebar/nav-secondary"
 import NavUser from "@/components/sidebar/nav-user"
 import {
@@ -30,141 +34,61 @@ import { AuthContext } from "@/providers/auth/auth-context"
 import { useEffect, useMemo } from "react"
 import { Theme, ThemeContext } from "@/providers/theme/theme-context"
 
-const data = {
-  navMain: [
+var menu = {
+  navMainAdmin: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
+      title: "Corsi",
+      url: "/courses",
+      icon: Library,
+      isActive: true
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      title: "Utenti",
+      url: "/users",
+      icon: Users,
+      isActive: false
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Theme",
-      onClick: () => {},
-      icon: SunMoon,
+      title: "Statistiche",
+      url: "/stats",
+      icon: ChartLine,
+      isActive: false
     }
   ],
-  projects: [
+  navMainUser: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      title: "I miei corsi",
+      url: "/courses", //TODO: Aggiornare rotta
+      icon: Library,
+      isActive: true
     },
   ],
+  navMainGuest: [
+    {
+      title: "Login",
+      url: "/login",
+      icon: LogIn,
+      isActive: true
+    },
+  ]
 }
 
-const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
-
-  //TODO: Create a ThemeProvider following shadcn docs
+const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {  
   
   const { user, removeSessionUser } = React.useContext(AuthContext);
   const { setTheme, theme } = React.useContext(ThemeContext);
   
   const toggleTheme = () => {
     return theme === "dark" ? "light" : "dark";
-  }  
+  }
 
-  const navData = useMemo(() => ({
-    ...data,
-    navSecondary: [
+  const menuSecondary = [    
       {
         title: "Tema",
         onClick: () => setTheme(toggleTheme()),
         icon: SunMoon,
       }
-    ],
-  }), [theme])
+  ]
 
   return (
     <Sidebar variant="inset" {...props}>
@@ -186,9 +110,8 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navData.navMain} />
-        {/* <NavProjects projects={navData.projects} /> */}
-        <NavSecondary items={navData.navSecondary} className="mt-auto" />
+        <NavMain items={!user ? menu.navMainGuest : user.isAdmin ? menu.navMainAdmin : menu.navMainUser} />
+        <NavSecondary items={menuSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user} logout={removeSessionUser} />

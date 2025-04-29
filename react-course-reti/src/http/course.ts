@@ -1,11 +1,11 @@
-import { Course } from "@/model/Course";
+import { Course, CourseEntity } from "@/model/Course";
 import { httpClient } from "./client";
 
 const BASE_URL = "courses"
 
-export const getCourses = async (): Promise<Course[]> => {
+export const getCourses = async (): Promise<CourseEntity[]> => {
     await new Promise(resolve => setTimeout(resolve, 500));
-    const courses = await httpClient.get(BASE_URL);
+    const courses = await httpClient.get(BASE_URL + "?_embed=subscribers");
 
     return courses.data;
 }

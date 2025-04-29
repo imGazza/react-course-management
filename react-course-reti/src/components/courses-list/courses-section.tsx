@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { addCourse, deleteCourse, editCourse, getCourses } from "@/http/course"
-import { Course } from "@/model/Course"
+import { Course, CourseEntity } from "@/model/Course"
 import CourseCard, { CourseCardSkeleton } from "./course-card"
 import YearSelect from "./year-select"
 import { Plus } from "lucide-react"
@@ -8,15 +8,17 @@ import CourseDialog from "@/components/utils/dialogs/course-dialog"
 import GazzaDialog from "@/components/utils/gazza-dialog"
 import { Button } from "../ui/button"
 import { AreCoursesDifferent } from "../utils/course/course-utils"
-import { BreadcrumbContext } from "@/providers/breadcrumb/breadcrumb-context"
+import useBreadcrumbs from "@/hooks/use-breadcrums"
 
 const SectionCourses = () => {
 
-  const [courses, setCourses] = useState<Course[]>([]);
+  useBreadcrumbs([{ label: "Corsi", url: "#" }]);
+
+  const [courses, setCourses] = useState<CourseEntity[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [year, setYear] = useState<string>("All");
-  const { setBreadcrumbs } = useContext(BreadcrumbContext);
 
+  //TODO: Usa il fetch iniziale, magari chiedi alla AI se c'è un modo migliore
   useEffect(() => {
     setLoading(true);
     async function fetchCourses() {
@@ -24,12 +26,7 @@ const SectionCourses = () => {
       setCourses(courses);
       setLoading(false);
     }
-    fetchCourses();
-    setBreadcrumbs([
-      { label: "Corsi", url: "/courses" } 
-    ])
-
-  }, [])
+    fetchCourses();}, [])
 
   const filteredCourses =
     year !== "All" ?
@@ -40,7 +37,9 @@ const SectionCourses = () => {
     try {
       setLoading(true);
       const addedCourse = await addCourse(course);
-      setCourses([...courses, addedCourse]);
+
+      const addedCourseEntity: CourseEntity = { ...addedCourse, subscribers: [] }; 
+      setCourses([...courses, addedCourseEntity]);
     } catch (e) {
       
     }
@@ -56,7 +55,9 @@ const SectionCourses = () => {
     try {
       setLoading(true);
       const editedCourse = await editCourse(course);
-      setCourses(courses.map(c => c.id === course.id ? editedCourse : c));
+
+      const editedCourseEntity: CourseEntity = { ...editedCourse, subscribers: courses.find(c => c.id === course.id)?.subscribers || []  };
+      setCourses(courses.map(c => c.id === course.id ? editedCourseEntity : c));
     } catch (e) {
     }
     finally{

@@ -2,7 +2,7 @@ import { Edit, Pencil, SquareArrowOutUpRight, Trash2, Users } from "lucide-react
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Course } from "@/model/Course"
+import { Course, CourseEntity } from "@/model/Course"
 import { Skeleton } from "../ui/skeleton"
 import CourseDialog from "@/components/utils/dialogs/course-dialog"
 import GazzaDialog from "../utils/gazza-dialog"
@@ -16,7 +16,7 @@ const statusColors = {
 }
 
 interface CourseProps {
-  course: Course;
+  course: CourseEntity;
   onEdit: (data: Course) => void;
   onDelete: (id: string) => void;
 }
@@ -36,7 +36,7 @@ const CourseCard = ({ course, onEdit, onDelete }: CourseProps) => {
           <CardDescription className="mt-1">
             <div className="flex items-center text-sm text-muted-foreground">
               <Users className="mr-1 h-4 w-4" />
-              {course.subscribers} {course.subscribers === 1 ? "iscritto" : "iscritti"} • {course.year}
+              {course.subscribers.length} {course.subscribers.length === 1 ? "iscritto" : "iscritti"} • {course.year}
             </div>
           </CardDescription>
         </div>
@@ -47,7 +47,7 @@ const CourseCard = ({ course, onEdit, onDelete }: CourseProps) => {
       </CardContent>
       <CardFooter className="flex justify-between">
         <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete(course.id)}>
-            <Link to={`/admin/detail/${course.id}`} replace={true}>
+            <Link to={`/courses/detail/${course.id}`} replace={true}>
               <Button variant="outline" size="icon" className="flex items-center">
                 <SquareArrowOutUpRight />
               </Button>

@@ -8,19 +8,33 @@ interface CourseProvidesProps {
 
 function CourseProvider({ children }: CourseProvidesProps) {
 
-    const [course, setCourse] = useState<Course | null>(null)
+    const [course, setCourse] = useState<Course | null>(null);
+    const [subscribersNumber, setSubscribersNumber] = useState<number>(0);
+    const [lessonsNumber, setLessonsNumber] = useState<number>(0);
 
     const setCourseData = (course: Course) => {
         setCourse(course);
+    }
+
+    const setLessonsNumberValue = (lessonsNumber: number) => {
+        setLessonsNumber(lessonsNumber);
+    }
+
+    const setSubscribersNumberValue = (lessonsNumber: number) => {
+        setSubscribersNumber(lessonsNumber);
     }
 
     const value = useMemo(
         () => {
             return {
                 course: course,
-                setCourseData: setCourseData
+                lessonsNumber: lessonsNumber,
+                subscribersNumber: subscribersNumber,
+                setCourseData: setCourseData,
+                setLessonsNumber: setLessonsNumberValue,
+                setSubscribersNumber: setSubscribersNumberValue                
             }
-    },[course])
+    },[course, lessonsNumber, subscribersNumber])
 
     return (
         <CourseContext.Provider value={value}>{children}</CourseContext.Provider>

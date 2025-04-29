@@ -23,7 +23,7 @@ const CourseDetailTabs = () => {
     const [subscribers, setSubscribers] = useState<SubscriberEntity[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const { course } = useContext(CourseContext);
+    const { course, setSubscribersNumber } = useContext(CourseContext);
     const [activeTab, setActiveTab] = useState("subscribers");
 
     useEffect(() => {
@@ -54,6 +54,10 @@ const CourseDetailTabs = () => {
         if(!isGradesEnabled) setActiveTab("subscribers");
 
     }, [course])
+
+    useEffect(() => {
+        setSubscribersNumber(subscribers.length);
+    }, [subscribers])
 
     const onAddSubscriber = async (userIds: string[]) => {
         try {

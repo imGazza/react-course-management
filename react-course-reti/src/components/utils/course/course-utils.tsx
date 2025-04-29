@@ -6,7 +6,8 @@ import { Lesson } from "@/model/Lesson";
 
 const MAX_MATERIAL_FILE_SIZE = 10 * 1024 * 1024;
 const TO_MB_DIVIDER = 1024 * 1024;
-const ACCEPTED_FILE_EXTENSIONS = ['pdf', 'ppt', 'pptx', 'txt'];
+const ACCEPTED_FILE_EXTENSIONS = ['pdf', 'ppt', 'pptx', 'txt', 'mp4'];
+const MATERIALS_BASE_URL = "http://localhost:3001/api";
 
 export const AreCoursesDifferent = (course: Course, editedCourse: Course) => {
     return course.name !== editedCourse.name || course.description !== editedCourse.description || course.year !== editedCourse.year || course.status !== editedCourse.status || course.closeDate !== editedCourse.closeDate;
@@ -28,7 +29,7 @@ export const SaveFileAndGetMaterial = async (event: ChangeEvent<HTMLInputElement
     formData.append("material", file);
 
     try {
-        const response = await fetch('http://localhost:3001/api/upload', {
+        const response = await fetch(`${MATERIALS_BASE_URL}/upload`, {
             method: 'POST',
             body: formData
         });
@@ -56,7 +57,7 @@ export const SaveFileAndGetMaterial = async (event: ChangeEvent<HTMLInputElement
 
 export const DownloadMaterial = async (material: Material) => {
     try {
-        const response = await fetch(`http://localhost:3001/api/download/${material.fileName}`);
+        const response = await fetch(`${MATERIALS_BASE_URL}/download/${material.fileName}`);
 
         if (!response.ok) {
             throw new Error('Download del file fallito');
@@ -75,6 +76,22 @@ export const DownloadMaterial = async (material: Material) => {
         document.body.removeChild(link);
     } catch (e) {
         throw new Error('Download del file fallito');
+    }
+}
+
+export const DeleteMaterial = async (material: Material) => {
+    try {
+       const response = await fetch(`${MATERIALS_BASE_URL}/delete/${material.fileName}`, {
+           method: 'DELETE'
+       });
+
+       if (!response.ok) {
+           throw new Error('Eliminazione del file fallita');
+       }
+
+       return true;
+    } catch (e) {
+        throw new Error('Eliminazione del file fallita'); 
     }
 }
 

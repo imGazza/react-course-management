@@ -16,6 +16,8 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
+import { useContext } from "react"
+import { AuthContext } from "@/providers/auth/auth-context"
 
 const NavMain = ({
   items,
@@ -31,9 +33,12 @@ const NavMain = ({
     }[]
   }[]
 }) => {
+
+  const { user } = useContext(AuthContext);
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{!user ? "Ospite" : user.isAdmin ? "Admin" : "Utente"}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>

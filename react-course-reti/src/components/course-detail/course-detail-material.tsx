@@ -1,13 +1,14 @@
-import { FileText, Book, Upload } from "lucide-react";
+import { FileText, Book, Upload, Download, Trash2, Delete } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Material } from "@/model/Material";
-import { addMaterial, getCourseMaterials } from "@/http/material";
+import { addMaterial, deleteMaterial, getCourseMaterials } from "@/http/material";
 import { Skeleton } from "../ui/skeleton";
 import { useParams } from "react-router";
-import { DownloadMaterial, FetchInitialData, GetFileSizeInMB, SaveFileAndGetMaterial } from "../utils/course/course-utils";
+import { DeleteMaterial, DownloadMaterial, FetchInitialData, GetFileSizeInMB, SaveFileAndGetMaterial } from "../utils/course/course-utils";
 import { ScrollArea } from "../ui/scroll-area";
+import { de } from "date-fns/locale";
 
 const CourseDetailMaterial = () => {
 
@@ -49,6 +50,20 @@ const CourseDetailMaterial = () => {
     }
   }
 
+  const handleFileDelete = async (material: Material) => {
+    try{
+      await DeleteMaterial(material);
+
+      setLoading(true);
+      await deleteMaterial(material.id);
+      setMaterials((prevMaterials) => prevMaterials.filter((m) => m.id !== material.id));
+    } catch (e) {
+      //Toast che mostra come errore e.message 
+    } finally {
+      setLoading(false); 
+    }
+  }
+
   if (loading)
     return <CourseDetailMaterialSkeleton />
 
@@ -77,9 +92,14 @@ const CourseDetailMaterial = () => {
                       </p>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm" onClick={() => handleFileDownload(material)}>
-                    Download
-                  </Button>
+                  <div>
+                    <Button variant="ghost" size="icon" onClick={() => handleFileDownload(material)}>
+                      <Download />
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={() => handleFileDelete(material)}>
+                      <Trash2 />
+                    </Button>
+                  </div>                  
                 </div>
               ))
 

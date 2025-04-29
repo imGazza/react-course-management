@@ -24,5 +24,9 @@ export default Root;
 //TODO: Sostituisci le parti che possono diventare troppo lunghe con ScrollArea
 //TODO: Togli tutti gli import non usati
 //TODO: Add all toasts
-// Aggiungi commenti 
+//TODO: Aggiungi commenti 
 //TODO: Test test test
+//TODO: Crea costanti per gli url delle rotte
+//TODO: Assicurati che tutte le rotte da proteggere lo siano
+//TODO: Metti i vari context in hook custom
+//TODO: Sistema la coerenza dei dati

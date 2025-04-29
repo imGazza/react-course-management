@@ -25,3 +25,8 @@ export const editLesson = async (lesson: Lesson): Promise<Lesson> => {
 
     return editedLesson.data;
 }
+
+export const deleteLesson = async (lessonId: string): Promise<void> => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    await httpClient.delete(BASE_URL + "/" + lessonId);
+}

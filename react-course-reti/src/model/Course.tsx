@@ -1,4 +1,4 @@
-//TODO: Transform status in enum
+import { Subscriber } from "./Subscribers";
 
 export interface Course {
     id: string;
@@ -6,7 +6,10 @@ export interface Course {
     description: string;
     image: string;
     status: "Pianificato" | "In corso" | "Chiuso";
-    subscribers: number;
     year: number;
     closeDate: string;
+}
+
+export interface CourseEntity extends Course {
+    subscribers: Subscriber[];
 }
