@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { DialogDescription, } from "@radix-ui/react-dialog";
-import { DialogBaseProps } from "@/components/utils/interfaces/dialog-base-props";
+import { BaseDialogProps } from "@/components/utils/interfaces/dialog-base-props";
 import { GenerateId } from "../misc";
 import { Lesson } from "@/model/Lesson";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -17,7 +17,7 @@ import { it } from "date-fns/locale";
 
 //TODO: Sistema il warning che appare all'apertura del popover
 
-interface LessonDialogProps extends DialogBaseProps {
+interface LessonDialogProps extends BaseDialogProps {
     lesson?: Lesson;
     submit: (lesson: Lesson) => void;
     courseId: string;
@@ -47,8 +47,6 @@ const LessonDialog = ({ lesson, submit, setOpen, open, courseId }: LessonDialogP
         submit(data);
         setOpen(false);
     }
-
-    const [openCalendar, setOpenCalendar] = useState(false);
 
     return (
         <DialogContent className="sm:max-w-[450px]">

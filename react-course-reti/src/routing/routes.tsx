@@ -5,6 +5,8 @@ import ProtectedRoute from "@/components/utils/protected-route";
 import AdminCourses from "../components/admin-dashboard";
 import Login from "@/components/login";
 import CourseDetail from "@/components/course-detail/course-detail";
+import UsersSection from "@/components/users-list/users-section";
+import UserDetail from "@/components/user-detail/user-detail";
 
 export const routes = createBrowserRouter([
     {
@@ -34,6 +36,19 @@ export const routes = createBrowserRouter([
                     {
                         path: "detail/:courseId",
                         Component: CourseDetail
+                    }
+                ]
+            },
+            {
+                path: "users",
+                children: [
+                    {
+                        index: true,
+                        element: <ProtectedRoute><UsersSection /></ProtectedRoute>
+                    },
+                    {
+                        path: "detail/:userId",
+                        Component: UserDetail
                     }
                 ]
             }

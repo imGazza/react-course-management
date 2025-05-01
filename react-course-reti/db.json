@@ -6,7 +6,9 @@
       "lastName": "Admin",
       "email": "admin@example.com",
       "password": "password",
-      "isAdmin": true
+      "isAdmin": true,
+      "avatar": "",
+      "joinedDate": "2020-03-15T14:30:00.000Z"
     },
     {
       "id": "2",
@@ -14,7 +16,9 @@
       "lastName": "Gazza",
       "email": "gazza@it.it",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-08-22T09:45:00.000Z"
     },
     {
       "id": "3",
@@ -22,7 +26,9 @@
       "lastName": "Smith",
       "email": "john.smith@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-11-30T16:20:00.000Z"
     },
     {
       "id": "4",
@@ -30,7 +36,9 @@
       "lastName": "Johnson",
       "email": "emma.johnson@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-04-15T10:30:00.000Z"
     },
     {
       "id": "5",
@@ -38,7 +46,9 @@
       "lastName": "Brown",
       "email": "michael.brown@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-07-20T08:15:00.000Z"
     },
     {
       "id": "6",
@@ -46,7 +56,9 @@
       "lastName": "Davis",
       "email": "sophia.davis@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-01-10T11:45:00.000Z"
     },
     {
       "id": "7",
@@ -54,7 +66,9 @@
       "lastName": "Wilson",
       "email": "william.wilson@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-09-05T13:20:00.000Z"
     },
     {
       "id": "8",
@@ -62,7 +76,9 @@
       "lastName": "Taylor",
       "email": "olivia.taylor@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-03-25T15:40:00.000Z"
     },
     {
       "id": "9",
@@ -70,7 +86,9 @@
       "lastName": "Anderson",
       "email": "james.anderson@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-12-18T09:10:00.000Z"
     },
     {
       "id": "10",
@@ -78,7 +96,9 @@
       "lastName": "Thomas",
       "email": "isabella.thomas@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-06-30T14:55:00.000Z"
     },
     {
       "id": "11",
@@ -86,7 +106,9 @@
       "lastName": "Martinez",
       "email": "alexander.martinez@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-02-14T10:25:00.000Z"
     },
     {
       "id": "12",
@@ -94,7 +116,9 @@
       "lastName": "Robinson",
       "email": "mia.robinson@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-09-08T16:35:00.000Z"
     },
     {
       "id": "13",
@@ -102,7 +126,9 @@
       "lastName": "Clark",
       "email": "ethan.clark@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-11-22T12:15:00.000Z"
     },
     {
       "id": "14",
@@ -110,7 +136,9 @@
       "lastName": "Rodriguez",
       "email": "ava.rodriguez@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-04-03T08:50:00.000Z"
     },
     {
       "id": "15",
@@ -118,7 +146,9 @@
       "lastName": "Lewis",
       "email": "daniel.lewis@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-05-17T15:30:00.000Z"
     },
     {
       "id": "16",
@@ -126,7 +156,9 @@
       "lastName": "Lee",
       "email": "charlotte.lee@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-07-29T11:05:00.000Z"
     },
     {
       "id": "17",
@@ -134,7 +166,9 @@
       "lastName": "Walker",
       "email": "joseph.walker@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-05-12T14:40:00.000Z"
     },
     {
       "id": "18",
@@ -142,7 +176,9 @@
       "lastName": "Hall",
       "email": "amelia.hall@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-08-24T09:25:00.000Z"
     },
     {
       "id": "19",
@@ -150,7 +186,9 @@
       "lastName": "Allen",
       "email": "david.allen@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-10-07T16:50:00.000Z"
     },
     {
       "id": "20",
@@ -158,7 +196,9 @@
       "lastName": "Young",
       "email": "harper.young@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-06-19T12:35:00.000Z"
     },
     {
       "id": "21",
@@ -166,7 +206,9 @@
       "lastName": "King",
       "email": "matthew.king@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-04-28T08:20:00.000Z"
     },
     {
       "id": "22",
@@ -174,7 +216,9 @@
       "lastName": "Wright",
       "email": "evelyn.wright@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-12-11T15:45:00.000Z"
     },
     {
       "id": "23",
@@ -182,7 +226,9 @@
       "lastName": "Lopez",
       "email": "christopher.lopez@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-07-23T11:30:00.000Z"
     },
     {
       "id": "24",
@@ -190,7 +236,9 @@
       "lastName": "Hill",
       "email": "abigail.hill@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-10-15T14:15:00.000Z"
     },
     {
       "id": "25",
@@ -198,7 +246,9 @@
       "lastName": "Scott",
       "email": "andrew.scott@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-02-26T09:55:00.000Z"
     },
     {
       "id": "26",
@@ -206,7 +256,9 @@
       "lastName": "Green",
       "email": "elizabeth.green@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-08-09T16:40:00.000Z"
     },
     {
       "id": "27",
@@ -214,7 +266,9 @@
       "lastName": "Adams",
       "email": "joshua.adams@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-06-21T12:25:00.000Z"
     },
     {
       "id": "28",
@@ -222,7 +276,9 @@
       "lastName": "Baker",
       "email": "sofia.baker@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-03-04T08:10:00.000Z"
     },
     {
       "id": "29",
@@ -230,7 +286,9 @@
       "lastName": "Nelson",
       "email": "christopher.nelson@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-09-16T15:35:00.000Z"
     },
     {
       "id": "30",
@@ -238,7 +296,9 @@
       "lastName": "Carter",
       "email": "victoria.carter@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-11-02T11:20:00.000Z"
     },
     {
       "id": "31",
@@ -246,7 +306,9 @@
       "lastName": "Mitchell",
       "email": "ryan.mitchell@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-04-14T14:45:00.000Z"
     },
     {
       "id": "32",
@@ -254,7 +316,9 @@
       "lastName": "Perez",
       "email": "grace.perez@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-10-27T09:30:00.000Z"
     },
     {
       "id": "33",
@@ -262,7 +326,9 @@
       "lastName": "Roberts",
       "email": "nathan.roberts@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-07-09T16:15:00.000Z"
     },
     {
       "id": "34",
@@ -270,7 +336,9 @@
       "lastName": "Turner",
       "email": "chloe.turner@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-05-22T12:00:00.000Z"
     },
     {
       "id": "35",
@@ -278,15 +346,18 @@
       "lastName": "Phillips",
       "email": "kevin.phillips@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-11-04T08:45:00.000Z"
     },
     {
       "id": "36",
       "firstName": "Zoe",
       "lastName": "Campbell",
       "email": "zoe.campbell@email.com",
-      "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-12-17T15:30:00.000Z"
     },
     {
       "id": "37",
@@ -294,7 +365,9 @@
       "lastName": "Parker",
       "email": "eric.parker@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-06-30T11:15:00.000Z"
     },
     {
       "id": "38",
@@ -302,7 +375,9 @@
       "lastName": "Evans",
       "email": "penelope.evans@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2022-12-13T14:00:00.000Z"
     },
     {
       "id": "39",
@@ -310,7 +385,9 @@
       "lastName": "Edwards",
       "email": "stephen.edwards@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-08-26T09:45:00.000Z"
     },
     {
       "id": "40",
@@ -318,7 +395,9 @@
       "lastName": "Collins",
       "email": "nora.collins@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-01-08T16:30:00.000Z"
     },
     {
       "id": "41",
@@ -326,7 +405,9 @@
       "lastName": "Stewart",
       "email": "timothy.stewart@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2023-01-21T12:15:00.000Z"
     },
     {
       "id": "42",
@@ -334,7 +415,9 @@
       "lastName": "Morris",
       "email": "scarlett.morris@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-09-03T08:00:00.000Z"
     },
     {
       "id": "43",
@@ -342,7 +425,9 @@
       "lastName": "Murphy",
       "email": "steven.murphy@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-02-16T15:45:00.000Z"
     },
     {
       "id": "44",
@@ -350,7 +435,9 @@
       "lastName": "Rogers",
       "email": "aurora.rogers@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2023-02-28T11:30:00.000Z"
     },
     {
       "id": "45",
@@ -358,7 +445,9 @@
       "lastName": "Cook",
       "email": "peter.cook@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-10-11T14:15:00.000Z"
     },
     {
       "id": "46",
@@ -366,7 +455,9 @@
       "lastName": "Morgan",
       "email": "luna.morgan@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-03-24T10:00:00.000Z"
     },
     {
       "id": "47",
@@ -374,7 +465,9 @@
       "lastName": "Cooper",
       "email": "bryan.cooper@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2023-03-07T16:45:00.000Z"
     },
     {
       "id": "48",
@@ -382,7 +475,9 @@
       "lastName": "Peterson",
       "email": "hazel.peterson@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-11-19T12:30:00.000Z"
     },
     {
       "id": "49",
@@ -390,7 +485,9 @@
       "lastName": "Reed",
       "email": "george.reed@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2021-04-02T09:15:00.000Z"
     },
     {
       "id": "50",
@@ -398,7 +495,9 @@
       "lastName": "Bailey",
       "email": "violet.bailey@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2023-04-15T15:00:00.000Z"
     },
     {
       "id": "51",
@@ -406,7 +505,9 @@
       "lastName": "Howard",
       "email": "frank.howard@email.com",
       "password": "password",
-      "isAdmin": false
+      "isAdmin": false,
+      "avatar": "",
+      "joinedDate": "2020-12-28T11:45:00.000Z"
     }
   ],
   "courses": [
@@ -878,6 +979,13 @@
       "userId": "32",
       "courseId": "1",
       "subscriptionDate": "2025-04-28T14:08:00.810Z",
+      "grade": null
+    },
+    {
+      "id": "h702k",
+      "userId": "26",
+      "courseId": "1",
+      "subscriptionDate": "2025-04-30T17:54:15.174Z",
       "grade": null
     }
   ],

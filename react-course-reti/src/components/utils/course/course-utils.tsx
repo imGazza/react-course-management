@@ -107,8 +107,9 @@ export const FetchInitialData = async <T, U>(
 ) => {
     try {
         setLoading(true);
-        const materials = await fetchFunc(key);
-        setData(materials);
+        const entity = await fetchFunc(key);
+        setData(entity);
+        return entity;
       } catch (e) {
 
       } finally {

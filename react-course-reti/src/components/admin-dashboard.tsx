@@ -1,8 +1,8 @@
-import SectionCourses from "./courses-list/courses-section";
+import CoursesSection from "./courses-list/courses-section";
 
 const AdminCourses = () => {
     return (
-        <SectionCourses />
+        <CoursesSection />
     )
 }
 export default AdminCourses;

@@ -32,13 +32,10 @@ const CourseDetailCards = () => {
     setLoading(true);
     async function fetchCourse() {
       try{
-        await FetchInitialData(setLoading, setCourseData, getCourse, courseId!);
-
-        if (!course)
-          throw new Error("Errore nel recupero del corso");
-
-        getNextStatus(course);
-        setCloseDate(new Date(course.closeDate));
+        const courseEntity = await getCourse(courseId!);
+        getNextStatus(courseEntity);
+        setCloseDate(new Date(courseEntity.closeDate));
+        setCourseData(courseEntity);
       } catch (e) {
         // TODO: Toast 
       } finally {
@@ -208,7 +205,6 @@ const CourseDetailCards = () => {
                       mode="single"
                       selected={closeDate}
                       onSelect={(date) => onCloseDateChange(date)}
-                      initialFocus
                     />
                   </PopoverContent>
                 </Popover>

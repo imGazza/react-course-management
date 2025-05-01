@@ -30,3 +30,6 @@ export default Root;
 //TODO: Assicurati che tutte le rotte da proteggere lo siano
 //TODO: Metti i vari context in hook custom
 //TODO: Sistema la coerenza dei dati
+//TODO: Specifica le differenze rispetto alla consegna nel file per far capire
+//TODO: Sistema i fetch iniziali
+//TODO: Generalizza il dialog base

@@ -49,7 +49,7 @@ const NavUser = ({ user, logout }: NavUserProps) => {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={`${user.firstName} ${user.lastName}`} alt={`${user.firstName} ${user.lastName}`} />
-                <AvatarFallback className="rounded-lg">{`${user.firstName.charAt(0).toUpperCase()} ${user.lastName.charAt(0).toUpperCase()}`}</AvatarFallback>
+                <AvatarFallback className="rounded-lg">{`${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{`${user.firstName} ${user.lastName}`}</span>

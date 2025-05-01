@@ -7,10 +7,10 @@ import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
 import { DialogDescription, } from "@radix-ui/react-dialog";
-import { DialogBaseProps } from "@/components/utils/interfaces/dialog-base-props";
+import { BaseDialogProps } from "@/components/utils/interfaces/dialog-base-props";
 import { GenerateId } from "../misc";
 
-interface CourseDialogProps extends DialogBaseProps {
+interface CourseDialogProps extends BaseDialogProps {
     course?: Course;
     submit: (course: Course) => void;
 }

@@ -10,7 +10,7 @@ import { Button } from "../ui/button"
 import { AreCoursesDifferent } from "../utils/course/course-utils"
 import useBreadcrumbs from "@/hooks/use-breadcrums"
 
-const SectionCourses = () => {
+const CoursesSection = () => {
 
   useBreadcrumbs([{ label: "Corsi", url: "#" }]);
 
@@ -26,7 +26,8 @@ const SectionCourses = () => {
       setCourses(courses);
       setLoading(false);
     }
-    fetchCourses();}, [])
+    fetchCourses();
+  }, [])
 
   const filteredCourses =
     year !== "All" ?
@@ -102,4 +103,4 @@ const SectionCourses = () => {
     </>
   )
 }
-export default SectionCourses
+export default CoursesSection
