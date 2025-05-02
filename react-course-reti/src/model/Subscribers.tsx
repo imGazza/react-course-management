@@ -1,3 +1,4 @@
+import { Course } from "./Course";
 import { User } from "./User";
 
 export interface Subscriber {
@@ -10,4 +11,5 @@ export interface Subscriber {
 
 export interface SubscriberEntity extends Subscriber{
   user: User;
+  course?: Course;
 }

@@ -55,7 +55,7 @@ const UsersSectionCards = ({ users, loading }: UsersSectionCardsProps) => {
                 <CardHeader>
                     <CardDescription className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-purple-500" />
-                        Iscritti negli ultimi 7 giorni
+                        Registrati negli ultimi 7 giorni
                     </CardDescription>
                     <CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums line-clamp-1">
                         {users.filter((user) => new Date(user.joinedDate) > subDays(new Date(), 7)).length}

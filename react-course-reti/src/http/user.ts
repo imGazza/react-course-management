@@ -10,6 +10,13 @@ export const getUsers = async (): Promise<User[]> => {
     return users.data;
 }
 
+export const getUserById = async (id: string): Promise<User> => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const user = await httpClient.get(BASE_URL + id); 
+
+    return user.data;
+}
+
 export const getUser = async (email: string, password: string): Promise<User> => {
     const params = "?email=" + email + "&password=" + password;
     const user = await httpClient.get(BASE_URL + params);

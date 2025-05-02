@@ -28,3 +28,9 @@ export const setGrade = async (subscriber: Subscriber): Promise<Subscriber> => {
     
     return updatedSubscriber.data;
 }
+
+export const getSubscribersCourseAndUser = async (userId: string): Promise<SubscriberEntity[]> => {
+    const params = "?userId=" + userId + "&_embed=user";
+    const subscribers = await httpClient.get(BASE_URL + params);
+    return subscribers.data;
+}

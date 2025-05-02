@@ -1,5 +1,6 @@
 import { Course, CourseEntity } from "@/model/Course";
 import { httpClient } from "./client";
+import { UserSubscriptionsChoices } from "@/model/UserSubscriptionsChoices";
 
 const BASE_URL = "courses"
 

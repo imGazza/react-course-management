@@ -7,6 +7,7 @@ import Login from "@/components/login";
 import CourseDetail from "@/components/course-detail/course-detail";
 import UsersSection from "@/components/users-list/users-section";
 import UserDetail from "@/components/user-detail/user-detail";
+import ProfilePage from "@/components/profile/profile-page";
 
 export const routes = createBrowserRouter([
     {
@@ -51,6 +52,10 @@ export const routes = createBrowserRouter([
                         Component: UserDetail
                     }
                 ]
+            },
+            {
+                path: "profile",
+                Component: ProfilePage
             }
         ]
     },

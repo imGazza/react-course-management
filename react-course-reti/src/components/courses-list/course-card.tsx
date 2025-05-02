@@ -1,4 +1,4 @@
-import { Edit, Pencil, SquareArrowOutUpRight, Trash2, Users } from "lucide-react"
+import { Pencil, SquareArrowOutUpRight, Trash2, Users } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,6 +8,7 @@ import CourseDialog from "@/components/utils/dialogs/course-dialog"
 import GazzaDialog from "../utils/gazza-dialog"
 import GazzaConfirmDialog from "../utils/gazza-confirm-dialog"
 import { Link } from "react-router"
+import React from "react"
 
 const statusColors = {
   "Pianificato": "bg-yellow-100 text-yellow-800 hover:bg-yellow-100",
@@ -17,13 +18,40 @@ const statusColors = {
 
 interface CourseProps {
   course: CourseEntity;
-  onEdit: (data: Course) => void;
-  onDelete: (id: string) => void;
+  onEdit?: (data: Course) => void;
+  onDelete?: (id: string) => void;
+  customFooter?: React.ReactNode;
 }
 
-const CourseCard = ({ course, onEdit, onDelete }: CourseProps) => {  
+const CourseCard = ({ course, onEdit, onDelete, customFooter }: CourseProps) => {  
 
   const statusColor = statusColors[course.status] || statusColors["Pianificato"];  
+
+  const defaultFooter = (
+    <>
+      <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete!(course.id)}>
+            <Link to={`/courses/detail/${course.id}`} replace={true}>
+              <Button variant="outline" size="icon" className="flex items-center">
+                <SquareArrowOutUpRight />
+              </Button>
+            </Link>
+        </GazzaConfirmDialog>
+        <div className="flex justify-between gap-2">
+          <GazzaDialog dialogComponent={(props) => <CourseDialog course={course} submit={onEdit!} {...props} />}>
+            <Button variant="outline" size="icon" className="flex items-center gap-1">
+              <Pencil />
+            </Button>
+          </GazzaDialog>
+          {course.status === "Pianificato" ?
+            <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete!(course.id)}>
+              <Button variant="outline" size="icon" className="flex items-center hover:border-delete-red-foreground hover:bg-delete-red hover:text-delete-red-foreground">
+                <Trash2 />
+              </Button>
+            </GazzaConfirmDialog> : null
+          }
+        </div>
+    </>    
+  )
   
   return (
     <Card className="overflow-hidden w-full max-w-sm pt-0">
@@ -46,27 +74,7 @@ const CourseCard = ({ course, onEdit, onDelete }: CourseProps) => {
         <p className="text-sm text-muted-foreground line-clamp-2">{course.description}</p>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete(course.id)}>
-            <Link to={`/courses/detail/${course.id}`} replace={true}>
-              <Button variant="outline" size="icon" className="flex items-center">
-                <SquareArrowOutUpRight />
-              </Button>
-            </Link>
-        </GazzaConfirmDialog>
-        <div className="flex justify-between gap-2">
-          <GazzaDialog dialogComponent={(props) => <CourseDialog course={course} submit={onEdit} {...props} />}>
-            <Button variant="outline" size="icon" className="flex items-center gap-1">
-              <Pencil />
-            </Button>
-          </GazzaDialog>
-          {course.status === "Pianificato" ?
-            <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete(course.id)}>
-              <Button variant="outline" size="icon" className="flex items-center hover:border-delete-red-foreground hover:bg-delete-red hover:text-delete-red-foreground">
-                <Trash2 />
-              </Button>
-            </GazzaConfirmDialog> : null
-          }
-        </div>
+        {customFooter ?? defaultFooter}
       </CardFooter>
     </Card>
   )
@@ -91,7 +99,7 @@ const CourseCardSkeleton = () => {
       <Skeleton className="h-4 w-full mt-2" />
     </CardContent>
     <CardFooter className="flex justify-end">
-      <Skeleton className="h-8 w-8" />
+      <Skeleton className="h-10 w-full" />
     </CardFooter>
   </Card> 
   )

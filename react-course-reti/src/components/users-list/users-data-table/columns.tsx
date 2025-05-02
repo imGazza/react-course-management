@@ -69,7 +69,7 @@ export const columns = ({ onEditUser, onDeleteUser }: columnsProps): ColumnDef<U
                         ) : (
                             <UserIcon />
                         )}
-                        {user.isAdmin ? "Amministratore" : "Utente"}
+                        {user.isAdmin ? "Amministratore" : "Studente"}
                     </Badge>
                 </div>
             )
@@ -77,7 +77,7 @@ export const columns = ({ onEditUser, onDeleteUser }: columnsProps): ColumnDef<U
     },
     {
         accessorKey: "joinedDate",
-        header: "Iscritto il",
+        header: "Data registrazione",
         cell: ({ row }) => {
             const user = row.original;
             return <div className="w-[200px]">{new Date(user.joinedDate).toLocaleDateString('it-IT')}</div>
@@ -111,7 +111,7 @@ export const columns = ({ onEditUser, onDeleteUser }: columnsProps): ColumnDef<U
             )
 
             return (
-                <div className="flex gap-2 w-[80px]">
+                <div className="flex gap-2 w-max">
                     <GazzaDialog dialogComponent={(props) => <UserDialog {...props} user={user} submit={onEditUser} />}>
                         <Button variant="ghost" size="icon" className="h-8 w-8 p-0">
                             <Pencil className="h-4 w-4" />
