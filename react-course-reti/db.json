@@ -2,13 +2,13 @@
   "users": [
     {
       "id": "1",
-      "firstName": "Admin",
-      "lastName": "Admin",
+      "firstName": "Admin2",
+      "lastName": "Admin2",
       "email": "admin@example.com",
       "password": "password",
       "isAdmin": true,
       "avatar": "",
-      "joinedDate": "2020-03-15T14:30:00.000Z"
+      "joinedDate": "2020-08-22T09:45:00.000Z"
     },
     {
       "id": "2",

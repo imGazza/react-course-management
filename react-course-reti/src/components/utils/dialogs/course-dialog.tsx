@@ -23,7 +23,6 @@ const CourseDialog = ({ course, submit, setOpen, open }: CourseDialogProps) => {
         description: course ? course.description : "",
         image: course ? course.image : "",
         status: course ? course.status : "Pianificato",
-        subscribers: course ? course.subscribers : 0,
         year: course ? course.year : new Date().getFullYear()
     }
 
