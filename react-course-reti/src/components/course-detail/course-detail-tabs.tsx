@@ -6,11 +6,11 @@ import { GraduationCap, Users } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { Badge } from "../ui/badge";
 import { useParams } from "react-router";
-import { SubscriberEntity } from "@/model/Subscribers";
+import { SubscriberCourse, SubscriberUser } from "@/model/Subscribers";
 import { User } from "@/model/User";
 import { addCourseSubscriber, deleteSubscriber, getCourseSubscribers } from "@/http/subscriber";
 import { getUsers } from "@/http/user";
-import { GenerateId } from "../utils/misc";
+import { GenerateId } from "../utils/entities/entities-utils";
 import CourseDetailGrades from "./course-detail-grades";
 import { Skeleton } from "../ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
@@ -20,7 +20,7 @@ import { CourseContext } from "@/providers/course/course-context";
 const CourseDetailTabs = () => {
 
     const { courseId } = useParams();
-    const [subscribers, setSubscribers] = useState<SubscriberEntity[]>([]);
+    const [subscribers, setSubscribers] = useState<SubscriberUser[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const { course, setSubscribersNumber } = useContext(CourseContext);
@@ -62,7 +62,7 @@ const CourseDetailTabs = () => {
     const onAddSubscriber = async (userIds: string[]) => {
         try {
             setLoading(true);
-            const newSubscribers: SubscriberEntity[] = [];
+            const newSubscribers: SubscriberUser[] = [];
 
             for (const userId of userIds) {
                 const addedSubscriber = await addCourseSubscriber({

@@ -9,7 +9,10 @@ export interface Subscriber {
   grade: number | null;
 }
 
-export interface SubscriberEntity extends Subscriber{
+export interface SubscriberCourse extends Subscriber{
+  course: Course;
+}
+
+export interface SubscriberUser extends Subscriber{
   user: User;
-  course?: Course;
 }

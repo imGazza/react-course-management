@@ -1,4 +1,4 @@
-import GazzaDialog from "@/components/utils/gazza-dialog";
+import GazzaDialog from "@/components/ui/gazza-dialog";
 import { columns } from "./columns"
 import { DataTable, DataTableSkeleton } from "./data-table"
 import { User, UserEntity } from "@/model/User";

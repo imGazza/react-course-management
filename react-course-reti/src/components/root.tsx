@@ -33,3 +33,6 @@ export default Root;
 //TODO: Specifica le differenze rispetto alla consegna nel file per far capire
 //TODO: Sistema i fetch iniziali
 //TODO: Generalizza il dialog base
+//TODO: Rinomina le entità con più entità per maggiore chiarezza
+//TODO: Aggiungi lazy loading
+//TODO: Check di tutte le function estraibili dai component

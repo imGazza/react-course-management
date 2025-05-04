@@ -2,21 +2,20 @@
   "users": [
     {
       "id": "1",
-      "firstName": "Admin2",
-      "lastName": "Admin2",
+      "firstName": "Default",
+      "lastName": "Admin",
       "email": "admin@example.com",
-      "password": "password",
+      "avatar": "1746356029141-d184c32b-9410-4627-881c-e3db80456315.jpg",
       "isAdmin": true,
-      "avatar": "",
       "joinedDate": "2020-08-22T09:45:00.000Z"
     },
     {
       "id": "2",
-      "firstName": "Gazza",
-      "lastName": "Gazza",
+      "firstName": "Luca",
+      "lastName": "Gazzardi",
       "email": "gazza@it.it",
       "password": "password",
-      "isAdmin": false,
+      "isAdmin": true,
       "avatar": "",
       "joinedDate": "2021-08-22T09:45:00.000Z"
     },
@@ -105,9 +104,8 @@
       "firstName": "Alexander",
       "lastName": "Martinez",
       "email": "alexander.martinez@email.com",
-      "password": "password",
+      "avatar": "1746354755113-00005-2968473542.png",
       "isAdmin": false,
-      "avatar": "",
       "joinedDate": "2022-02-14T10:25:00.000Z"
     },
     {
@@ -524,9 +522,9 @@
       "name": "Corso Angular",
       "description": "Angular è un framework per lo sviluppo di applicazioni web moderne e scalabili.",
       "image": "https://www.esenceweb.com/backend/uploads/angular-framework-tutorial-for-absolute-beginners.png",
-      "status": "In corso",
+      "status": "Chiuso",
       "year": 2025,
-      "closeDate": null
+      "closeDate": "2025-05-04T13:42:27.486Z"
     },
     {
       "id": "3",
@@ -601,7 +599,64 @@
       "closeDate": "2025-04-30T22:00:00.000Z"
     }
   ],
-  "materials": [],
+  "materials": [
+    {
+      "id": "e8jx4",
+      "name": "Lesson1.pptx",
+      "courseId": "2",
+      "uploadDate": "2025-05-04T14:33:43.197Z",
+      "size": 5142127,
+      "fileName": "1746369223151-Lesson1.pptx"
+    },
+    {
+      "id": "9cyej",
+      "name": "Lesson2.pptx",
+      "courseId": "2",
+      "uploadDate": "2025-05-04T14:33:46.318Z",
+      "size": 5655903,
+      "fileName": "1746369226266-Lesson2.pptx"
+    },
+    {
+      "id": "yzc1a",
+      "name": "Lesson3.pptx",
+      "courseId": "2",
+      "uploadDate": "2025-05-04T14:37:28.534Z",
+      "size": 7265082,
+      "fileName": "1746369448461-Lesson3.pptx"
+    },
+    {
+      "id": "ptdtv",
+      "name": "Lesson4.pptx",
+      "courseId": "2",
+      "uploadDate": "2025-05-04T14:37:31.186Z",
+      "size": 4442560,
+      "fileName": "1746369451141-Lesson4.pptx"
+    },
+    {
+      "id": "xqg3b",
+      "name": "Lesson5.pptx",
+      "courseId": "2",
+      "uploadDate": "2025-05-04T14:37:34.903Z",
+      "size": 3745095,
+      "fileName": "1746369454868-Lesson5.pptx"
+    },
+    {
+      "id": "xmpmo",
+      "name": "Project.pdf",
+      "courseId": "2",
+      "uploadDate": "2025-05-04T14:37:38.212Z",
+      "size": 176962,
+      "fileName": "1746369458208-Project.pdf"
+    },
+    {
+      "id": "20kt3",
+      "name": "Lesson4.pptx",
+      "courseId": "2",
+      "uploadDate": "2025-05-04T14:37:48.683Z",
+      "size": 4442560,
+      "fileName": "1746369468651-Lesson4.pptx"
+    }
+  ],
   "subscribers": [
     {
       "id": "3",
@@ -650,7 +705,7 @@
       "userId": "11",
       "courseId": "2",
       "subscriptionDate": "2025-08-05T14:20:00.000Z",
-      "grade": null
+      "grade": 30
     },
     {
       "id": "11",

@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
 import { DialogDescription, } from "@radix-ui/react-dialog";
 import { BaseDialogProps } from "@/components/utils/interfaces/dialog-base-props";
-import { GenerateId } from "../misc";
+import { GenerateId } from "../entities/entities-utils";
 
 interface CourseDialogProps extends BaseDialogProps {
     course?: Course;

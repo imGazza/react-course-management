@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { addCourse, deleteCourse, editCourse, getCourses } from "@/http/course"
-import { Course, CourseEntity } from "@/model/Course"
+import { Course, CourseSubscribers } from "@/model/Course"
 import CourseCard, { CourseCardSkeleton } from "./course-card"
 import YearSelect from "./year-select"
 import { Plus } from "lucide-react"
 import CourseDialog from "@/components/utils/dialogs/course-dialog"
-import GazzaDialog from "@/components/utils/gazza-dialog"
+import GazzaDialog from "@/components/ui/gazza-dialog"
 import { Button } from "../ui/button"
 import { AreCoursesDifferent } from "../utils/course/course-utils"
 import useBreadcrumbs from "@/hooks/use-breadcrums"
@@ -14,7 +14,7 @@ const CoursesSection = () => {
 
   useBreadcrumbs([{ label: "Corsi", url: "#" }]);
 
-  const [courses, setCourses] = useState<CourseEntity[]>([]);
+  const [courses, setCourses] = useState<CourseSubscribers[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [year, setYear] = useState<string>("All");
 
@@ -39,7 +39,7 @@ const CoursesSection = () => {
       setLoading(true);
       const addedCourse = await addCourse(course);
 
-      const addedCourseEntity: CourseEntity = { ...addedCourse, subscribers: [] }; 
+      const addedCourseEntity: CourseSubscribers = { ...addedCourse, subscribers: [] }; 
       setCourses([...courses, addedCourseEntity]);
     } catch (e) {
       
@@ -57,7 +57,7 @@ const CoursesSection = () => {
       setLoading(true);
       const editedCourse = await editCourse(course);
 
-      const editedCourseEntity: CourseEntity = { ...editedCourse, subscribers: courses.find(c => c.id === course.id)?.subscribers || []  };
+      const editedCourseEntity: CourseSubscribers = { ...editedCourse, subscribers: courses.find(c => c.id === course.id)?.subscribers || []  };
       setCourses(courses.map(c => c.id === course.id ? editedCourseEntity : c));
     } catch (e) {
     }

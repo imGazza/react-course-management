@@ -2,11 +2,11 @@ import { Pencil, SquareArrowOutUpRight, Trash2, Users } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Course, CourseEntity } from "@/model/Course"
+import { Course, CourseSubscribers } from "@/model/Course"
 import { Skeleton } from "../ui/skeleton"
 import CourseDialog from "@/components/utils/dialogs/course-dialog"
-import GazzaDialog from "../utils/gazza-dialog"
-import GazzaConfirmDialog from "../utils/gazza-confirm-dialog"
+import GazzaDialog from "../ui/gazza-dialog"
+import GazzaConfirmDialog from "../ui/gazza-confirm-dialog"
 import { Link } from "react-router"
 import React from "react"
 
@@ -17,7 +17,7 @@ const statusColors = {
 }
 
 interface CourseProps {
-  course: CourseEntity;
+  course: CourseSubscribers;
   onEdit?: (data: Course) => void;
   onDelete?: (id: string) => void;
   customFooter?: React.ReactNode;

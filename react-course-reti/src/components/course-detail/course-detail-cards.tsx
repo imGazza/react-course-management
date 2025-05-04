@@ -8,9 +8,9 @@ import {
 } from "@/components/ui/card"
 import { Course } from "@/model/Course";
 import { Button } from "../ui/button";
-import GazzaDialog from "../utils/gazza-dialog";
+import GazzaDialog from "../ui/gazza-dialog";
 import CourseDialog from "../utils/dialogs/course-dialog";
-import GazzaConfirmDialog from "../utils/gazza-confirm-dialog";
+import GazzaConfirmDialog from "../ui/gazza-confirm-dialog";
 import { Skeleton } from "../ui/skeleton";
 import { useContext, useEffect, useState } from "react";
 import { deleteCourse, editCourse, getCourse } from "@/http/course";
@@ -85,7 +85,12 @@ const CourseDetailCards = () => {
   const onAdvanceStatus = async () => {
     try {
       setLoading(true);
-      const updatedCourse = {...course!, status: nextStatus };
+      const updatedCourse = {
+        ...course!, 
+        status: nextStatus, 
+        closeDate: nextStatus === "Chiuso" ? new Date().toISOString() : course!.closeDate 
+      };
+      
       const editedCourse = await editCourse(updatedCourse!);
       setCourseData(editedCourse);
       getNextStatus(editedCourse);

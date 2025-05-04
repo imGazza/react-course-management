@@ -1,7 +1,7 @@
 import { Check, ChevronsUpDown, Trash2, UserMinus } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
-import { SubscriberEntity } from "@/model/Subscribers"
+import { SubscriberCourse, SubscriberUser } from "@/model/Subscribers"
 import { useContext, useState } from "react"
 import { Button } from "../ui/button"
 import { ScrollArea } from "../ui/scroll-area"
@@ -13,7 +13,7 @@ import { CourseContext } from "@/providers/course/course-context"
 import { Lock } from "lucide-react";
 
 interface CourseDetailSubscriberProps {
-    subscribers: SubscriberEntity[];
+    subscribers: SubscriberUser[];
     users: User[];
     onAddSubscriber: (userIds: string[]) => void;
     onDeleteSubscriber: (subscriberId: string) => void;

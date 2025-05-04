@@ -1,9 +1,9 @@
-import { Subscriber, SubscriberEntity } from "@/model/Subscribers";
+import { Subscriber, SubscriberCourse, SubscriberUser } from "@/model/Subscribers";
 import { httpClient } from "./client";
 
 const BASE_URL = "subscribers"
 
-export const getCourseSubscribers = async (courseId: string): Promise<SubscriberEntity[]> => {
+export const getCourseSubscribers = async (courseId: string): Promise<SubscriberUser[]> => {
     await new Promise(resolve => setTimeout(resolve, 750));
     const params = "?courseId=" + courseId + "&_embed=user";
 
@@ -29,8 +29,26 @@ export const setGrade = async (subscriber: Subscriber): Promise<Subscriber> => {
     return updatedSubscriber.data;
 }
 
-export const getSubscribersCourseAndUser = async (userId: string): Promise<SubscriberEntity[]> => {
-    const params = "?userId=" + userId + "&_embed=user";
+export const getSubscribersByUser = async (userId: string): Promise<Subscriber[]> => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const params = "?userId=" + userId;
     const subscribers = await httpClient.get(BASE_URL + params);
+    
+    return subscribers.data;
+}
+
+export const getSubscribersCourses = async (): Promise<SubscriberCourse[]> => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const params = "?_embed=course";
+    const subscribers = await httpClient.get(BASE_URL + params);
+
+    return subscribers.data;
+}
+
+export const getSubscribersCoursesByUser = async (userId: string): Promise<SubscriberCourse[]> => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const params = "?userId=" + userId + "&_embed=course";
+    const subscribers = await httpClient.get(BASE_URL + params);
+
     return subscribers.data;
 }

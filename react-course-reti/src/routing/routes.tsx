@@ -8,6 +8,8 @@ import CourseDetail from "@/components/course-detail/course-detail";
 import UsersSection from "@/components/users-list/users-section";
 import UserDetail from "@/components/user-detail/user-detail";
 import ProfilePage from "@/components/profile/profile-page";
+import PersonalCoursesList from "@/components/personal-courses/personal-courses-list";
+import Statistics from "@/components/statistics/statistics";
 
 export const routes = createBrowserRouter([
     {
@@ -16,7 +18,7 @@ export const routes = createBrowserRouter([
         children: [
             {
                 index: true,
-                Component: HomePage,
+                Component: ProfilePage,
             },
             {
                 path: "login",
@@ -56,6 +58,14 @@ export const routes = createBrowserRouter([
             {
                 path: "profile",
                 Component: ProfilePage
+            },
+            {
+                path: "my-courses",
+                Component: PersonalCoursesList
+            },
+            {
+                path: "stats",
+                Component: Statistics
             }
         ]
     },

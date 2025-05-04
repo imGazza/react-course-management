@@ -58,7 +58,7 @@ var menu = {
   navMainUser: [
     {
       title: "I miei corsi",
-      url: "/courses", //TODO: Aggiornare rotta
+      url: "/my-courses",
       icon: Library,
       isActive: true
     },

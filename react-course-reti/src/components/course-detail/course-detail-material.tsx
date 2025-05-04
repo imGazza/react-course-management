@@ -6,7 +6,7 @@ import { Material } from "@/model/Material";
 import { addMaterial, deleteMaterial, getCourseMaterials } from "@/http/material";
 import { Skeleton } from "../ui/skeleton";
 import { useParams } from "react-router";
-import { DeleteMaterial, DownloadMaterial, FetchInitialData, GetFileSizeInMB, SaveFileAndGetMaterial } from "../utils/course/course-utils";
+import { DeleteMaterial, DownloadMaterial, FetchInitialData, GetFileSizeInMB, SaveAndGetMaterial } from "../utils/course/course-utils";
 import { ScrollArea } from "../ui/scroll-area";
 import { de } from "date-fns/locale";
 
@@ -26,7 +26,7 @@ const CourseDetailMaterial = () => {
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     try {
-      const material = await SaveFileAndGetMaterial(event, courseId!);
+      const material = await SaveAndGetMaterial(event, courseId!);
       if (!material || !materials) {
         return;
       }

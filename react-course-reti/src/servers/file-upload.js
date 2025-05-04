@@ -9,8 +9,8 @@ console.log('Server starting...');
 const app = express();
 app.use(cors());
 
-// Configure multer for file storage
-const storage = multer.diskStorage({
+// Storages
+const materialStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/materials/');
     },
@@ -19,16 +19,28 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage });
+const avatarStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/avatars/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
 
-app.post('/api/upload', upload.single('material'), (req, res) => {
+const uploadMaterial = multer({ storage: materialStorage });
+const uploadAvatar = multer({ storage: avatarStorage });
+
+// Material
+
+app.post('/api/material/upload', uploadMaterial.single('material'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'Nessun file caricato' });
     }
     res.json({ fileName: req.file.filename });
 });
 
-app.get('/api/download/:fileName', (req, res) => {
+app.get('/api/material/download/:fileName', (req, res) => {
     const fileName = req.params.fileName;
     const filePath = path.join('public/materials/', fileName);
     
@@ -39,7 +51,7 @@ app.get('/api/download/:fileName', (req, res) => {
     });
 });
 
-app.delete('/api/delete/:fileName', (req, res) => {
+app.delete('/api/material/delete/:fileName', (req, res) => {
     const fileName = req.params.fileName;
     const filePath = path.join('public/materials/', fileName);
     
@@ -50,6 +62,16 @@ app.delete('/api/delete/:fileName', (req, res) => {
         res.json({ message: 'File cancellato correttamente' });
     });
 });
+
+// Avatar
+
+app.post('/api/avatar/upload', uploadAvatar.single('avatar'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'Nessun file caricato' });
+    }
+    res.json({ fileName: req.file.filename });
+});
+
 
 app.listen(3001, () => {
     console.log('Server running on port 3001');

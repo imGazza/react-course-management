@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { DialogDescription, } from "@radix-ui/react-dialog";
 import { BaseDialogProps } from "@/components/utils/interfaces/dialog-base-props";
-import { GenerateId } from "../misc";
+import { GenerateId } from "../entities/entities-utils";
 import { Lesson } from "@/model/Lesson";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";

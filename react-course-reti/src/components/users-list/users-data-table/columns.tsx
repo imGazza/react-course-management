@@ -3,8 +3,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import UserDialog from "@/components/utils/dialogs/user-dialog"
-import GazzaConfirmDialog from "@/components/utils/gazza-confirm-dialog"
-import GazzaDialog from "@/components/utils/gazza-dialog"
+import GazzaConfirmDialog from "@/components/ui/gazza-confirm-dialog"
+import GazzaDialog from "@/components/ui/gazza-dialog"
 import { User, UserEntity } from "@/model/User"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, Pencil, ShieldCheck, SquareArrowOutUpRight, Trash2, User as UserIcon } from "lucide-react"
@@ -37,7 +37,7 @@ export const columns = ({ onEditUser, onDeleteUser }: columnsProps): ColumnDef<U
             return (
                 <div className="flex gap-3 items-center w-[200px]">
                     <Avatar className="h-10 w-10 rounded-lg">
-                        <AvatarImage src={`${user.firstName} ${user.lastName}`} alt={`${user.firstName} ${user.lastName}`} />
+                        <AvatarImage src={`/avatars/${user.avatar}`} alt={`${user.firstName} ${user.lastName}`} className="object-cover" />
                         <AvatarFallback className="rounded-lg">{`${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`}</AvatarFallback>
                     </Avatar>
                     {`${user.firstName} ${user.lastName}`}

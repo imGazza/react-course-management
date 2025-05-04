@@ -1,10 +1,9 @@
-import { Course, CourseEntity } from "@/model/Course";
+import { Course, CourseDetails, CourseSubscribers } from "@/model/Course";
 import { httpClient } from "./client";
-import { UserSubscriptionsChoices } from "@/model/UserSubscriptionsChoices";
 
 const BASE_URL = "courses"
 
-export const getCourses = async (): Promise<CourseEntity[]> => {
+export const getCourses = async (): Promise<CourseSubscribers[]> => {
     await new Promise(resolve => setTimeout(resolve, 500));
     const courses = await httpClient.get(BASE_URL + "?_embed=subscribers");
 
@@ -35,4 +34,11 @@ export const getCourse = async (id: string): Promise<Course> => {
     const course = await httpClient.get(BASE_URL + "/" + id);
 
     return course.data;
+}
+
+export const getCoursesDetailsById = async (ids: string[]): Promise<CourseDetails[]> => {
+    const courses = await httpClient.get(BASE_URL + "?_embed=lessons&_embed=materials");
+
+    return courses.data
+        .filter((c: CourseDetails) => ids.includes(c.id)).sort((a: CourseDetails, b: CourseDetails) => a.year - b.year);
 }

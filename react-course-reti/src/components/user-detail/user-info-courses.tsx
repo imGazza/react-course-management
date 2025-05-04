@@ -5,12 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import { Badge } from "../ui/badge"
 import { useEffect, useState } from "react"
 import { getCourses } from "@/http/course"
-import { addCourseSubscriber, deleteSubscriber, getSubscribersCourseAndUser } from "@/http/subscriber"
+import { addCourseSubscriber, deleteSubscriber, getSubscribersByUser } from "@/http/subscriber"
 import { useParams } from "react-router"
-import { CourseEntity } from "@/model/Course"
+import { CourseSubscribers } from "@/model/Course"
 import { Subscriber } from "@/model/Subscribers"
 import { Button } from "../ui/button"
-import { GenerateId } from "../utils/misc"
+import { GenerateId } from "../utils/entities/entities-utils"
 import { Skeleton } from "../ui/skeleton"
 
 const UserInfoCourses = () => {
@@ -18,7 +18,7 @@ const UserInfoCourses = () => {
     const { userId } = useParams();
     const [loading, setLoading] = useState(false);
     const [subscriptions, setSubscriptions] = useState<Subscriber[]>([]);
-    const [courses, setCourses] = useState<CourseEntity[]>([]);
+    const [courses, setCourses] = useState<CourseSubscribers[]>([]);
 
     useEffect(() => {
         setLoading(true);
@@ -26,7 +26,7 @@ const UserInfoCourses = () => {
             try {
                 const [courses, subscribtions] = await Promise.all([
                     getCourses(),
-                    getSubscribersCourseAndUser(userId!)
+                    getSubscribersByUser(userId!)
                 ]);
                 setCourses(courses);
                 setSubscriptions(subscribtions);
@@ -42,7 +42,7 @@ const UserInfoCourses = () => {
     const subscribedCourses = courses.filter((course) => subscriptions.some((sub) => sub.courseId === course.id));
     const availableCourses = courses.filter(course => course.status !== "Chiuso" && !subscribedCourses.some(subCourse => subCourse.id === course.id));
 
-    const handleSubscribe = async (course: CourseEntity) => {
+    const handleSubscribe = async (course: CourseSubscribers) => {
         setLoading(true);
         try {
             if (subscribedCourses.includes(course)) {
@@ -58,7 +58,7 @@ const UserInfoCourses = () => {
         }
     }
 
-    const subscribe = async (course: CourseEntity) => {
+    const subscribe = async (course: CourseSubscribers) => {
         const addedSubscriber = await addCourseSubscriber({
             id: GenerateId(),
             userId: userId!,
@@ -70,7 +70,7 @@ const UserInfoCourses = () => {
         setSubscriptions([...subscriptions, addedSubscriber]);
     }
 
-    const unsubscribe = async (course: CourseEntity) => {
+    const unsubscribe = async (course: CourseSubscribers) => {
         const subscriberId = subscriptions.find(s => s.courseId === course.id)?.id;
         if (!subscriberId) {
             return;
@@ -80,7 +80,7 @@ const UserInfoCourses = () => {
         setSubscriptions(subscriptions.filter(s => s.courseId !== course.id));
     }
 
-    const subscribeFooter = (buttonText: string, course: CourseEntity) => (
+    const subscribeFooter = (buttonText: string, course: CourseSubscribers) => (
         <Button
             variant={"outline"}
             className="w-full"

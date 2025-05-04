@@ -30,3 +30,10 @@ export const deleteLesson = async (lessonId: string): Promise<void> => {
     await new Promise(resolve => setTimeout(resolve, 500));
     await httpClient.delete(BASE_URL + "/" + lessonId);
 }
+
+export const getLessons = async (): Promise<Lesson[]> => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const lessons = await httpClient.get(BASE_URL);
+
+    return lessons.data;
+}

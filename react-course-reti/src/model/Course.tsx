@@ -1,3 +1,5 @@
+import { Lesson } from "./Lesson";
+import { Material } from "./Material";
 import { Subscriber } from "./Subscribers";
 
 export interface Course {
@@ -10,6 +12,11 @@ export interface Course {
     closeDate: string;
 }
 
-export interface CourseEntity extends Course {
+export interface CourseSubscribers extends Course {
     subscribers: Subscriber[];
+}
+
+export interface CourseDetails extends Course {
+    lessons: Lesson[];
+    materials: Material[];
 }

@@ -10,7 +10,7 @@ export function UserProfile() {
 
     return (
         <div className="px-6">
-            <UserDetailInfo userId="userId"/>
+            <UserDetailInfo userId={userId!}/>
             <UserInfoCourses />
         </div>
     )
