@@ -31,7 +31,7 @@ const CourseDetailCards = () => {
   useEffect(() => {
     setLoading(true);
     async function fetchCourse() {
-      try{
+      try {
         const courseEntity = await getCourse(courseId!);
         getNextStatus(courseEntity);
         setCloseDate(new Date(courseEntity.closeDate));
@@ -53,7 +53,7 @@ const CourseDetailCards = () => {
     else if (course!.status === "In corso")
       setNextStatus("Chiuso");
   }
-  
+
   const onEditCourse = async (editedCourse: Course) => {
     if (!AreCoursesDifferent(course!, editedCourse))
       return;
@@ -86,11 +86,11 @@ const CourseDetailCards = () => {
     try {
       setLoading(true);
       const updatedCourse = {
-        ...course!, 
-        status: nextStatus, 
-        closeDate: nextStatus === "Chiuso" ? new Date().toISOString() : course!.closeDate 
+        ...course!,
+        status: nextStatus,
+        closeDate: nextStatus === "Chiuso" ? new Date().toISOString() : course!.closeDate
       };
-      
+
       const editedCourse = await editCourse(updatedCourse!);
       setCourseData(editedCourse);
       getNextStatus(editedCourse);

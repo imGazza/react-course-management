@@ -3,15 +3,15 @@ import { httpClient } from "./client";
 
 const BASE_URL = "users/"
 
-export const getUsers = async (): Promise<User[]> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
+export const getUsers = async (delay?: number): Promise<User[]> => {
+    await new Promise(resolve => setTimeout(resolve, delay ?? 500));
     const users = await httpClient.get(BASE_URL);
 
     return users.data;
 }
 
 export const getUserById = async (id: string): Promise<User> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
+    
     const user = await httpClient.get(BASE_URL + id); 
 
     return user.data;

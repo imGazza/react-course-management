@@ -7,6 +7,8 @@ import useBreadcrumbs from "@/hooks/use-breadcrums";
 
 const ProfilePage = () => {
 
+	//TODO: Drag and drop sull'immagine avatar
+
 	useBreadcrumbs([{ label: "Profilo", url: "#"}]);
 	const { user } = useContext(AuthContext)
 

@@ -1,5 +1,5 @@
 import { Subscriber, SubscriberCourse, SubscriberUser } from "@/model/Subscribers";
-import { httpClient } from "./client";
+import { httpClient, fakeDelay } from "./client";
 
 const BASE_URL = "subscribers"
 
@@ -27,6 +27,13 @@ export const setGrade = async (subscriber: Subscriber): Promise<Subscriber> => {
     const updatedSubscriber = await httpClient.put(BASE_URL + "/" + subscriber.id, subscriber);
     
     return updatedSubscriber.data;
+}
+
+export const getSubscribers = async (delay?: number): Promise<Subscriber[]> => {
+    await new Promise(resolve => setTimeout(resolve, delay ?? 500));
+    const subscribers = await httpClient.get(BASE_URL); 
+
+    return subscribers.data;
 }
 
 export const getSubscribersByUser = async (userId: string): Promise<Subscriber[]> => {

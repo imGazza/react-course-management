@@ -1,0 +1,35 @@
+import { getCourses } from "@/http/course";
+import { CourseSubscribers } from "@/model/Course";
+import { eachYearOfInterval, subYears } from "date-fns";
+
+export interface BarChartUnit {
+	year: number,
+	[key: string]: number
+}
+
+export const createBarChartData = async ({ uniqueCourses, allCoursesWithSubscriptions } : { uniqueCourses: Set<string>, allCoursesWithSubscriptions: CourseSubscribers[]}): Promise<BarChartUnit[]> => {
+	const start = subYears(new Date(), 5);
+	const end = new Date();
+
+	const yearRange = eachYearOfInterval({ start, end });
+
+	const result = yearRange.map(year => ({
+		year: year.getFullYear(),
+		...Object.fromEntries(Array.from(uniqueCourses).map(course => [
+			course,
+			allCoursesWithSubscriptions.find(c => c.name === course && c.year === year.getFullYear())?.subscribers?.length ?? 0
+		]))
+	}))
+
+	return result;
+}
+
+export const getBaseData = async () => {
+	const allCoursesWithSubscriptions = await getCourses(0);
+	const uniqueCourses = new Set(allCoursesWithSubscriptions.map(course => course.name));
+
+	return {
+		uniqueCourses,
+		allCoursesWithSubscriptions
+	}
+}

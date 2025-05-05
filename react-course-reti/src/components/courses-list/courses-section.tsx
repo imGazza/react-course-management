@@ -19,6 +19,7 @@ const CoursesSection = () => {
   const [year, setYear] = useState<string>("All");
 
   //TODO: Usa il fetch iniziale, magari chiedi alla AI se c'è un modo migliore
+  //TODO: togli la dropdown con Tutti, lascia 2025 di default
   useEffect(() => {
     setLoading(true);
     async function fetchCourses() {

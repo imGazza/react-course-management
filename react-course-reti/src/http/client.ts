@@ -8,3 +8,7 @@ export const httpClient = axios.create({
     "Content-Type": "application/json",
   },
 })
+
+export const fakeDelay = (ms: number) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

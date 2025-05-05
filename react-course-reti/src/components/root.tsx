@@ -36,3 +36,4 @@ export default Root;
 //TODO: Rinomina le entità con più entità per maggiore chiarezza
 //TODO: Aggiungi lazy loading
 //TODO: Check di tutte le function estraibili dai component
+//TODO: Mettere i fakeDelay nelle api

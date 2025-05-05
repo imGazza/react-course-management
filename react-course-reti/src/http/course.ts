@@ -3,8 +3,8 @@ import { httpClient } from "./client";
 
 const BASE_URL = "courses"
 
-export const getCourses = async (): Promise<CourseSubscribers[]> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
+export const getCourses = async (delay?: number): Promise<CourseSubscribers[]> => {
+    await new Promise(resolve => setTimeout(resolve, delay ?? 500));
     const courses = await httpClient.get(BASE_URL + "?_embed=subscribers");
 
     return courses.data;

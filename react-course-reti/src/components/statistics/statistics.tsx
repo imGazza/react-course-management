@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { getCourses } from "@/http/course";
@@ -8,9 +7,14 @@ import { CourseSubscribers } from "@/model/Course";
 import { SubscriberCourse } from "@/model/Subscribers";
 import { getLessons } from "@/http/lesson";
 import { Lesson } from "@/model/Lesson";
-import Chart from "./chart";
+import AreaChartSubscriptions from "./area-chart-data/area-chart-subscriptions";
+import BarChartCourses from "./bar-chart-data/bar-chart-courses";
+import useBreadcrumbs from "@/hooks/use-breadcrums";
 
 const Statistics = () => {
+
+	useBreadcrumbs([{ label: "Statistiche", url: "#" }])
+
 	const [courses, setCourses] = useState<CourseSubscribers[]>([]);
 	const [subscriptions, setSubscriptions] = useState<SubscriberCourse[]>([]);
 	const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -171,7 +175,10 @@ const Statistics = () => {
 				</Card>
 
 			</div>
-			<Chart />
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full px-4 lg:px-6">
+				<AreaChartSubscriptions />
+				<BarChartCourses />
+			</div>			
 		</>
 	);
 }
