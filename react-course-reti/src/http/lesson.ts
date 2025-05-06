@@ -1,39 +1,24 @@
 import { Lesson } from "@/model/Lesson";
-import { httpClient } from "./client";
+import { get, post, put, del } from "./client";
 
 const BASE_URL = "lessons"
 
 export const getCourseLessons = async (courseId: string): Promise<Lesson[]> => {
-    await new Promise(resolve => setTimeout(resolve, 750));
-    const params = "?courseId=" + courseId;
-
-    const lessons = await httpClient.get(BASE_URL + params);
-
-    return lessons.data;
+    return await get(`${BASE_URL}?courseId=${courseId}`);
 }
 
 export const addNewLesson = async (lesson: Lesson): Promise<Lesson> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const addedLesson = await httpClient.post(BASE_URL, lesson);
-
-    return addedLesson.data;
+    return await post(BASE_URL, lesson);
 }
 
 export const editLesson = async (lesson: Lesson): Promise<Lesson> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const editedLesson = await httpClient.put(BASE_URL + "/" + lesson.id, lesson); 
-
-    return editedLesson.data;
+    return await put(`${BASE_URL}/${lesson.id}`, lesson);
 }
 
 export const deleteLesson = async (lessonId: string): Promise<void> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    await httpClient.delete(BASE_URL + "/" + lessonId);
+    return await del(`${BASE_URL}/${lessonId}`);
 }
 
 export const getLessons = async (): Promise<Lesson[]> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const lessons = await httpClient.get(BASE_URL);
-
-    return lessons.data;
+    return await get(BASE_URL);
 }

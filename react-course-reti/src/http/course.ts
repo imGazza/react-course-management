@@ -1,44 +1,31 @@
 import { Course, CourseDetails, CourseSubscribers } from "@/model/Course";
-import { httpClient } from "./client";
+import { get, post, put, del } from "./client";
 
 const BASE_URL = "courses"
 
-export const getCourses = async (delay?: number): Promise<CourseSubscribers[]> => {
-    await new Promise(resolve => setTimeout(resolve, delay ?? 500));
-    const courses = await httpClient.get(BASE_URL + "?_embed=subscribers");
-
-    return courses.data;
+export const getCourses = async (delay? : number): Promise<CourseSubscribers[]> => {
+    return await get(BASE_URL + "?_embed=subscribers", delay);
 }
 
 export const addCourse = async (course: Course): Promise<Course> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const addedCourse = await httpClient.post(BASE_URL, course);
-
-    return addedCourse.data; 
+    return await post(BASE_URL, course);
 }
 
 export const editCourse = async (course: Course): Promise<Course> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const editedCourse = await httpClient.put(BASE_URL + "/" + course.id, course);
-
-    return editedCourse.data; 
+    return await put(`${BASE_URL}/${course.id}`, course);
 }
 
 export const deleteCourse = async (id: string): Promise<void> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    await httpClient.delete(BASE_URL + "/" + id);
+    return await del(`${BASE_URL}/${id}`);
 }
 
 export const getCourse = async (id: string): Promise<Course> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const course = await httpClient.get(BASE_URL + "/" + id);
-
-    return course.data;
+    return await get(`${BASE_URL}/${id}`);
 }
 
 export const getCoursesDetailsById = async (ids: string[]): Promise<CourseDetails[]> => {
-    const courses = await httpClient.get(BASE_URL + "?_embed=lessons&_embed=materials");
-
-    return courses.data
-        .filter((c: CourseDetails) => ids.includes(c.id)).sort((a: CourseDetails, b: CourseDetails) => a.year - b.year);
+    const courses = await get(`${BASE_URL}?_embed=lessons&_embed=materials`);
+    return courses
+        .filter((c: CourseDetails) => ids.includes(c.id))
+        .sort((a: CourseDetails, b: CourseDetails) => a.year - b.year);
 }

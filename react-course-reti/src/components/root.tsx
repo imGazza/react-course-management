@@ -2,19 +2,23 @@ import AuthProvider from "@/providers/auth/auth-provider";
 import { ThemeProvider } from "@/providers/theme/theme-provider";
 import MainWrapper from "./main-wrapper";
 import BreadcrumbProvider from "@/providers/breadcrumb/breadcrumb-provider";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const Root = () => {
-    return (
-        <>
-            <AuthProvider>
-                <ThemeProvider>
-                    <BreadcrumbProvider>
-                        <MainWrapper />
-                    </BreadcrumbProvider>
-                </ThemeProvider>
-            </AuthProvider>
-        </>
-    )
+
+	const queryClient = new QueryClient();
+
+	return (
+		<QueryClientProvider client={queryClient}>
+			<AuthProvider>
+				<ThemeProvider>
+					<BreadcrumbProvider>
+						<MainWrapper />
+					</BreadcrumbProvider>
+				</ThemeProvider>
+			</AuthProvider>
+		</QueryClientProvider>
+	)
 }
 export default Root;
 
@@ -24,7 +28,7 @@ export default Root;
 //TODO: Sostituisci le parti che possono diventare troppo lunghe con ScrollArea
 //TODO: Togli tutti gli import non usati
 //TODO: Add all toasts
-//TODO: Aggiungi commenti 
+//TODO: Aggiungi commenti
 //TODO: Test test test
 //TODO: Crea costanti per gli url delle rotte
 //TODO: Assicurati che tutte le rotte da proteggere lo siano

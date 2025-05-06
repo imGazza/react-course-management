@@ -1,24 +1,16 @@
-import { httpClient } from "./client";
 import { Material } from "@/model/Material";
+import { get, post, del } from "./client";
 
 const BASE_URL = "materials"
 
 export const getCourseMaterials = async (courseId: string): Promise<Material[]> => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    const params = "?courseId=" + courseId;
-
-    const materials = await httpClient.get(BASE_URL + params);
-
-    return materials.data;
+    return await get(`${BASE_URL}?courseId=${courseId}`);
 }
+
 export const addMaterial = async (material: Material): Promise<Material> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const response = await httpClient.post(BASE_URL, material);
-    
-    return response.data;
+    return await post(BASE_URL, material);
 }
 
 export const deleteMaterial = async (materialId: string): Promise<void> => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    await httpClient.delete(BASE_URL + "/" + materialId);
+    return await del(`${BASE_URL}/${materialId}`);
 }

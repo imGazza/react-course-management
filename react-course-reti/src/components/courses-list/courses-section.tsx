@@ -9,81 +9,69 @@ import GazzaDialog from "@/components/ui/gazza-dialog"
 import { Button } from "../ui/button"
 import { AreCoursesDifferent } from "../utils/course/course-utils"
 import useBreadcrumbs from "@/hooks/use-breadcrums"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 const CoursesSection = () => {
 
   useBreadcrumbs([{ label: "Corsi", url: "#" }]);
 
-  const [courses, setCourses] = useState<CourseSubscribers[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [year, setYear] = useState<string>("All");
+  const [year, setYear] = useState<string>(new Date().getFullYear().toString());
+  const queryClient = useQueryClient();
 
-  //TODO: Usa il fetch iniziale, magari chiedi alla AI se c'è un modo migliore
-  //TODO: togli la dropdown con Tutti, lascia 2025 di default
-  useEffect(() => {
-    setLoading(true);
-    async function fetchCourses() {
-      const courses = await getCourses();
-      setCourses(courses);
-      setLoading(false);
+  const [loading, setLoading] = useState(false);
+  
+  const { data: courses = [], isLoading } = useQuery<CourseSubscribers[]>({
+    queryKey: ['courses'],
+    queryFn: () => getCourses(),
+  })
+
+  const addCourseMutation = useMutation({
+    mutationFn: addCourse,
+    onSuccess: (addedCourse) => {
+      queryClient.setQueryData(['courses'], (prev: CourseSubscribers[]) => {
+        return [...prev, { addedCourse, subscribers: [] }];
+      });
     }
-    fetchCourses();
-  }, [])
+  });
+
+  const editCourseMutation = useMutation({
+    mutationFn: editCourse,
+    onSuccess: (editedCourse) => {
+      queryClient.setQueryData(['courses'], (prev: CourseSubscribers[]) => {
+        return prev
+          .map(course => course.id === editedCourse.id ? 
+            { ...editedCourse, subscribers: course.subscribers ?? [] } : course);
+      });
+    }
+  });
+  
+  const deleteCourseMutation = useMutation({
+    mutationFn: (id: string) => deleteCourse(id),
+    onSuccess: (_, id) => {
+      queryClient.setQueryData(['courses'], (prev: CourseSubscribers[]) => {
+        return prev.filter(course => course.id !== id);
+      });
+    }
+  });
 
   const filteredCourses =
     year !== "All" ?
       courses.filter(course => course.year.toString() === year) :
       courses;
 
-  const onAddCourse = async (course: Course) => {
-    try {
-      setLoading(true);
-      const addedCourse = await addCourse(course);
-
-      const addedCourseEntity: CourseSubscribers = { ...addedCourse, subscribers: [] }; 
-      setCourses([...courses, addedCourseEntity]);
-    } catch (e) {
-      
-    }
-    finally{
-      setLoading(false);
-    }
-  }
-
-  const onEditCourse = async (course: Course) => {
-    if (!AreCoursesDifferent(courses.find(c => c.id === course.id)!, course))
-      return;
-
-    try {
-      setLoading(true);
-      const editedCourse = await editCourse(course);
-
-      const editedCourseEntity: CourseSubscribers = { ...editedCourse, subscribers: courses.find(c => c.id === course.id)?.subscribers || []  };
-      setCourses(courses.map(c => c.id === course.id ? editedCourseEntity : c));
-    } catch (e) {
-    }
-    finally{
-      setLoading(false);
-    }
-  }
-
-  const onDeleteCourse = async (id: string) => {
-    try {
-      setLoading(true);
-      await deleteCourse(id);
-      setCourses(courses.filter(course => course.id !== id));
-    } catch (e) {
-    }
-    finally{
-      setLoading(false);
-    }
-  }
+  const { minYear, maxYear } = courses.reduce((acc, course) => {
+    const courseYear = parseInt(course.year.toString());
+    return {
+      minYear: Math.min(acc.minYear, courseYear),
+      maxYear: Math.max(acc.maxYear, courseYear)
+    };
+  }, { minYear: new Date().getFullYear(), maxYear: new Date().getFullYear() });
 
   return (
     <>
       <div className="flex items-center justify-end px-6">
-        <YearSelect year={year} onSelectedYear={setYear} />
-        <GazzaDialog dialogComponent={(props) => <CourseDialog submit={onAddCourse} {...props} />}>
+        <YearSelect year={year} minYear={minYear} maxYear={maxYear} onSelectedYear={setYear} />
+        <GazzaDialog dialogComponent={(props) => <CourseDialog submit={addCourseMutation.mutateAsync} {...props} />}>
           <Button variant="outline" className="flex items-center gap-1 cursor-pointer">
             <Plus className="h-4 w-4" />
             Aggiungi
@@ -93,7 +81,7 @@ const CoursesSection = () => {
       <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4 grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">
         {!loading ?
           filteredCourses.map((course) => (
-            <CourseCard key={course.id} course={course} onEdit={onEditCourse} onDelete={onDeleteCourse} />
+            <CourseCard key={course.id} course={course} onEdit={editCourseMutation.mutateAsync} onDelete={deleteCourseMutation.mutateAsync} />
           ))
           :
           Array.from({ length: 12 }).map((_, index) => (

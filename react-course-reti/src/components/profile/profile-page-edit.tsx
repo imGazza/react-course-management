@@ -1,7 +1,7 @@
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useRef, useState, DragEvent } from "react";
 import { User } from "@/model/User";
 import { useForm } from "react-hook-form";
 import { editUser } from "@/http/user";
@@ -42,9 +42,29 @@ const ProfilePageEdit = ({ user }: ProfilePageEditProps) => {
 		reset(defaultValues);
 	}, [open])
 
-	function handleFileUpload(event: ChangeEvent<HTMLInputElement>): void {
+	const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
 		uploadPreviewDisplay(event, setAvatarFile, setPreviewUrl);		
 	}
+
+	const handleDragOver = (event: DragEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		event.currentTarget.classList.add('border-primary');
+	};
+	
+	const handleDragLeave = (event: DragEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		event.currentTarget.classList.remove('border-primary');
+	};
+	
+	const handleDrop = (event: DragEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		event.currentTarget.classList.remove('border-primary');
+		
+		const files = event.dataTransfer.files;
+		if (files.length > 0 && files[0].type.startsWith('image/')) {
+			uploadPreviewDisplay({ target: { files } } as any, setAvatarFile, setPreviewUrl);
+		}
+	};
 
 	const onSubmit = async (editedUser: User) => {		
 		if(!AreUsersDifferent(user, editedUser) && !avatarFile)
@@ -76,7 +96,13 @@ const ProfilePageEdit = ({ user }: ProfilePageEditProps) => {
 						<AvatarImage src={previewUrl ?? `/avatars/${user.avatar}`} alt={`${user.firstName} ${user.lastName}`} className="object-cover" />
 						<AvatarFallback className="text-3xl">{`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`}</AvatarFallback>
 					</Avatar>
-					<button onClick={() => fileInput.current?.click()} className="flex-1 rounded-md bg-muted h-30 border-dashed border-3 flex items-center justify-center text-foreground/50 cursor-pointer">
+					<button 
+						onClick={() => fileInput.current?.click()} 
+						onDragOver={handleDragOver}
+						onDragLeave={handleDragLeave}
+						onDrop={handleDrop}
+						className="flex-1 rounded-md bg-muted h-30 border-dashed border-3 flex items-center justify-center text-foreground/50 cursor-pointer transition-colors duration-200"
+					>
 						<input
 							type="file"
 							ref={fileInput}

@@ -1,31 +1,43 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
-//TODO: Passando il minimo e il massimo anno in base ai corsi presenti nel padre.
+import { eachYearOfInterval } from "date-fns";
 
 interface YearSelectProps {
+   minYear: number;
+   maxYear: number;
    year: string;
    onSelectedYear: (year: string) => void;
 }
 
-const YearSelect = ({ year, onSelectedYear }: YearSelectProps) => {
-    return (
-        <div className="flex items-center justify-end px-6">
-            <Select value={year} onValueChange={onSelectedYear}>
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Anno" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectGroup>
-                        <SelectItem value="All">Tutti</SelectItem>
-                        <SelectItem value="2022">2022</SelectItem>
-                        <SelectItem value="2023">2023</SelectItem>
-                        <SelectItem value="2024">2024</SelectItem>
-                        <SelectItem value="2025">2025</SelectItem>
-                        <SelectItem value="2026">2026</SelectItem>
-                    </SelectGroup>
-                </SelectContent>
-            </Select>            
-        </div>
-    )
+const YearSelect = ({ minYear, maxYear, year, onSelectedYear }: YearSelectProps) => {
+
+	const yearInterval = eachYearOfInterval({
+		start: new Date(minYear, 0, 1),
+		end: new Date(maxYear, 11, 31) 
+	})
+
+	return (
+		<div className="flex items-center justify-end px-6">
+			<Select value={year} onValueChange={onSelectedYear}>
+				<SelectTrigger className="w-[180px]">
+					<SelectValue placeholder="Anno" />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectGroup>
+						{
+							yearInterval.map(year => {
+								return (
+									<SelectItem 
+										key={year.getFullYear()} 
+										value={year.getFullYear().toString()}>
+											{year.getFullYear()}
+									</SelectItem>
+								)
+							})
+						}
+					</SelectGroup>
+				</SelectContent>
+			</Select>            
+		</div>
+	)
 }
 export default YearSelect
