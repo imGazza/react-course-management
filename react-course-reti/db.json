@@ -603,8 +603,9 @@
       "name": "Test",
       "description": "Test",
       "image": "test",
-      "status": "Pianificato",
-      "year": 2025
+      "status": "In corso",
+      "year": 2025,
+      "closeDate": "2025-05-08T10:04:08.289Z"
     }
   ],
   "materials": [
@@ -1049,6 +1050,76 @@
       "userId": "11",
       "courseId": "1",
       "subscriptionDate": "2025-05-02T14:13:35.362Z",
+      "grade": null
+    },
+    {
+      "id": "8mn5z",
+      "userId": "24",
+      "courseId": "6ndhk",
+      "subscriptionDate": "2025-05-08T09:10:51.362Z",
+      "grade": null
+    },
+    {
+      "id": "k4ohy",
+      "userId": "32",
+      "courseId": "6ndhk",
+      "subscriptionDate": "2025-05-08T09:12:47.591Z",
+      "grade": null
+    },
+    {
+      "id": "lr39e",
+      "userId": "40",
+      "courseId": "6ndhk",
+      "subscriptionDate": "2025-05-08T09:13:00.279Z",
+      "grade": null
+    },
+    {
+      "id": "d480u",
+      "userId": "49",
+      "courseId": "6ndhk",
+      "subscriptionDate": "2025-05-08T09:14:58.890Z",
+      "grade": null
+    },
+    {
+      "id": "hbz4s",
+      "userId": "50",
+      "courseId": "6ndhk",
+      "subscriptionDate": "2025-05-08T09:16:33.924Z",
+      "grade": null
+    },
+    {
+      "id": "kiegb",
+      "userId": "26",
+      "courseId": "6ndhk",
+      "subscriptionDate": "2025-05-08T09:18:51.355Z",
+      "grade": null
+    },
+    {
+      "id": "c47e7",
+      "userId": "25",
+      "courseId": "6ndhk",
+      "subscriptionDate": "2025-05-08T09:20:04.827Z",
+      "grade": null
+    },
+    {
+      "id": "q4xle",
+      "userId": "4",
+      "courseId": "6ndhk",
+      "subscriptionDate": "2025-05-08T09:21:16.360Z",
+      "grade": null
+    },
+    {
+      "id": "ox0bk",
+      "userId": "3",
+      "courseId": "6ndhk",
+      "subscriptionDate": "2025-05-08T09:22:14.248Z",
+      "grade": null
+    },
+    {
+      "id": "6a0mm",
+      "userId": "23",
+      "courseId": "6ndhk",
+      "subscriptionDate": "2025-05-08T09:31:16.625Z",
       "grade": null
     }
   ],

@@ -24,10 +24,10 @@ const CoursesSection = () => {
     isLoading } = useBaseComponent<Course, CourseSubscribers, CourseSubscribers[]>(
     {
       queryKey: ["courses"],
-      fetchFunction: getCourses,
-      addFunction: addCourse,
-      editFunction: editCourse,
-      deleteFunction: deleteCourse,
+      fetch: getCourses,
+      add: addCourse,
+      edit: editCourse,
+      del: deleteCourse,
       relations: { key: 'subscribers' }
     }
   )

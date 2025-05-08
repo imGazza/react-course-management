@@ -31,9 +31,9 @@ const CourseDetailCards = () => {
   const {query: { data: courseData = null }, onEdit, onDelete, isLoading} = useBaseComponent<Course, Course, Course>(
     {
       queryKey: ["course", courseId!],
-      fetchFunction: () => getCourse(courseId!),
-      editFunction: editCourse,
-      deleteFunction: deleteCourse,
+      fetch: () => getCourse(courseId!),
+      edit: editCourse,
+      del: deleteCourse,
     }
   )
 
@@ -41,6 +41,8 @@ const CourseDetailCards = () => {
     if (!courseData)
       return;
     setCourseData(courseData);
+    console.log("effect")
+    getNextStatus(courseData);
   }, [courseData])
 
   const navigate = useNavigate();
@@ -73,7 +75,6 @@ const CourseDetailCards = () => {
 
     onEdit(updatedCourse);
     setCourseData(updatedCourse);
-    getNextStatus(updatedCourse);
   }
 
   const onCloseDateChange = async (date: Date | undefined) => {
@@ -234,7 +235,7 @@ const CourseDetailCardsSkeleton = () => {
           <Skeleton className="h-8 w-24" />
         </CardHeader>
         <CardFooter>
-          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-9 w-full" />
         </CardFooter>
       </Card>
     </>

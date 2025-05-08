@@ -3,10 +3,10 @@ import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/re
 
 interface BaseComponentProps<T extends BaseEntity, U extends T, Z = U[] | U> {
 	queryKey: readonly unknown[];
-	fetchFunction: () => Promise<Z>;
-	addFunction?: (data: T) => Promise<T>;
-	editFunction?: (data: T) => Promise<T>;
-	deleteFunction?: (id: string) => Promise<void>;
+	fetch: () => Promise<Z>;
+	add?: (data: T) => Promise<T>;
+	edit?: (data: T) => Promise<T>;
+	del?: (id: string) => Promise<void>;
 	relations?: { key: string };
 }
 
@@ -18,10 +18,10 @@ interface BaseComponentProps<T extends BaseEntity, U extends T, Z = U[] | U> {
  **/
 const useBaseComponent = <T extends BaseEntity, U extends T, Z = U[] | U>({
 	queryKey,
-	fetchFunction,
-	addFunction,
-	editFunction,
-	deleteFunction,
+	fetch,
+	add,
+	edit,
+	del,
 	relations
 }: BaseComponentProps<T, U, Z>) => {
 
@@ -31,23 +31,23 @@ const useBaseComponent = <T extends BaseEntity, U extends T, Z = U[] | U>({
 
 	const query = useQuery<Z>({
 		queryKey: [queryKey],
-		queryFn: fetchFunction,
+		queryFn: fetch
 	})
 
 	// Mutations
 
 	const addMutation = useMutation({
-		mutationFn: addFunction,
+		mutationFn: add,
 		onSuccess: (added: T) => addQueryData(queryClient, added)
 	})
 
 	const editMutation = useMutation({
-		mutationFn: editFunction,
+		mutationFn: edit,
 		onSuccess: (edited: T) => editQueryData(queryClient, edited)
 	})
 
 	const deleteMutation = useMutation({
-		mutationFn: deleteFunction,
+		mutationFn: del,
 		onSuccess: (_, id: string) => deleteQueryData(queryClient, id)
 	})
 
@@ -92,7 +92,7 @@ const useBaseComponent = <T extends BaseEntity, U extends T, Z = U[] | U>({
 		deleteMutation.isPending;
 
 	const refetch = () => {
-		queryClient.invalidateQueries({ queryKey });
+		queryClient.invalidateQueries({ queryKey: [queryKey] });
 	}
 
 	// const onError = (error) => {

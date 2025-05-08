@@ -19,10 +19,10 @@ const CourseDetailLesson = () => {
 	const { setLessonsNumber } = useContext(CourseContext);
 	const { query: {data : lessons = []}, onAdd, onEdit, onDelete, isLoading} = useBaseComponent<Lesson, Lesson, Lesson[]>({
 		queryKey: ["lessons", courseId!],
-		fetchFunction: () => getCourseLessons(courseId!),
-		addFunction: addNewLesson,
-		editFunction: editLesson,
-		deleteFunction: deleteLesson
+		fetch: () => getCourseLessons(courseId!),
+		add: addNewLesson,
+		edit: editLesson,
+		del: deleteLesson
 	})
 
 	useEffect(() => {

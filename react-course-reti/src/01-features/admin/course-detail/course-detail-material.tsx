@@ -16,9 +16,9 @@ const CourseDetailMaterial = () => {
 
   const { query: { data: materials = [] }, onAdd, onDelete, isLoading } = useBaseComponent<Material, Material, Material[]>({
     queryKey: ["materials", courseId!],
-    fetchFunction: () => getCourseMaterials(courseId!),
-    addFunction: addMaterial,
-    deleteFunction: deleteMaterial
+    fetch: () => getCourseMaterials(courseId!),
+    add: addMaterial,
+    del: deleteMaterial
   });
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {

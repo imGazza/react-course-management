@@ -38,6 +38,7 @@ const CourseDetailGrades = ({ initialSubscribers }: CourseDetailSubscriberProps)
 			return;
 
 		try {
+			// Unica chiamata del componente, non uso l'hook di react-query per semplicità
 			// Replico l'oggetto altrimenti viene aggiunto il campo "user" a db.json
 			await setGrade({
 				id: subscriber.id,

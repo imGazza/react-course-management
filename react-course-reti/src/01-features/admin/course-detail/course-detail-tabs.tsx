@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { Badge } from "@/02-components/ui/badge";
 import { useParams } from "react-router";
 import { Subscriber, SubscriberUser } from "@/05-model/Subscribers";
-import { addCourseSubscriber, getSubscribersUsers } from "@/03-http/subscriber";
+import { addCourseSubscriber, deleteSubscriber, getSubscribersUsers } from "@/03-http/subscriber";
 import CourseDetailGrades from "./course-detail-grades";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/02-components/ui/tooltip";
@@ -24,8 +24,9 @@ const CourseDetailTabs = () => {
 
 	const { query: { data: subscribers = [] }, onAdd, onDelete, isLoading, refetch } = useBaseComponent<Subscriber, SubscriberUser, SubscriberUser[]>({
 		queryKey: ["subscribers"],
-		fetchFunction: () => getSubscribersUsers(courseId!),
-		addFunction: addCourseSubscriber,
+		fetch: () => getSubscribersUsers(courseId!),
+		add: addCourseSubscriber,
+		del: deleteSubscriber,
 	});
 
 	useEffect(() => {
@@ -49,7 +50,7 @@ const CourseDetailTabs = () => {
 				subscriptionDate: new Date().toISOString(),
 				grade: null
 			});
-		}		
+		}
 		refetch(); // refetch perchè aggiungendo un iscritto senza relation di User, perdo le info dell'utente
 	}
 
@@ -72,7 +73,7 @@ const CourseDetailTabs = () => {
 
 	const isGradesEnabled = course?.status === "Chiuso" && course.closeDate && new Date(course.closeDate) > subDays(new Date(), 30);
 
-	if (isLoading || !course)
+	if (isLoading || !course || subscribers.some(s => !s.user))
 		return <CourseDetailTabsSkeleton />;
 
 	return (

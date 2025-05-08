@@ -16,7 +16,7 @@ const ComboboxUsers = ({ onAddSubscriber }: ComboboxUsersProps) => {
 	const { query: { data: users = [] } } = useBaseComponent<User, User, User[]>(
 		{
 			queryKey: ["users"],
-			fetchFunction: getUsers
+			fetch: getUsers
 		}
 	)
 
