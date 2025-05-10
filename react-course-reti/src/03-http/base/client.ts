@@ -39,4 +39,4 @@ class HttpClient {
 }
 
 const client = new HttpClient(API_URL);
-export const { get, post, put, delete: del } = client;
+export default client;

@@ -1,6 +1,6 @@
 import { CourseEnrollmentInfoForUser } from "@/05-model/Course";
-import { courseService } from "./base/services/course";
 import { subscriberService } from "./base/services/subscriber";
+import { courseSubscriptionService } from "./course-subscription-service";
 
 class CourseEnrollmentService {
 
@@ -8,12 +8,12 @@ class CourseEnrollmentService {
     async getCourseEnrollmentInfo(userId: string): Promise<CourseEnrollmentInfoForUser[]> {
 
         const [ allCourses, userSubscriptions ] = await Promise.all([
-            courseService.getCoursesWithSubscribers(),
+            courseSubscriptionService.getCourseWithSubscriptions(),
             subscriberService.getSubscriptionsByUserId(userId)
         ]);
         
         return allCourses.map(
-            courseWithSubscribers => ({ course: courseWithSubscribers, subscription: userSubscriptions.find(sub => sub.courseId === courseWithSubscribers.id) ?? null }));
+            courseWithSubscribptions => ({ courseWithSubscriptions: courseWithSubscribptions, userSubscription: userSubscriptions.find(sub => sub.courseId === courseWithSubscribptions.course.id) ?? null }));
     }
 }
 export const courseEnrollmentService = new CourseEnrollmentService();

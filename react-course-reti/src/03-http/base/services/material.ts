@@ -1,5 +1,5 @@
 import { Material } from "@/05-model/Material";
-import { get, post, del } from "../client";
+import client from "../client";
 import { BaseService } from "../base-service";
 
 class MaterialService extends BaseService<Material> {
@@ -8,7 +8,7 @@ class MaterialService extends BaseService<Material> {
     } 
 
     async getMaterialsByCourseId(courseId: string): Promise<Material[]> {
-        return await get<Material[]>(`${this.baseUrl}?courseId=${courseId}`);
+        return await client.get<Material[]>(`${this.baseUrl}?courseId=${courseId}`);
     }
 }
 export const materialService = new MaterialService();

@@ -13,13 +13,13 @@ import CourseDialog from "@/02-components/utils/dialogs/course-dialog";
 import GazzaConfirmDialog from "@/02-components/ui/gazza-confirm-dialog";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import { useContext, useEffect, useState } from "react";
-import { deleteCourse, editCourse, getCourse } from "@/03-http/base/services/course";
+import { courseService } from "@/03-http/base/services/course";
 import { useNavigate, useParams } from "react-router";
 import { AreCoursesDifferent } from "@/02-components/utils/course/course-utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/02-components/ui/popover";
 import { Calendar } from "@/02-components/ui/calendar";
 import { CourseContext } from "@/06-providers/course/course-context";
-import useBaseComponent from "@/04-hooks/use-base-component-custom";
+import useBaseComponent from "@/04-hooks/use-base-component";
 
 const CourseDetailCards = () => {
 
@@ -36,12 +36,12 @@ const CourseDetailCards = () => {
       onDelete, 
       isLoading,
       remove
-    } = useBaseComponent<Course, Course, Course>(
+    } = useBaseComponent<Course>(
     {
       queryKey: ['course', courseId!],
-      fetch: () => getCourse(courseId!),
-      edit: editCourse,
-      del: deleteCourse
+      fetch: () => courseService.get(courseId!),
+      edit: courseService.edit,
+      del: courseService.delete,
     }
   )
 
@@ -71,8 +71,9 @@ const CourseDetailCards = () => {
 
   const onDeleteCourse = async (id: string) => {
     onDelete(id);
+
     //Rimuovo la query dei corsi per triggerare lo stato di loading dopo la navigazione sulla lista
-    remove(["courses"]);
+    remove("courses");
     navigate("/courses");
   }
 

@@ -3,18 +3,16 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/02-c
 import { courseService } from "@/03-http/base/services/course";
 import { subscriberService } from "@/03-http/base/services/subscriber";
 import { Users, BookOpenText, GraduationCap, Presentation } from "lucide-react";
-import { CourseSubscribers } from "@/05-model/Course";
-import { SubscriberCourse } from "@/05-model/Subscribers";
+import { CourseEmbedsSubscriptions } from "@/05-model/Course";
+import { SubscriptionsEmbedsCourse } from "@/05-model/Subscribers";
 import { Lesson } from "@/05-model/Lesson";
 import AreaChartSubscriptions from "./area-chart-data/area-chart-subscriptions";
 import BarChartCourses from "./bar-chart-data/bar-chart-courses";
 import useBreadcrumbs from "@/04-hooks/use-breadcrums";
-import { useQueries, useQueryClient } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { lessonService } from "@/03-http/base/services/lesson";
 
 const Statistics = () => {
-
-	const queryClient = useQueryClient();
 
 	useBreadcrumbs([{ label: "Statistiche", url: "#" }])
 
@@ -25,31 +23,27 @@ const Statistics = () => {
 		queries: [
 			{
 				queryKey: ["courses"],
-				queryFn: courseService.getAll
+				queryFn: () => courseService.getCoursesEmbedsSubscribers(0)
 			},
 			{
 				queryKey: ["subscribers"],
-				queryFn: subscriberService.getSubscribersWithCourse
+				queryFn: () => subscriberService.getSubscriptionsWithCourse(0)
 			},
 			{
 				queryKey: ["lessons"],
-				queryFn: lessonService.getAll
+				queryFn: () => lessonService.getAll(0)
 			}
 		]	
 	})
 
-	const [courses, subscriptions, lessons] = queries.map(query => query.data ?? []) as [CourseSubscribers[], SubscriberCourse[], Lesson[]];
+	const [courses, subscriptions, lessons] = queries.map(query => query.data ?? []) as [CourseEmbedsSubscriptions[], SubscriptionsEmbedsCourse[], Lesson[]];
 
-	useMemo(() => {
-			console.log(queryClient.getQueryState(["courses"]))		
-	}, [courses])
-
-	const countUniqueSubscribedUsers = (subscriptions: SubscriberCourse[]) => {
+	const countUniqueSubscribedUsers = (subscriptions: SubscriptionsEmbedsCourse[]) => {
 		const uniqueUsers = new Set(subscriptions.map(sub => sub.userId));
 		return uniqueUsers.size;
 	}
 
-	const countAverageCoursesPerUser = (subscriptions: SubscriberCourse[]) => {
+	const countAverageCoursesPerUser = (subscriptions: SubscriptionsEmbedsCourse[]) => {
 		const coursesGroupedByUser = subscriptions.reduce((groups, subscription) => {
 			const key = subscription.userId;
 			if (!groups[key]) {
@@ -57,7 +51,7 @@ const Statistics = () => {
 			}
 			groups[key].push(subscription);
 			return groups;
-		}, {} as Record<string, SubscriberCourse[]>);
+		}, {} as Record<string, SubscriptionsEmbedsCourse[]>);
 
 		const averageCoursesPerUser = Object.values(coursesGroupedByUser).length > 0
 			? Number((Object.values(coursesGroupedByUser).reduce((sum, courses) => sum + courses.length, 0) / Object.values(coursesGroupedByUser).length).toFixed(1))
@@ -84,7 +78,7 @@ const Statistics = () => {
 		return averageLessonsPerCourse;
 	}
 
-	const countMostPopularCourseTotalSubscribers = (courses: CourseSubscribers[]) => {
+	const countMostPopularCourseTotalSubscribers = (courses: CourseEmbedsSubscriptions[]) => {
 		return Math.max(...courses.map(course => course.subscribers?.length || 0));
 	}
 

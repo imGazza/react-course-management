@@ -1,7 +1,7 @@
 import { UserMinus, Lock } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/02-components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/02-components/ui/table"
-import { SubscriberUser } from "@/05-model/Subscribers"
+import { SubscriptionsWithUser } from "@/05-model/Subscribers"
 import { useContext } from "react"
 import { Button } from "@/02-components/ui/button"
 import { ScrollArea } from "@/02-components/ui/scroll-area"
@@ -12,12 +12,12 @@ import ComboboxUsers from "./combobox-users"
 const SKELETON_ROWS = 4;
 
 interface CourseDetailSubscriberProps {
-	subscribers: SubscriberUser[];
+	subscriptionsWithUser: SubscriptionsWithUser[];
 	onAddSubscriber: (userIds: string[]) => void;
 	onDeleteSubscriber: (subscriberId: string) => void;
 }
 
-const CourseDetailSubscriber = ({ subscribers, onAddSubscriber, onDeleteSubscriber }: CourseDetailSubscriberProps) => {
+const CourseDetailSubscriber = ({ subscriptionsWithUser, onAddSubscriber, onDeleteSubscriber }: CourseDetailSubscriberProps) => {
 
 	const { course } = useContext(CourseContext);
 	
@@ -36,7 +36,7 @@ const CourseDetailSubscriber = ({ subscribers, onAddSubscriber, onDeleteSubscrib
 				}
 			</CardHeader>
 			<CardContent className="flex-1 px-0 pt-4 max-h-[405px]">
-				{subscribers.length !== 0 ?
+				{subscriptionsWithUser.length !== 0 ?
 					<ScrollArea className="h-full">
 						<Table>
 							<TableHeader>
@@ -49,14 +49,14 @@ const CourseDetailSubscriber = ({ subscribers, onAddSubscriber, onDeleteSubscrib
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{subscribers.map((subscriber) => (
-									<TableRow key={subscriber.id}>
-										<TableCell className="font-medium">{`${subscriber.user.firstName}`}</TableCell>
-										<TableCell className="font-medium">{`${subscriber.user.lastName}`}</TableCell>
-										<TableCell className="font-medium max-md:hidden">{`${subscriber.user.email}`}</TableCell>
-										<TableCell className="font-medium max-md:hidden">{`${new Date(subscriber.subscriptionDate).toLocaleDateString('it-IT')}`}</TableCell>
+								{subscriptionsWithUser.map((subscriptionWithUser) => (
+									<TableRow key={subscriptionWithUser.subscription.id}>
+										<TableCell className="font-medium">{`${subscriptionWithUser.user.firstName}`}</TableCell>
+										<TableCell className="font-medium">{`${subscriptionWithUser.user.lastName}`}</TableCell>
+										<TableCell className="font-medium max-md:hidden">{`${subscriptionWithUser.user.email}`}</TableCell>
+										<TableCell className="font-medium max-md:hidden">{`${new Date(subscriptionWithUser.subscription.subscriptionDate).toLocaleDateString('it-IT')}`}</TableCell>
 										<TableCell className="text-right">
-											<Button variant="ghost" size="icon" onClick={() => onDeleteSubscriber(subscriber.id)} disabled={isReadOnly}>
+											<Button variant="ghost" size="icon" onClick={() => onDeleteSubscriber(subscriptionWithUser.subscription.id)} disabled={isReadOnly}>
 												<UserMinus className="h-4 w-4" />
 												<span className="sr-only">Delete</span>
 											</Button>

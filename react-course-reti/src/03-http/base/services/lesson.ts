@@ -1,5 +1,5 @@
 import { Lesson } from "@/05-model/Lesson";
-import { get } from "../client";
+import client from "../client";
 import { BaseService } from "../base-service";
 
 class LessonService extends BaseService<Lesson>{
@@ -8,7 +8,7 @@ class LessonService extends BaseService<Lesson>{
     }
 
     async getLessonsByCourseId(courseId: string): Promise<Lesson[]> {
-        return await get<Lesson[]>(`${this.baseUrl}?courseId=${courseId}`);
+        return await client.get<Lesson[]>(`${this.baseUrl}?courseId=${courseId}`);
     }
 }
 export const lessonService = new LessonService();

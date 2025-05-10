@@ -9,18 +9,18 @@ export interface Subscriber extends BaseEntity {
   grade: number | null;
 }
 
-export interface SubscriberCourse extends Subscriber{
-  course: Course;
-}
-
-export interface SubscriberUser extends Subscriber{
+export interface SubscriptionsEmbedsUser extends Subscriber{
   user: User;
 }
 
-export interface SubscribersWithCourse extends Subscriber{
+export interface SubscriptionsEmbedsCourse extends Subscriber{
   course: Course;
 }
 
-export interface SubscribersWithCourseAndUser extends SubscriberUser, SubscribersWithCourse{
-  
+export interface SubscriptionsEmbedsCourseAndUser extends SubscriptionsEmbedsUser, SubscriptionsEmbedsCourse{
+}
+
+export interface SubscriptionsWithUser {
+  user: User;
+  subscription: Subscriber;
 }

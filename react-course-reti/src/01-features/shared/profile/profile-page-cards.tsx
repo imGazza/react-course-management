@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/02-components/ui/card"
-import { getSubscribersCoursesByUser } from "@/03-http/base/services/subscriber";
-import { SubscriberCourse } from "@/05-model/Subscribers";
+import {  subscriberService } from "@/03-http/base/services/subscriber";
+import { SubscriptionsEmbedsCourse } from "@/05-model/Subscribers";
 import { User } from "@/05-model/User";
 import { Skeleton } from "@/02-components/ui/skeleton";
+import useBaseComponent from "@/04-hooks/use-base-component";
 
 interface ProfilePageCardsProps {
 	user: User;
@@ -11,25 +11,12 @@ interface ProfilePageCardsProps {
 
 const ProfilePageCards = ({ user }: ProfilePageCardsProps) => {
 
-	const [loading, setLoading] = useState(false);
-	const [subscriptions, setSubscriptions] = useState<SubscriberCourse[]>([]);
+	const { query: { data: subscriptions = [] }, isLoading } = useBaseComponent<SubscriptionsEmbedsCourse, SubscriptionsEmbedsCourse[]>({
+		queryKey: ["subscriptions", user.id],
+		fetch: () => subscriberService.getSubscribersWithCourseByUserId(user.id)
+	});
 
-	useEffect(() => {
-		setLoading(true);
-		async function fetchData() {
-			try{
-				const subscriptions = await getSubscribersCoursesByUser(user.id);
-				setSubscriptions(subscriptions);
-			}	catch(e){
-				// Toast
-			} finally {
-				setLoading(false);	
-			}
-		}
-		fetchData();	
-	}, [])
-
-	if(loading)
+	if(isLoading)
 		return <ProfilePageCardsSkeleton />
 
 	return (

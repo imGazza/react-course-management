@@ -12,25 +12,22 @@ export interface Course extends BaseEntity {
     closeDate: string;
 }
 
-export interface CourseSubscribers extends Course {
-    subscribers: Subscriber[];
-}
-
-export interface CourseDetails extends Course {
-    lessons: Lesson[];
-    materials: Material[];
-}
-
-export interface CourseWithSubscribers extends Course  {
+export interface CourseEmbedsSubscriptions extends Course  {
     subscribers: Subscriber[];
 }
 
 export interface CourseEnrollmentInfoForUser{
-    course: CourseWithSubscribers;
-    subscription: Subscriber | null;
+    courseWithSubscriptions: CourseWithSubscriptions;
+    userSubscription: Subscriber | null;
 }
 
-export interface CourseWithSubscribers{
+export interface CourseWithSubscriptions{
     course: Course;
-    subscribers: Subscriber[];
+    subscriptions: Subscriber[];
+}
+
+export interface CourseWithLessonsAndMaterialsByUserId{
+    course: Course;
+    lessons: Lesson[];
+    materials: Material[]; 
 }

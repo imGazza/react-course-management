@@ -86,6 +86,10 @@ const useBaseComponent = <
 		queryClient.invalidateQueries({ queryKey: [queryKey] });
 	};
 
+	const remove = (queryKey: string) => {
+		queryClient.removeQueries({ queryKey: [queryKey] });
+	}
+
 	// const onError = (error) => {
 	// }
 
@@ -96,6 +100,7 @@ const useBaseComponent = <
 		onDelete: deleteMutation.mutateAsync,
 		isLoading,
 		refetch,
+		remove
 	};
 };
 

@@ -1,26 +1,26 @@
 import { BaseEntity } from "@/05-model/BaseEntity";
-import { del, get, post, put } from "./client";
+import client from "./client";
 
 export class BaseService<T extends BaseEntity> {
     constructor(protected readonly baseUrl: string){}
 
-    async get(id: string): Promise<T> {
-        return get<T>(`${this.baseUrl}/${id}`);
+    get = async (id: string): Promise<T> => {
+        return client.get<T>(`${this.baseUrl}/${id}`);
     }
     
-    async getAll(delay?: number): Promise<T[]> {
-        return get<T[]>(this.baseUrl, delay);
+    getAll = async (delay?: number): Promise<T[]> => {
+        return client.get<T[]>(this.baseUrl, delay);
     }
 
-    async add(data: T): Promise<T> {
-        return post<T>(this.baseUrl, data); 
+    add = async (data: T): Promise<T> => {
+        return client.post<T>(this.baseUrl, data); 
     }
 
-    async edit(data: T): Promise<T> {
-        return put<T>(`${this.baseUrl}/${data.id}`, data);
+    edit = async (data: T): Promise<T> => {
+        return client.put<T>(`${this.baseUrl}/${data.id}`, data);
     }
 
-    async delete(id: string): Promise<T> {
-        return del<T>(`${this.baseUrl}/${id}`);
+    delete = async (id: string): Promise<T> => {
+        return client.delete<T>(`${this.baseUrl}/${id}`);
     }
 }

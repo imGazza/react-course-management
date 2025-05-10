@@ -2,7 +2,7 @@ import { Pencil, SquareArrowOutUpRight, Trash2, Users } from "lucide-react"
 import { Badge } from "@/02-components/ui/badge"
 import { Button } from "@/02-components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/02-components/ui/card"
-import { Course, CourseSubscribers } from "@/05-model/Course"
+import { Course, CourseWithSubscriptions } from "@/05-model/Course"
 import { Skeleton } from "@/02-components/ui/skeleton"
 import CourseDialog from "@/02-components/utils/dialogs/course-dialog"
 import GazzaDialog from "@/02-components/ui/gazza-dialog"
@@ -17,33 +17,33 @@ const statusColors = {
 }
 
 interface CourseProps {
-  course: CourseSubscribers;
+  courseWithSubscriptions: CourseWithSubscriptions;
   onEdit?: (data: Course) => void;
   onDelete?: (id: string) => void;
   customFooter?: React.ReactNode;
 }
 
-const CourseCard = ({ course, onEdit, onDelete, customFooter }: CourseProps) => {  
+const CourseCard = ({ courseWithSubscriptions, onEdit, onDelete, customFooter }: CourseProps) => {  
 
-  const statusColor = statusColors[course.status] || statusColors["Pianificato"];  
+  const statusColor = statusColors[courseWithSubscriptions.course.status] || statusColors["Pianificato"];  
 
   const defaultFooter = (
     <>
-      <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete!(course.id)}>
-            <Link to={`/courses/detail/${course.id}`}>
+      <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${courseWithSubscriptions.course.name}?`} onConfirm={() => onDelete!(courseWithSubscriptions.course.id)}>
+            <Link to={`/courses/detail/${courseWithSubscriptions.course.id}`}>
               <Button variant="outline" size="icon" className="flex items-center">
                 <SquareArrowOutUpRight />
               </Button>
             </Link>
         </GazzaConfirmDialog>
         <div className="flex justify-between gap-2">
-          <GazzaDialog dialogComponent={(props) => <CourseDialog course={course} submit={onEdit!} {...props} />}>
+          <GazzaDialog dialogComponent={(props) => <CourseDialog course={courseWithSubscriptions.course} submit={onEdit!} {...props} />}>
             <Button variant="outline" size="icon" className="flex items-center gap-1">
               <Pencil />
             </Button>
           </GazzaDialog>
-          {course.status === "Pianificato" ?
-            <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete!(course.id)}>
+          {courseWithSubscriptions.course.status === "Pianificato" ?
+            <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${courseWithSubscriptions.course.name}?`} onConfirm={() => onDelete!(courseWithSubscriptions.course.id)}>
               <Button variant="outline" size="icon" className="flex items-center hover:border-delete-red-foreground hover:bg-delete-red hover:text-delete-red-foreground">
                 <Trash2 />
               </Button>
@@ -56,22 +56,22 @@ const CourseCard = ({ course, onEdit, onDelete, customFooter }: CourseProps) => 
   return (
     <Card className="overflow-hidden w-full max-w-sm pt-0">
       <div className="relative h-48 w-full">
-        <img src={course.image} alt={course.name} className="object-cover w-full h-full"/>
+        <img src={courseWithSubscriptions.course.image} alt={courseWithSubscriptions.course.name} className="object-cover w-full h-full"/>
       </div>
       <CardHeader className="flex flex-row items-start justify-between">
         <div>
-          <CardTitle className="text-xl">{course.name}</CardTitle>
+          <CardTitle className="text-xl">{courseWithSubscriptions.course.name}</CardTitle>
           <CardDescription className="mt-1">
             <div className="flex items-center text-sm text-muted-foreground">
               <Users className="mr-1 h-4 w-4" />
-              {course.subscribers.length} {course.subscribers.length === 1 ? "iscritto" : "iscritti"} • {course.year}
+              {courseWithSubscriptions.subscriptions.length} {courseWithSubscriptions.subscriptions.length === 1 ? "iscritto" : "iscritti"} • {courseWithSubscriptions.course.year}
             </div>
           </CardDescription>
         </div>
-        <Badge className={statusColor}>{course.status}</Badge>
+        <Badge className={statusColor}>{courseWithSubscriptions.course.status}</Badge>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground line-clamp-2">{course.description}</p>
+        <p className="text-sm text-muted-foreground line-clamp-2">{courseWithSubscriptions.course.description}</p>
       </CardContent>
       <CardFooter className="flex justify-between">
         {customFooter ?? defaultFooter}

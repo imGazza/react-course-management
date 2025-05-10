@@ -6,15 +6,16 @@ import { GraduationCap, Users } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { Badge } from "@/02-components/ui/badge";
 import { useParams } from "react-router";
-import { Subscriber, SubscriberUser } from "@/05-model/Subscribers";
-import { addCourseSubscriber, deleteSubscriber, getSubscribersUsers } from "@/03-http/base/services/subscriber";
+import { Subscriber, SubscriptionsWithUser } from "@/05-model/Subscribers";
+import { subscriberService } from "@/03-http/base/services/subscriber";
 import CourseDetailGrades from "./course-detail-grades";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/02-components/ui/tooltip";
 import { subDays } from "date-fns";
 import { CourseContext } from "@/06-providers/course/course-context";
 import { GenerateId } from "@/05-model/BaseEntity";
-import useBaseComponent from "@/04-hooks/use-base-component-custom";
+import useBaseComponentCustom from "@/04-hooks/use-base-component-custom";
+import { courseSubscriptionService } from "@/03-http/course-subscription-service";
 
 const CourseDetailTabs = () => {
 
@@ -23,16 +24,17 @@ const CourseDetailTabs = () => {
 	const [activeTab, setActiveTab] = useState("subscribers");
 
 	const {
-		query: { data: subscribers = [] },
+		query: { data: subscriptionsWithUser = [] },
 		onAdd,
 		onDelete,
 		isLoading,
 		remove 
-	} = useBaseComponent<Subscriber, SubscriberUser, SubscriberUser[]>({
-			queryKey: ['subscribers'],
-			fetch: () => getSubscribersUsers(courseId!),
-			add: addCourseSubscriber,
-			del: deleteSubscriber
+	} = useBaseComponentCustom<Subscriber, SubscriptionsWithUser, 'subscription', SubscriptionsWithUser[]>({
+			queryKey: ['subscriptions'],
+			fetch: () => courseSubscriptionService.getSubscriptionsWithUserByCourseId(courseId!),
+			add: subscriberService.add,
+			del: subscriberService.delete,
+			entityKey: 'subscription'
 		});
 
 	useEffect(() => {
@@ -44,8 +46,8 @@ const CourseDetailTabs = () => {
 	}, [course])
 
 	useEffect(() => {
-		setSubscribersNumber(subscribers.length);
-	}, [subscribers])
+		setSubscribersNumber(subscriptionsWithUser.length);
+	}, [subscriptionsWithUser])
 
 	const onAddSubscriber = async (userIds: string[]) => {
 		for (const userId of userIds) {
@@ -57,7 +59,7 @@ const CourseDetailTabs = () => {
 				grade: null
 			});
 		}
-		remove(['subscribers']); // remove perchè aggiungendo un iscritto senza relation di User, perdo le info dell'utente, devo quindi 
+		remove('subscriptions'); // remove perchè aggiungendo un iscritto senza relation di User, perdo le info dell'utente
 	}
 
 	const onDeleteSubscriber = async (id: string) => {
@@ -72,7 +74,7 @@ const CourseDetailTabs = () => {
 				variant="secondary"
 				className="flex h-5 w-5 items-center justify-center rounded-full bg-muted-foreground/30"
 			>
-				{subscribers.filter(subscriber => subscriber.grade !== null).length}
+				{subscriptionsWithUser.filter(subscriptionWithUser => subscriptionWithUser.subscription.grade !== null).length}
 			</Badge>
 		</>
 	)
@@ -93,7 +95,7 @@ const CourseDetailTabs = () => {
 							variant="secondary"
 							className="flex h-5 w-5 items-center justify-center rounded-full bg-muted-foreground/30"
 						>
-							{subscribers.length}
+							{subscriptionsWithUser.length}
 						</Badge>
 					</TabsTrigger>
 					{isGradesEnabled ?
@@ -118,10 +120,10 @@ const CourseDetailTabs = () => {
 					}
 				</TabsList>
 				<TabsContent value="subscribers" className="flex flex-col justify-between">
-					<CourseDetailSubscriber subscribers={subscribers} onAddSubscriber={onAddSubscriber} onDeleteSubscriber={onDeleteSubscriber} />
+					<CourseDetailSubscriber subscriptionsWithUser={subscriptionsWithUser} onAddSubscriber={onAddSubscriber} onDeleteSubscriber={onDeleteSubscriber} />
 				</TabsContent>
 				<TabsContent value="grades" className="flex flex-col justify-between">
-					<CourseDetailGrades initialSubscribers={subscribers} />
+					<CourseDetailGrades initialSubscriptionsWithUser={subscriptionsWithUser} />
 				</TabsContent>
 			</Tabs>
 		</Card >

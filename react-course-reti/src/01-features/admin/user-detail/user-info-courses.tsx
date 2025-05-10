@@ -23,16 +23,16 @@ const UserInfoCourses = () => {
 		onAdd,
 		onDelete,
 		isLoading 
-	} = useBaseComponent<Subscriber, CourseEnrollmentInfoForUser, 'subscription', CourseEnrollmentInfoForUser[]>({
+	} = useBaseComponent<Subscriber, CourseEnrollmentInfoForUser, 'userSubscription', CourseEnrollmentInfoForUser[]>({
 		queryKey: ["enrollments", userId],
 		fetch: () => courseEnrollmentService.getCourseEnrollmentInfo(userId!),
 		add: subscriberService.add,
 		del: subscriberService.delete,
-		entityKey: 'subscription'
+		entityKey: 'userSubscription'
 	})
 
-	const enrolledCourses = enrollments.filter(enrollment => enrollment.subscription);
-	const enrollableCourses = enrollments.filter(enrollment => enrollment.course.status !== "Chiuso" && !enrollment.subscription);
+	const enrolledCourses = enrollments.filter(enrollment => enrollment.userSubscription);
+	const enrollableCourses = enrollments.filter(enrollment => enrollment.courseWithSubscriptions.course.status !== "Chiuso" && !enrollment.userSubscription);
 
 	const handleSubscribe = async (enrollment: CourseEnrollmentInfoForUser) => {
 		if (enrolledCourses.includes(enrollment)) {
@@ -47,14 +47,14 @@ const UserInfoCourses = () => {
 		onAdd({
 			id: GenerateId(),
 			userId: userId!,
-			courseId: course.course.id,
+			courseId: course.courseWithSubscriptions.course.id,
 			subscriptionDate: new Date().toISOString(),
 			grade: null
 		});
 	}
 
 	const unsubscribe = async (enrollment: CourseEnrollmentInfoForUser) => {
-		const subscriberId = enrollments.find(e => e.subscription!.id === enrollment.subscription!.id)?.subscription!.id;
+		const subscriberId = enrollments.find(e => e.userSubscription!.id === enrollment.userSubscription!.id)?.userSubscription!.id;
 		if (!subscriberId) {
 			return;
 		}
@@ -67,7 +67,7 @@ const UserInfoCourses = () => {
 			variant={"outline"}
 			className="w-full"
 			onClick={() => handleSubscribe(enrollment)}
-			disabled={enrollment.course.status === "Chiuso"}
+			disabled={enrollment.courseWithSubscriptions.course.status === "Chiuso"}
 		>
 			{buttonText}
 		</Button>
@@ -107,7 +107,7 @@ const UserInfoCourses = () => {
 				) : (
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 						{enrolledCourses.map((enrollment) => (
-							<CourseCard key={enrollment.course.id} course={ enrollment.course } customFooter={subscribeFooter("Rimuovi iscrizione", enrollment)} />
+							<CourseCard key={enrollment.courseWithSubscriptions.course.id} courseWithSubscriptions={ enrollment.courseWithSubscriptions } customFooter={subscribeFooter("Rimuovi iscrizione", enrollment)} />
 						))}
 					</div>
 				)}
@@ -121,7 +121,7 @@ const UserInfoCourses = () => {
 				) : (
 					<div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
 						{enrollableCourses.map((enrollment) => (
-							<CourseCard key={enrollment.course.id} course={enrollment.course} customFooter={subscribeFooter("Iscrivi", enrollment)} />
+							<CourseCard key={enrollment.courseWithSubscriptions.course.id} courseWithSubscriptions={enrollment.courseWithSubscriptions} customFooter={subscribeFooter("Iscrivi", enrollment)} />
 						))}
 					</div>
 				)}

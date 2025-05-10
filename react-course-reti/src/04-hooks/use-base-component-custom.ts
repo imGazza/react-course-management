@@ -43,7 +43,7 @@ const useBaseComponentCustom = <
 
 	const query = useQuery<Z>({
 		queryKey: [queryKey],
-		queryFn: fetch
+		queryFn: fetch,
 	});
 
 	// Estrae l'entità T dall'oggetto U
@@ -88,7 +88,8 @@ const useBaseComponentCustom = <
 	// Se viene fatta un'add, significa che si parte da un array in partenza, quindi aggiungo l'elemento alla fine
 	const addQueryData = (queryClient: QueryClient, added: T) => {
 		queryClient.setQueryData([queryKey], (prev: U[]) => {
-			return [...prev, added];
+			console.log([...prev, { [entityKey]: added } as U]);
+			return [...prev, { [entityKey]: added } as U];
 		});
 	};
 
@@ -135,8 +136,12 @@ const useBaseComponentCustom = <
 		queryClient.invalidateQueries({ queryKey: [queryKey] });
 	};
 
-	// const onError = (error) => {
-	// }
+	const remove = (queryKey: string) => {
+		queryClient.removeQueries({ queryKey: [queryKey] });
+	}
+
+	if(query.error)
+		console.log(query.error);
 
 	return {
 		query,
@@ -145,6 +150,7 @@ const useBaseComponentCustom = <
 		onDelete: deleteMutation.mutateAsync,
 		isLoading,
 		refetch,
+		remove
 	};
 };
 export default useBaseComponentCustom;

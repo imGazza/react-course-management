@@ -1,5 +1,5 @@
 import { User, UserWithSubscriptions } from "@/05-model/User";
-import { get } from "../client";
+import client from "../client";
 import { BaseService } from "../base-service";
 
 const BASE_URL = "users"
@@ -10,11 +10,11 @@ class UserService extends BaseService<User>  {
     } 
 
     getUserToLog(email: string, password: string): Promise<User> {
-        return get<User>(`${BASE_URL}?email=${email}&password=${password}`);
+        return client.get<User>(`${BASE_URL}?email=${email}&password=${password}`);
     }
 
     getUsersWithSubscriptions(): Promise<UserWithSubscriptions[]> {
-        return get<UserWithSubscriptions[]>(`${BASE_URL}?_embed=subscribers`);
+        return client.get<UserWithSubscriptions[]>(`${BASE_URL}?_embed=subscribers`);
     }
 }
 export const userService = new UserService();

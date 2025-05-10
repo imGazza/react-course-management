@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { addCourse, deleteCourse, editCourse, getCourses } from "@/03-http/base/services/course"
-import { Course, CourseWithSubscribers } from "@/05-model/Course"
+import { courseService } from "@/03-http/base/services/course"
+import { Course, CourseWithSubscriptions } from "@/05-model/Course"
 import CourseCard, { CourseCardSkeleton } from "./course-card"
 import YearSelect from "./year-select"
 import { Plus } from "lucide-react"
@@ -9,7 +9,8 @@ import GazzaDialog from "@/02-components/ui/gazza-dialog"
 import { Button } from "@/02-components/ui/button"
 import { AreCoursesDifferent } from "@/02-components/utils/course/course-utils"
 import useBreadcrumbs from "@/04-hooks/use-breadcrums"
-import useBaseComponent from "@/04-hooks/use-base-component-custom"
+import useBaseComponentCustom from "@/04-hooks/use-base-component-custom"
+import { courseSubscriptionService } from "@/03-http/course-subscription-service"
 
 const CoursesSection = () => {
 
@@ -17,18 +18,19 @@ const CoursesSection = () => {
 
   useBreadcrumbs([{ label: "Corsi", url: "#" }]);
   const { 
-    query: { data: courses = [] }, 
+    query: { data: courseWithSubscriptions = [] },
     onAdd, 
     onEdit, 
     onDelete,
-    isLoading } = useBaseComponent<Course, CourseWithSubscribers, 'course'>(
+    isLoading
+  } = useBaseComponentCustom<Course, CourseWithSubscriptions, 'course', CourseWithSubscriptions[]>(
     {
       queryKey: ["courses"],
-      fetch: getCourses,
-      add: addCourse,
-      edit: editCourse,
-      del: deleteCourse,
-      relations: { key: 'subscribers' }
+      fetch: courseSubscriptionService.getCourseWithSubscriptions,
+      add: courseService.add,
+      edit: courseService.edit,
+      del: courseService.delete,
+      entityKey: 'course',
     }
   )
 
@@ -39,7 +41,7 @@ const CoursesSection = () => {
   }
 
   const onEditCourse = async (course: Course) => {
-    if(!AreCoursesDifferent(course, courses.find(c => c.id === course.id)!))
+    if(!AreCoursesDifferent(course, courseWithSubscriptions.find(c => c.course.id === course.id)!.course))
       return;
 
     onEdit(course);
@@ -49,10 +51,10 @@ const CoursesSection = () => {
     onDelete(id);
   };
 
-  const filteredCourses = courses.filter(course => course.year.toString() === year)
+  const filteredCoursesWithSubscriptions = courseWithSubscriptions.filter(c => c.course.year.toString() === year)
 
-  const { minYear, maxYear } = courses.reduce((acc, course) => {
-    const courseYear = parseInt(course.year.toString());
+  const { minYear, maxYear } = courseWithSubscriptions.reduce((acc, c) => {
+    const courseYear = parseInt(c.course.year.toString());
     return {
       minYear: Math.min(acc.minYear, courseYear),
       maxYear: Math.max(acc.maxYear, courseYear)
@@ -72,8 +74,8 @@ const CoursesSection = () => {
       </div>
       <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4 grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">
         {!isLoading ?
-          filteredCourses.map((course) => (
-            <CourseCard key={course.id} course={course} onEdit={onEditCourse} onDelete={onDeleteCourse} />
+          filteredCoursesWithSubscriptions.map((c) => (
+            <CourseCard key={c.course.id} courseWithSubscriptions={c} onEdit={onEditCourse} onDelete={onDeleteCourse} />
           ))
           :
           Array.from({ length: 12 }).map((_, index) => (

@@ -1,78 +1,34 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/02-components/ui/card"
-import { getSubscribersCoursesByUser } from "@/03-http/base/services/subscriber";
 import { AuthContext } from "@/06-providers/auth/auth-context";
 import { BookOpen, ExternalLink, FileText, GraduationCap, Star } from "lucide-react";
 import { Badge } from "@/02-components/ui/badge";
 import { Material } from "@/05-model/Material";
 import { Lesson } from "@/05-model/Lesson";
 import { Course } from "@/05-model/Course";
-import { getCoursesDetailsById } from "@/03-http/base/services/course";
 import { Progress } from "@/02-components/ui/progress";
 import { Separator } from "@/02-components/ui/separator";
 import { Button } from "@/02-components/ui/button";
 import GazzaDialog from "@/02-components/ui/gazza-dialog";
 import MaterialsDialog from "@/02-components/utils/dialogs/materials-dialog";
 import LessonsDialog from "@/02-components/utils/dialogs/lessons-dialog";
-import { SubscriberCourse } from "@/05-model/Subscribers";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import useBreadcrumbs from "@/04-hooks/use-breadcrums";
-
-interface PersonalCourseDetails {
-	course: Course;
-	lessons: Lesson[];
-	materials: Material[];
-	progress: { lessonsCompleted: number, percentageCompleted: number };
-	grade: number | null;
-}
-
-const calculateProgress = (lessons: Lesson[]) => {
-	const lessonsCompleted = lessons.filter(l => new Date(l.lessonDate) < new Date()).length;
-	const percentageCompleted = lessonsCompleted / lessons.length * 100;
-
-	return { lessonsCompleted, percentageCompleted };
-}
-
-const getGradeIfExists = (subscriptions: SubscriberCourse[], courseId: string) => {
-	return subscriptions.find((sub) => sub.courseId === courseId)?.grade ?? null
-}
+import { PersonalCoursesInfo } from "@/05-model/PersonalCourses";
+import useBaseComponentCustom from "@/04-hooks/use-base-component-custom";
+import { personalCoursesService } from "@/03-http/personal-courses-service";
 
 const PersonalCoursesList = () => {
 
-	useBreadcrumbs([{ label: "I miei corsi", url: "#"}]);
-
-	const [personalCourses, setPersonalCourses] = useState<PersonalCourseDetails[]>([]);
-	const [loading, setLoading] = useState(true);
+	useBreadcrumbs([{ label: "I miei corsi", url: "#"}]);	
 	const { user } = useContext(AuthContext);
+	const { query: { data: personalCourses = [] }, isLoading } = useBaseComponentCustom<Course, PersonalCoursesInfo, 'course', PersonalCoursesInfo[]>({
+		queryKey: ['personalCourses'],
+		fetch: () => personalCoursesService.getPersonalCoursesWithInfo(user!.id),
+		entityKey: 'course',
+	})
 
-	useEffect(() => {
-		setLoading(true);
-		async function fetchData() {
-			try {
-				let subscriptions = await getSubscribersCoursesByUser(user!.id);
-				const courseIds = subscriptions.map((sub) => sub.courseId);
-
-				const courses = await getCoursesDetailsById(courseIds);
-				const personalCourses = courses.map((course) => {
-					return {
-						course: course,
-						lessons: course.lessons,
-						materials: course.materials,
-						progress: calculateProgress(course.lessons),
-						grade: getGradeIfExists(subscriptions, course.id)
-					}
-				});
-				setPersonalCourses(personalCourses);
-			} catch (e) {
-				throw e;
-			} finally {
-				setLoading(false);
-			}
-		}
-		fetchData();
-	}, [])
-
-	if (loading)
+	if (isLoading)
 		return <PersonalCoursesListSkeleton />
 
 	return (

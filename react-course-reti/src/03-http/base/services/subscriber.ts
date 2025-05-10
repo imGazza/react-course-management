@@ -1,22 +1,30 @@
-import { Subscriber, SubscribersWithCourse, SubscribersWithCourseAndUser } from "@/05-model/Subscribers";
+import { Subscriber, SubscriptionsEmbedsCourse, SubscriptionsEmbedsCourseAndUser, SubscriptionsEmbedsUser, SubscriptionsWithUser } from "@/05-model/Subscribers";
 import { BaseService } from "../base-service";
-import { get } from "../client";
+import client from "../client";
 
 class SubscriberService extends BaseService<Subscriber> {
     constructor() {
         super("subscribers");
     }
     
-    getSubscriptionsByUserId(userId: string): Promise<Subscriber[]> {
-        return get<Subscriber[]>(`${this.baseUrl}?userId=${userId}`);
+    async getSubscriptionsByUserId(userId: string): Promise<Subscriber[]> {
+        return client.get<Subscriber[]>(`${this.baseUrl}?userId=${userId}`);
     }
 
-    getSubscribersWithCourse(): Promise<SubscribersWithCourse[]> {
-        return get<SubscribersWithCourse[]>(`${this.baseUrl}?_embed=course`); 
+    async getSubscriptionsWithCourse(delay?: number): Promise<SubscriptionsEmbedsCourse[]> {
+        return client.get<SubscriptionsEmbedsCourse[]>(`${this.baseUrl}?_embed=course`, delay); 
     }
 
-    getSubscribersWithCourseAndUser(): Promise<SubscribersWithCourseAndUser[]> {
-        return get<SubscribersWithCourseAndUser[]>(`${this.baseUrl}?_embed=course&_embed=user`);
+    async getSubscribersWithCourseByUserId(userId: string): Promise<SubscriptionsEmbedsCourse[]> {
+        return client.get<SubscriptionsEmbedsCourse[]>(`${this.baseUrl}?userId=${userId}&_embed=course`); 
+    }
+
+    async getSubscribersWithCourseAndUser(): Promise<SubscriptionsEmbedsCourseAndUser[]> {
+        return client.get<SubscriptionsEmbedsCourseAndUser[]>(`${this.baseUrl}?_embed=course&_embed=user`);
+    }    
+
+    async getSubscriptionsEmbedsUserByCourseId(id: string): Promise<SubscriptionsEmbedsUser[]> {
+        return client.get<SubscriptionsEmbedsUser[]>(`${this.baseUrl}?courseId=${id}&_embed=user`);
     }
 }
 
