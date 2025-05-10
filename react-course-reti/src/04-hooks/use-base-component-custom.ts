@@ -14,6 +14,7 @@ interface BaseComponentCustomProps<
 	edit?: (data: T) => Promise<T>;
 	del?: (id: string) => Promise<T>;
 	entityKey: K; // stringa specificata dal chiamante che indica il nome della proprietà T che verrà modificata a DB dalle CRUD
+	defaultEmptyItem?: unknown
 }
 
 /**
@@ -35,14 +36,15 @@ const useBaseComponentCustom = <
 	add,
 	edit,
 	del,
-	entityKey
+	entityKey,
+	defaultEmptyItem
 }: BaseComponentCustomProps<T, U, K, Z>) => {
 
 	//TODO: Aggiungi gestione errori
 	const queryClient = useQueryClient();
 
 	const query = useQuery<Z>({
-		queryKey: [queryKey],
+		queryKey: queryKey,
 		queryFn: fetch,
 	});
 
@@ -87,15 +89,15 @@ const useBaseComponentCustom = <
 
 	// Se viene fatta un'add, significa che si parte da un array in partenza, quindi aggiungo l'elemento alla fine
 	const addQueryData = (queryClient: QueryClient, added: T) => {
-		queryClient.setQueryData([queryKey], (prev: U[]) => {
-			console.log([...prev, { [entityKey]: added } as U]);
-			return [...prev, { [entityKey]: added } as U];
+		queryClient.setQueryData(queryKey, (prev: U[]) => {
+			console.log([...prev, { ...defaultEmptyItem as U, [entityKey]: added }]);
+			return [...prev, { ...defaultEmptyItem as U, [entityKey]: added }];
 		});
 	};
 
 	// Se arrivo da array, devo trovare l'elemento e sostituirlo, altrimenti se è un singolo elemento, basta sostituirlo
 	const editQueryData = (queryClient: QueryClient, edited: T) => {
-		queryClient.setQueryData([queryKey], (prev: U[] | U) => {
+		queryClient.setQueryData(queryKey, (prev: U[] | U) => {
 			if (Array.isArray(prev)) {
 				return prev.map(item => {
 					const entity = getEntity(item);
@@ -116,7 +118,7 @@ const useBaseComponentCustom = <
 
 	// Se arrivo da array, rimuovo l'element, altrimenti non restituisco nulla, sto cancellando l'entità stessa
 	const deleteQueryData = (queryClient: QueryClient, id: string) => {
-		queryClient.setQueryData([queryKey], (prev: U[] | U | undefined) => {
+		queryClient.setQueryData(queryKey, (prev: U[] | U | undefined) => {
 			if (!prev) return prev;
 
 			if (Array.isArray(prev)) {
@@ -133,11 +135,11 @@ const useBaseComponentCustom = <
 		deleteMutation.isPending;
 
 	const refetch = () => {
-		queryClient.invalidateQueries({ queryKey: [queryKey] });
+		queryClient.invalidateQueries({ queryKey: queryKey });
 	};
 
-	const remove = (queryKey: string) => {
-		queryClient.removeQueries({ queryKey: [queryKey] });
+	const remove = (queryKey: unknown[]) => {
+		queryClient.removeQueries({ queryKey: queryKey });
 	}
 
 	if(query.error)

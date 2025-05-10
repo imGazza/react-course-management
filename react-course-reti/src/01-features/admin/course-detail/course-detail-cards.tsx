@@ -73,7 +73,7 @@ const CourseDetailCards = () => {
     onDelete(id);
 
     //Rimuovo la query dei corsi per triggerare lo stato di loading dopo la navigazione sulla lista
-    remove("courses");
+    remove(["courses"]);
     navigate("/courses");
   }
 

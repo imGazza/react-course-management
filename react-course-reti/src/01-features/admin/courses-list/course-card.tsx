@@ -8,7 +8,7 @@ import CourseDialog from "@/02-components/utils/dialogs/course-dialog"
 import GazzaDialog from "@/02-components/ui/gazza-dialog"
 import GazzaConfirmDialog from "@/02-components/ui/gazza-confirm-dialog"
 import { Link } from "react-router"
-import React from "react"
+import React, { useEffect } from "react"
 
 const statusColors = {
   "Pianificato": "bg-yellow-100 text-yellow-800 hover:bg-yellow-100",
@@ -25,7 +25,7 @@ interface CourseProps {
 
 const CourseCard = ({ courseWithSubscriptions, onEdit, onDelete, customFooter }: CourseProps) => {  
 
-  const statusColor = statusColors[courseWithSubscriptions.course.status] || statusColors["Pianificato"];  
+  const statusColor = statusColors[courseWithSubscriptions.course.status] || statusColors["Pianificato"];
 
   const defaultFooter = (
     <>

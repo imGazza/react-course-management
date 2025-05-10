@@ -27,7 +27,7 @@ const useBaseComponent = <
 	const queryClient = useQueryClient();
 
 	const query = useQuery<Z>({
-		queryKey: [queryKey],
+		queryKey: queryKey,
 		queryFn: fetch
 	});
 
@@ -51,14 +51,14 @@ const useBaseComponent = <
 
     // Se viene fatta un'add, significa che si parte da un array in partenza, quindi aggiungo l'elemento alla fine
 	const addQueryData = (queryClient: QueryClient, added: T) => {
-		queryClient.setQueryData([queryKey], (prev: T[]) => {
+		queryClient.setQueryData(queryKey, (prev: T[]) => {
 			return [...prev, added];
 		});
 	};
 
 	// Se arrivo da array, devo trovare l'elemento e sostituirlo, altrimenti se è un singolo elemento, basta sostituirlo
 	const editQueryData = (queryClient: QueryClient, edited: T) => {
-		queryClient.setQueryData([queryKey], (prev: T[] | T) => {			
+		queryClient.setQueryData(queryKey, (prev: T[] | T) => {			
             if (Array.isArray(prev))
 				return prev.map(item => item.id === edited.id ? edited : item);
 			else
@@ -68,7 +68,7 @@ const useBaseComponent = <
 
 	// Se arrivo da array, rimuovo l'element, altrimenti non restituisco nulla, sto cancellando l'entità stessa
 	const deleteQueryData = (queryClient: QueryClient, id: string) => {
-		queryClient.setQueryData([queryKey], (prev: T[] | T) => {
+		queryClient.setQueryData(queryKey, (prev: T[] | T) => {
 			if (Array.isArray(prev)) {
 				return prev.filter(item => item.id !== id);
 			} else {
@@ -83,11 +83,11 @@ const useBaseComponent = <
 		deleteMutation.isPending;
 
 	const refetch = () => {
-		queryClient.invalidateQueries({ queryKey: [queryKey] });
+		queryClient.invalidateQueries({ queryKey: queryKey });
 	};
 
-	const remove = (queryKey: string) => {
-		queryClient.removeQueries({ queryKey: [queryKey] });
+	const remove = (queryKey: unknown[]) => {
+		queryClient.removeQueries({ queryKey: queryKey });
 	}
 
 	// const onError = (error) => {

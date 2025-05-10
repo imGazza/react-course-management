@@ -31,6 +31,7 @@ const CoursesSection = () => {
       edit: courseService.edit,
       del: courseService.delete,
       entityKey: 'course',
+      defaultEmptyItem: {  subscriptions: [] },
     }
   )
 
