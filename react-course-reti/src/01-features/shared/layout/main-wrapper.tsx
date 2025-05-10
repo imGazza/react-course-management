@@ -2,7 +2,7 @@ import { Separator } from "@/02-components/ui/separator"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/02-components/ui/sidebar"
 import AppSidebar from "./sidebar/app-sidebar"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/02-components/ui/breadcrumb"
-import { Outlet } from "react-router"
+import { Link, Outlet } from "react-router"
 import React, { useContext } from "react"
 import MainContent from "./main-content"
 import { BreadcrumbContext } from "@/06-providers/breadcrumb/breadcrumb-context"
@@ -27,8 +27,10 @@ const MainWrapper = () => {
 								{breadcrumbs.map(({ label, url }, index) => (
 									<React.Fragment key={index}>
 										<BreadcrumbItem className="hidden md:block">
-											<BreadcrumbLink href={url}>
-												{label}
+											<BreadcrumbLink asChild>
+												<Link to={url}>
+													{label}
+												</Link>
 											</BreadcrumbLink>
 										</BreadcrumbItem>
 										{index !== breadcrumbs.length - 1 && (

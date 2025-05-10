@@ -13,13 +13,13 @@ import CourseDialog from "@/02-components/utils/dialogs/course-dialog";
 import GazzaConfirmDialog from "@/02-components/ui/gazza-confirm-dialog";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import { useContext, useEffect, useState } from "react";
-import { deleteCourse, editCourse, getCourse } from "@/03-http/course";
+import { deleteCourse, editCourse, getCourse } from "@/03-http/base/services/course";
 import { useNavigate, useParams } from "react-router";
 import { AreCoursesDifferent } from "@/02-components/utils/course/course-utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/02-components/ui/popover";
 import { Calendar } from "@/02-components/ui/calendar";
 import { CourseContext } from "@/06-providers/course/course-context";
-import useBaseComponent from "@/04-hooks/use-base-component";
+import useBaseComponent from "@/04-hooks/use-base-component-custom";
 
 const CourseDetailCards = () => {
 
@@ -28,12 +28,20 @@ const CourseDetailCards = () => {
   const [nextStatus, setNextStatus] = useState<"Pianificato" | "In corso" | "Chiuso">("Pianificato");
   const [closeDate, setCloseDate] = useState<Date>();
 
-  const {query: { data: courseData = null }, onEdit, onDelete, isLoading} = useBaseComponent<Course, Course, Course>(
+  //TODO: sistema il testo del titolo che straborda sotto
+
+  const {
+      query: { data: courseData = null }, 
+      onEdit, 
+      onDelete, 
+      isLoading,
+      remove
+    } = useBaseComponent<Course, Course, Course>(
     {
-      queryKey: ["course", courseId!],
+      queryKey: ['course', courseId!],
       fetch: () => getCourse(courseId!),
       edit: editCourse,
-      del: deleteCourse,
+      del: deleteCourse
     }
   )
 
@@ -41,8 +49,8 @@ const CourseDetailCards = () => {
     if (!courseData)
       return;
     setCourseData(courseData);
-    console.log("effect")
     getNextStatus(courseData);
+    setCloseDate(new Date(courseData.closeDate))
   }, [courseData])
 
   const navigate = useNavigate();
@@ -63,6 +71,8 @@ const CourseDetailCards = () => {
 
   const onDeleteCourse = async (id: string) => {
     onDelete(id);
+    //Rimuovo la query dei corsi per triggerare lo stato di loading dopo la navigazione sulla lista
+    remove(["courses"]);
     navigate("/courses");
   }
 
@@ -74,7 +84,6 @@ const CourseDetailCards = () => {
     };
 
     onEdit(updatedCourse);
-    setCourseData(updatedCourse);
   }
 
   const onCloseDateChange = async (date: Date | undefined) => {
@@ -87,7 +96,6 @@ const CourseDetailCards = () => {
     };
 
     onEdit(updatedCourse);
-    setCloseDate(date);
   }
 
   if (isLoading || !course || isNaN(lessonsNumber) || isNaN(subscribersNumber))
@@ -97,8 +105,8 @@ const CourseDetailCards = () => {
 
   return (
     <>
-      <Card className="@container/card p-0 overflow-hidden">
-        <div className="relative h-48 md:h-auto">
+      <Card className="@container/card p-0 overflow-hidden block">
+        <div className="relative h-full">
           <img src={course.image} alt={course.name} className="object-cover w-full h-full" />
         </div>
       </Card>

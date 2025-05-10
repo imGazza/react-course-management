@@ -3,169 +3,151 @@ import CourseCard, { CourseCardSkeleton } from "../courses-list/course-card"
 import { Card } from "@/02-components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/02-components/ui/tabs"
 import { Badge } from "@/02-components/ui/badge"
-import { useEffect, useState } from "react"
-import { getCourses } from "@/03-http/course"
-import { addCourseSubscriber, deleteSubscriber, getSubscribersByUser } from "@/03-http/subscriber"
 import { useParams } from "react-router"
-import { CourseSubscribers } from "@/05-model/Course"
 import { Subscriber } from "@/05-model/Subscribers"
 import { Button } from "@/02-components/ui/button"
 import { Skeleton } from "@/02-components/ui/skeleton"
 import { GenerateId } from "@/05-model/BaseEntity"
+import useBaseComponent from "@/04-hooks/use-base-component-custom"
+import { courseEnrollmentService } from "@/03-http/course-enrollment-service"
+import { subscriberService } from "@/03-http/base/services/subscriber"
+import { CourseEnrollmentInfoForUser } from "@/05-model/Course"
+
 
 const UserInfoCourses = () => {
 
-    const { userId } = useParams();
-    const [loading, setLoading] = useState(false);
-    const [subscriptions, setSubscriptions] = useState<Subscriber[]>([]);
-    const [courses, setCourses] = useState<CourseSubscribers[]>([]);
+	const { userId } = useParams();
 
-    useEffect(() => {
-        setLoading(true);
-        async function fetchData() {
-            try {
-                const [courses, subscribtions] = await Promise.all([
-                    getCourses(),
-                    getSubscribersByUser(userId!)
-                ]);
-                setCourses(courses);
-                setSubscriptions(subscribtions);
-            } catch (e) {
-                // Toast 
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchData();
-    }, [])
+	const { 
+		query: { data: enrollments = [] as CourseEnrollmentInfoForUser[]},
+		onAdd,
+		onDelete,
+		isLoading 
+	} = useBaseComponent<Subscriber, CourseEnrollmentInfoForUser, 'subscription', CourseEnrollmentInfoForUser[]>({
+		queryKey: ["enrollments", userId],
+		fetch: () => courseEnrollmentService.getCourseEnrollmentInfo(userId!),
+		add: subscriberService.add,
+		del: subscriberService.delete,
+		entityKey: 'subscription'
+	})
 
-    const subscribedCourses = courses.filter((course) => subscriptions.some((sub) => sub.courseId === course.id));
-    const availableCourses = courses.filter(course => course.status !== "Chiuso" && !subscribedCourses.some(subCourse => subCourse.id === course.id));
+	const enrolledCourses = enrollments.filter(enrollment => enrollment.subscription);
+	const enrollableCourses = enrollments.filter(enrollment => enrollment.course.status !== "Chiuso" && !enrollment.subscription);
 
-    const handleSubscribe = async (course: CourseSubscribers) => {
-        setLoading(true);
-        try {
-            if (subscribedCourses.includes(course)) {
-                await unsubscribe(course);
-            }
-            else {
-                await subscribe(course);
-            }
-        } catch (e) {
-            // Toast 
-        } finally {
-            setLoading(false);
-        }
-    }
+	const handleSubscribe = async (enrollment: CourseEnrollmentInfoForUser) => {
+		if (enrolledCourses.includes(enrollment)) {
+			await unsubscribe(enrollment);
+		}
+		else {
+			await subscribe(enrollment);
+		}
+	}
 
-    const subscribe = async (course: CourseSubscribers) => {
-        const addedSubscriber = await addCourseSubscriber({
-            id: GenerateId(),
-            userId: userId!,
-            courseId: course.id,
-            subscriptionDate: new Date().toISOString(),
-            grade: null
-        });
+	const subscribe = async (course: CourseEnrollmentInfoForUser) => {
+		onAdd({
+			id: GenerateId(),
+			userId: userId!,
+			courseId: course.course.id,
+			subscriptionDate: new Date().toISOString(),
+			grade: null
+		});
+	}
 
-        setSubscriptions([...subscriptions, addedSubscriber]);
-    }
+	const unsubscribe = async (enrollment: CourseEnrollmentInfoForUser) => {
+		const subscriberId = enrollments.find(e => e.subscription!.id === enrollment.subscription!.id)?.subscription!.id;
+		if (!subscriberId) {
+			return;
+		}
 
-    const unsubscribe = async (course: CourseSubscribers) => {
-        const subscriberId = subscriptions.find(s => s.courseId === course.id)?.id;
-        if (!subscriberId) {
-            return;
-        }
+		onDelete(subscriberId);
+	}
 
-        await deleteSubscriber(subscriberId);
-        setSubscriptions(subscriptions.filter(s => s.courseId !== course.id));
-    }
+	const subscribeFooter = (buttonText: string, enrollment: CourseEnrollmentInfoForUser) => (
+		<Button
+			variant={"outline"}
+			className="w-full"
+			onClick={() => handleSubscribe(enrollment)}
+			disabled={enrollment.course.status === "Chiuso"}
+		>
+			{buttonText}
+		</Button>
+	)
 
-    const subscribeFooter = (buttonText: string, course: CourseSubscribers) => (
-        <Button
-            variant={"outline"}
-            className="w-full"
-            onClick={() => handleSubscribe(course)}
-            disabled={course.status === "Chiuso"}
-        >
-            {buttonText}
-        </Button>
-    )
+	if (isLoading)
+		return <UserInfoCoursesSkeleton />;
 
-    if(loading) 
-        return <UserInfoCoursesSkeleton />;
-
-    return (
-        <Tabs defaultValue="subscribed" className="w-full mt-8">
-            <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="subscribed" className="cursor-pointer">
-                    Iscrizioni
-                    <Badge
-                        variant="secondary"
-                        className="flex h-5 w-5 items-center justify-center rounded-full bg-muted-foreground/30"
-                    >
-                        {subscribedCourses.length}
-                    </Badge>
-                </TabsTrigger>
-                <TabsTrigger value="available" className="cursor-pointer">
-                    Disponibili
-                    <Badge
-                        variant="secondary"
-                        className="flex h-5 w-5 items-center justify-center rounded-full bg-muted-foreground/30"
-                    >
-                        {availableCourses.length}
-                    </Badge>
-                </TabsTrigger>
-            </TabsList>
-            <TabsContent value="subscribed">
-                {subscribedCourses.length === 0 ? (
-                    <Card className="flex flex-col items-center justify-center py-12 text-center">
-                        <GraduationCap className="h-12 w-12 text-muted-foreground mb-4" />
-                        <p className="text-xl font-semibold text-muted-foreground">Non ci sono iscrizioni</p>
-                    </Card>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {subscribedCourses.map((course) => (
-                            <CourseCard key={course.id} course={course} customFooter={subscribeFooter("Rimuovi iscrizione", course)} />
-                        ))}
-                    </div>
-                )}
-            </TabsContent>
-            <TabsContent value="available">
-                {availableCourses.length === 0 ? (
-                    <Card className="flex flex-col items-center justify-center py-12 text-center">
-                        <BookOpen className="h-12 w-12 text-muted-foreground mb-4" />
-                        <p className="text-xl font-semibold text-muted-foreground">Non ci sono corsi disponibili</p>
-                    </Card>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
-                        {availableCourses.map((course) => (
-                            <CourseCard key={course.id} course={course} customFooter={subscribeFooter("Iscrivi", course)} />
-                        ))}
-                    </div>
-                )}
-            </TabsContent>
-        </Tabs>
-    )
+	return (
+		<Tabs defaultValue="subscribed" className="w-full mt-8">
+			<TabsList className="grid w-full grid-cols-2">
+				<TabsTrigger value="subscribed" className="cursor-pointer">
+					Iscrizioni
+					<Badge
+						variant="secondary"
+						className="flex h-5 w-5 items-center justify-center rounded-full bg-muted-foreground/30"
+					>
+						{enrolledCourses.length}
+					</Badge>
+				</TabsTrigger>
+				<TabsTrigger value="available" className="cursor-pointer">
+					Disponibili
+					<Badge
+						variant="secondary"
+						className="flex h-5 w-5 items-center justify-center rounded-full bg-muted-foreground/30"
+					>
+						{enrollableCourses.length}
+					</Badge>
+				</TabsTrigger>
+			</TabsList>
+			<TabsContent value="subscribed">
+				{enrolledCourses.length === 0 ? (
+					<Card className="flex flex-col items-center justify-center py-12 text-center">
+						<GraduationCap className="h-12 w-12 text-muted-foreground mb-4" />
+						<p className="text-xl font-semibold text-muted-foreground">Non ci sono iscrizioni</p>
+					</Card>
+				) : (
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+						{enrolledCourses.map((enrollment) => (
+							<CourseCard key={enrollment.course.id} course={ enrollment.course } customFooter={subscribeFooter("Rimuovi iscrizione", enrollment)} />
+						))}
+					</div>
+				)}
+			</TabsContent>
+			<TabsContent value="available">
+				{enrollableCourses.length === 0 ? (
+					<Card className="flex flex-col items-center justify-center py-12 text-center">
+						<BookOpen className="h-12 w-12 text-muted-foreground mb-4" />
+						<p className="text-xl font-semibold text-muted-foreground">Non ci sono corsi disponibili</p>
+					</Card>
+				) : (
+					<div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
+						{enrollableCourses.map((enrollment) => (
+							<CourseCard key={enrollment.course.id} course={enrollment.course} customFooter={subscribeFooter("Iscrivi", enrollment)} />
+						))}
+					</div>
+				)}
+			</TabsContent>
+		</Tabs>
+	)
 }
 export default UserInfoCourses
 
 const UserInfoCoursesSkeleton = () => {
-    return (
-        <Tabs defaultValue="subscribed" className="w-full mt-8">
-            <TabsList className="grid w-full grid-cols-2">
-                <Skeleton className="h-4 w-20" />
-                <Skeleton className="h-4 w-20" />
-            </TabsList>
-            <TabsContent value="subscribed">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {
-                        Array.from({ length: 4 }).map((_, index) => (
-                            <CourseCardSkeleton key={index} />
-                        ))
-                    }
-                </div>
-            </TabsContent>
-        </Tabs>
-    )
+	return (
+		<Tabs defaultValue="subscribed" className="w-full mt-8">
+			<TabsList className="grid w-full grid-cols-2">
+				<Skeleton className="h-4 w-20" />
+				<Skeleton className="h-4 w-20" />
+			</TabsList>
+			<TabsContent value="subscribed">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+					{
+						Array.from({ length: 4 }).map((_, index) => (
+							<CourseCardSkeleton key={index} />
+						))
+					}
+				</div>
+			</TabsContent>
+		</Tabs>
+	)
 }
 export { UserInfoCoursesSkeleton };

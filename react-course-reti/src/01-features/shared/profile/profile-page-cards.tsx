@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/02-components/ui/card"
-import { getSubscribersCoursesByUser } from "@/03-http/subscriber";
+import { getSubscribersCoursesByUser } from "@/03-http/base/services/subscriber";
 import { SubscriberCourse } from "@/05-model/Subscribers";
 import { User } from "@/05-model/User";
 import { Skeleton } from "@/02-components/ui/skeleton";

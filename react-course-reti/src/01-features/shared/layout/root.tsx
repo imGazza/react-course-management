@@ -2,28 +2,17 @@ import AuthProvider from "@/06-providers/auth/auth-provider";
 import { ThemeProvider } from "@/06-providers/theme/theme-provider";
 import MainWrapper from "./main-wrapper";
 import BreadcrumbProvider from "@/06-providers/breadcrumb/breadcrumb-provider";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const Root = () => {
 
-	const queryClient = new QueryClient({
-		defaultOptions: {
-			queries: {
-				staleTime: 1000 * 60 * 5, // 5 minuti
-			},
-		}
-	});
-
 	return (
-		<QueryClientProvider client={queryClient}>
-			<AuthProvider>
-				<ThemeProvider>
-					<BreadcrumbProvider>
-						<MainWrapper />
-					</BreadcrumbProvider>
-				</ThemeProvider>
-			</AuthProvider>
-		</QueryClientProvider>
+		<AuthProvider>
+			<ThemeProvider>
+				<BreadcrumbProvider>
+					<MainWrapper />
+				</BreadcrumbProvider>
+			</ThemeProvider>
+		</AuthProvider>
 	)
 }
 export default Root;
@@ -47,3 +36,10 @@ export default Root;
 //TODO: Aggiungi lazy loading
 //TODO: Check di tutte le function estraibili dai component
 //TODO: Mettere i fakeDelay nelle api
+//TODO: Alla cancellazione di un corso, eliminare i subscribers
+//TODO: Non permettere doppioni nei subscribes
+//TODO: Capire se vuoi fixare le immagini del corso
+//TODO: Check se da qualche parte un useEffect può diventare useMemo
+//TODO: Interceptor per creazione ID
+//TODO: Rinomina tutto in pascal case
+//TODO: Crea utility skeleton per evitare l'index negli array

@@ -15,3 +15,13 @@ export interface UserEntity extends User{
     subscribers: Subscriber[];
     courses: Course[];
 }
+
+export interface UserWithSubscriptions extends User{
+    subscriptions: Subscriber[];
+}
+
+export interface UserState{
+    user: User,
+    subscriptionsNumber: number,
+    isDeletable: boolean
+}

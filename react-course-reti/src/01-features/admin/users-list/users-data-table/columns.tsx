@@ -5,7 +5,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/02-c
 import UserDialog from "@/02-components/utils/dialogs/user-dialog"
 import GazzaConfirmDialog from "@/02-components/ui/gazza-confirm-dialog"
 import GazzaDialog from "@/02-components/ui/gazza-dialog"
-import { User, UserEntity } from "@/05-model/User"
+import { User, UserState } from "@/05-model/User"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, Pencil, ShieldCheck, SquareArrowOutUpRight, Trash2, User as UserIcon } from "lucide-react"
 import { Link } from "react-router"
@@ -15,11 +15,11 @@ interface ColumnsProps {
     onDeleteUser: (id: string) => void;
 }
 
-export const columns = ({ onEditUser, onDeleteUser }: ColumnsProps): ColumnDef<UserEntity>[] => [
+export const columns = ({ onEditUser, onDeleteUser }: ColumnsProps): ColumnDef<UserState>[] => [
     {
         accessorKey: "name",
         accessorFn: (row) => {
-            return `${row.firstName} ${row.lastName}`
+            return `${row.user.firstName} ${row.user.lastName}`
         },
         header: ({ column }) => {
             return (
@@ -33,14 +33,14 @@ export const columns = ({ onEditUser, onDeleteUser }: ColumnsProps): ColumnDef<U
             )
         },
         cell: ({ row }) => {
-            const user = row.original;
+            const state = row.original;
             return (
                 <div className="flex gap-3 items-center w-[200px]">
                     <Avatar className="h-10 w-10 rounded-lg">
-                        <AvatarImage src={`/avatars/${user.avatar}`} alt={`${user.firstName} ${user.lastName}`} className="object-cover" />
-                        <AvatarFallback className="rounded-lg">{`${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`}</AvatarFallback>
+                        <AvatarImage src={`/avatars/${state.user.avatar}`} alt={`${state.user.firstName} ${state.user.lastName}`} className="object-cover" />
+                        <AvatarFallback className="rounded-lg">{`${state.user.firstName.charAt(0).toUpperCase()}${state.user.lastName.charAt(0).toUpperCase()}`}</AvatarFallback>
                     </Avatar>
-                    {`${user.firstName} ${user.lastName}`}
+                    {`${state.user.firstName} ${state.user.lastName}`}
                 </div>
             )
         }
@@ -49,27 +49,27 @@ export const columns = ({ onEditUser, onDeleteUser }: ColumnsProps): ColumnDef<U
         accessorKey: "email",
         header: "Email",
         cell: ({ row }) => {
-            const user = row.original;
-            return <div className="w-[200px]">{user.email}</div>
+            const state = row.original;
+            return <div className="w-[200px]">{state.user.email}</div>
         }
     },
     {
         accessorKey: "type",
         header: "Tipo",
         cell: ({ row }) => {
-            const user = row.original;
+            const state = row.original;
             return (
                 <div className="w-[200px]">
                     <Badge
                         variant="outline"
                         className="flex gap-1 px-1.5 text-muted-foreground [&_svg]:size-3"
                     >
-                        {user.isAdmin ? (
+                        {state.user.isAdmin ? (
                             <ShieldCheck className="text-green-500 dark:text-green-400" />
                         ) : (
                             <UserIcon />
                         )}
-                        {user.isAdmin ? "Amministratore" : "Studente"}
+                        {state.user.isAdmin ? "Amministratore" : "Studente"}
                     </Badge>
                 </div>
             )
@@ -79,19 +79,19 @@ export const columns = ({ onEditUser, onDeleteUser }: ColumnsProps): ColumnDef<U
         accessorKey: "joinedDate",
         header: "Data registrazione",
         cell: ({ row }) => {
-            const user = row.original;
-            return <div className="w-[200px]">{new Date(user.joinedDate).toLocaleDateString('it-IT')}</div>
+            const state = row.original;
+            return <div className="w-[200px]">{new Date(state.user.joinedDate).toLocaleDateString('it-IT')}</div>
         }
     },
     {
         accessorKey: "subscriptionNumber",
         header: "Iscrizioni corsi",
         cell: ({ row }) => {
-            const user = row.original;
+            const state = row.original;
             return (
                 <div className="w-[100px]">
                     <Badge variant="outline">
-                        {user.subscribers.length}
+                        {state.subscriptionsNumber}
                     </Badge>
                 </div>
             )
@@ -100,25 +100,23 @@ export const columns = ({ onEditUser, onDeleteUser }: ColumnsProps): ColumnDef<U
     {
         id: "actions",
         cell: ({ row }) => {
-            const user = row.original;
-
-            const isUserDeletable = !user.courses.some(c => c.status === "In corso");
+            const state = row.original;
 
             const DeleteButton = (
-                <Button variant="ghost" size="icon" className="h-8 w-8 p-0" disabled={!isUserDeletable}>
+                <Button variant="ghost" size="icon" className="h-8 w-8 p-0" disabled={!state.isDeletable}>
                     <Trash2 className="h-4 w-4" />
                 </Button>
             )
 
             return (
                 <div className="flex gap-2 w-max">
-                    <GazzaDialog dialogComponent={(props) => <UserDialog {...props} user={user} submit={onEditUser} />}>
+                    <GazzaDialog dialogComponent={(props) => <UserDialog {...props} user={state.user} submit={onEditUser} />}>
                         <Button variant="ghost" size="icon" className="h-8 w-8 p-0">
                             <Pencil className="h-4 w-4" />
                         </Button>
                     </GazzaDialog>
-                    <GazzaConfirmDialog dialogTitle="Elimina utente" dialogMessage={`Sei sicuro di voler eliminare ${user.firstName} ${user.lastName}?`} onConfirm={() => onDeleteUser(user.id)}>
-                        {isUserDeletable ?
+                    <GazzaConfirmDialog dialogTitle="Elimina utente" dialogMessage={`Sei sicuro di voler eliminare ${state.user.firstName} ${state.user.lastName}?`} onConfirm={() => onDeleteUser(state.user.id)}>
+                        {state.isDeletable ?
                             DeleteButton :
                             <TooltipProvider>
                                 <Tooltip>
@@ -134,7 +132,7 @@ export const columns = ({ onEditUser, onDeleteUser }: ColumnsProps): ColumnDef<U
                             </TooltipProvider>
                         }
                     </GazzaConfirmDialog>
-                    <Link to={`/users/detail/${user.id}`}>
+                    <Link to={`/users/detail/${state.user.id}`}>
                         <Button variant="ghost" size="icon" className="h-8 w-8 p-0">
                             <SquareArrowOutUpRight className="h-4 w-4" />
                         </Button>

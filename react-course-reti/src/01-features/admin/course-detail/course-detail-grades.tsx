@@ -5,7 +5,7 @@ import { Badge } from "@/02-components/ui/badge";
 import { Button } from "@/02-components/ui/button";
 import { Input } from "@/02-components/ui/input";
 import { useEffect, useState } from "react";
-import { setGrade } from "@/03-http/subscriber";
+import { setGrade } from "@/03-http/base/services/subscriber";
 import { ScrollArea } from "@/02-components/ui/scroll-area";
 
 interface CourseDetailSubscriberProps {

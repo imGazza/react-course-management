@@ -30,7 +30,7 @@ const CourseCard = ({ course, onEdit, onDelete, customFooter }: CourseProps) => 
   const defaultFooter = (
     <>
       <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDelete!(course.id)}>
-            <Link to={`/courses/detail/${course.id}`} replace={true}>
+            <Link to={`/courses/detail/${course.id}`}>
               <Button variant="outline" size="icon" className="flex items-center">
                 <SquareArrowOutUpRight />
               </Button>

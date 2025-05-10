@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/02-components/ui/card"
-import { getSubscribersCoursesByUser } from "@/03-http/subscriber";
+import { getSubscribersCoursesByUser } from "@/03-http/base/services/subscriber";
 import { AuthContext } from "@/06-providers/auth/auth-context";
 import { BookOpen, ExternalLink, FileText, GraduationCap, Star } from "lucide-react";
 import { Badge } from "@/02-components/ui/badge";
 import { Material } from "@/05-model/Material";
 import { Lesson } from "@/05-model/Lesson";
 import { Course } from "@/05-model/Course";
-import { getCoursesDetailsById } from "@/03-http/course";
+import { getCoursesDetailsById } from "@/03-http/base/services/course";
 import { Progress } from "@/02-components/ui/progress";
 import { Separator } from "@/02-components/ui/separator";
 import { Button } from "@/02-components/ui/button";

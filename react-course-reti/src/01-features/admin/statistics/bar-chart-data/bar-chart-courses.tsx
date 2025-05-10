@@ -84,7 +84,7 @@ const BarChartCourses = () => {
 		<Card>
 			<CardHeader className="relative">
 				<CardTitle className="text-xs md:text-base">Iscrizioni per corso</CardTitle>
-				<CardDescription className="text-xs md:text-base">Seleziona fino a 3 corsi</CardDescription>
+				<CardDescription className="text-xs md:text-base">{`Seleziona fino a ${SELECTABLE_COURSES} corsi`}</CardDescription>
 				<div className="absolute right-6">
 					<Popover>
 						<PopoverTrigger asChild>

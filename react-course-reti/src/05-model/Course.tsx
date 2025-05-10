@@ -20,3 +20,17 @@ export interface CourseDetails extends Course {
     lessons: Lesson[];
     materials: Material[];
 }
+
+export interface CourseWithSubscribers extends Course  {
+    subscribers: Subscriber[];
+}
+
+export interface CourseEnrollmentInfoForUser{
+    course: CourseWithSubscribers;
+    subscription: Subscriber | null;
+}
+
+export interface CourseWithSubscribers{
+    course: Course;
+    subscribers: Subscriber[];
+}

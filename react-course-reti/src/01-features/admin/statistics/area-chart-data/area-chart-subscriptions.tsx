@@ -41,9 +41,6 @@ const AreaChartSubscriptions = () => {
 		initializeChartData();
 	}, [])
 
-	//TODO: Primo grafico con utenti registrati e utenti iscritti al mese, divisi tra 12 mesi, 24 mesi e 36 mesi
-	// Secondo grafico con scelta del corso, e differenza di iscritti tra anno corrente e anno precedente
-
 	const handleValueChange = async (value: string) => {
 		const chartData = await createAreaChartData(value);
 		setTimeRange(value);

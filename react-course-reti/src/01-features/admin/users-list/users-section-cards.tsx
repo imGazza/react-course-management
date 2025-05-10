@@ -1,14 +1,14 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/02-components/ui/card"
-import { UserEntity } from "@/05-model/User"
+import { UserState } from "@/05-model/User"
 import { Skeleton } from "@/02-components/ui/skeleton"
 import { subDays } from "date-fns";
 
 interface UsersSectionCardsProps {
-	users: UserEntity[];
+	usersState: UserState[];
 	loading: boolean;
 }
 
-const UsersSectionCards = ({ users, loading }: UsersSectionCardsProps) => {
+const UsersSectionCards = ({ usersState, loading }: UsersSectionCardsProps) => {
 
 	if (loading) {
 		return (
@@ -25,7 +25,7 @@ const UsersSectionCards = ({ users, loading }: UsersSectionCardsProps) => {
 						Utenti totali
 					</CardDescription>
 					<CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums line-clamp-1">
-						{users.length}
+						{usersState.length}
 					</CardTitle>
 				</CardHeader>
 			</Card>
@@ -36,7 +36,7 @@ const UsersSectionCards = ({ users, loading }: UsersSectionCardsProps) => {
 						Utenti senza corsi
 					</CardDescription>
 					<CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums line-clamp-1">
-						{users.filter((user) => user.subscribers.length === 0).length}
+						{usersState.filter((state) => state.subscriptionsNumber === 0).length}
 					</CardTitle>
 				</CardHeader>
 			</Card>
@@ -47,7 +47,7 @@ const UsersSectionCards = ({ users, loading }: UsersSectionCardsProps) => {
 						Amministratori
 					</CardDescription>
 					<CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums line-clamp-1">
-						{users.filter((user) => user.isAdmin).length}
+						{usersState.filter((state) => state.user.isAdmin).length}
 					</CardTitle>
 				</CardHeader>
 			</Card>
@@ -58,7 +58,7 @@ const UsersSectionCards = ({ users, loading }: UsersSectionCardsProps) => {
 						Registrati negli ultimi 7 giorni
 					</CardDescription>
 					<CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums line-clamp-1">
-						{users.filter((user) => new Date(user.joinedDate) > subDays(new Date(), 7)).length}
+						{usersState.filter((state) => new Date(state.user.joinedDate) > subDays(new Date(), 7)).length}
 					</CardTitle>
 				</CardHeader>
 			</Card>

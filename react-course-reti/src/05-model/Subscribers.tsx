@@ -16,3 +16,11 @@ export interface SubscriberCourse extends Subscriber{
 export interface SubscriberUser extends Subscriber{
   user: User;
 }
+
+export interface SubscribersWithCourse extends Subscriber{
+  course: Course;
+}
+
+export interface SubscribersWithCourseAndUser extends SubscriberUser, SubscribersWithCourse{
+  
+}

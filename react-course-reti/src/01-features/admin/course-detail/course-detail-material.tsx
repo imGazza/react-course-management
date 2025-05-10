@@ -3,22 +3,23 @@ import { Button } from "@/02-components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/02-components/ui/card";
 import { ChangeEvent, useRef } from "react";
 import { Material } from "@/05-model/Material";
-import { addMaterial, deleteMaterial, getCourseMaterials } from "@/03-http/material";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import { useParams } from "react-router";
 import { DeleteMaterial, DownloadMaterial, GetFileSizeInMB, SaveAndGetMaterial } from "@/02-components/utils/course/course-utils";
 import { ScrollArea } from "@/02-components/ui/scroll-area";
 import useBaseComponent from "@/04-hooks/use-base-component";
+import { materialService } from "@/03-http/base/services/material";
 
 const CourseDetailMaterial = () => {
   const { courseId } = useParams();
   const fileInput = useRef<HTMLInputElement>(null);
 
-  const { query: { data: materials = [] }, onAdd, onDelete, isLoading } = useBaseComponent<Material, Material, Material[]>({
+  const { query: { data: materials = [] }, onAdd, onDelete, isLoading } = useBaseComponent<Material, Material[]>({
     queryKey: ["materials", courseId!],
-    fetch: () => getCourseMaterials(courseId!),
-    add: addMaterial,
-    del: deleteMaterial
+    fetch: () => materialService.getMaterialsByCourseId(courseId!),
+    add: materialService.add,
+    del: materialService.delete,
+    
   });
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {

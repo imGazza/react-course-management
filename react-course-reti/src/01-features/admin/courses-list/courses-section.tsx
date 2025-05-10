@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { addCourse, deleteCourse, editCourse, getCourses } from "@/03-http/course"
-import { Course, CourseSubscribers } from "@/05-model/Course"
+import { addCourse, deleteCourse, editCourse, getCourses } from "@/03-http/base/services/course"
+import { Course, CourseWithSubscribers } from "@/05-model/Course"
 import CourseCard, { CourseCardSkeleton } from "./course-card"
 import YearSelect from "./year-select"
 import { Plus } from "lucide-react"
@@ -9,7 +9,7 @@ import GazzaDialog from "@/02-components/ui/gazza-dialog"
 import { Button } from "@/02-components/ui/button"
 import { AreCoursesDifferent } from "@/02-components/utils/course/course-utils"
 import useBreadcrumbs from "@/04-hooks/use-breadcrums"
-import useBaseComponent from "@/04-hooks/use-base-component"
+import useBaseComponent from "@/04-hooks/use-base-component-custom"
 
 const CoursesSection = () => {
 
@@ -21,7 +21,7 @@ const CoursesSection = () => {
     onAdd, 
     onEdit, 
     onDelete,
-    isLoading } = useBaseComponent<Course, CourseSubscribers, CourseSubscribers[]>(
+    isLoading } = useBaseComponent<Course, CourseWithSubscribers, 'course'>(
     {
       queryKey: ["courses"],
       fetch: getCourses,
@@ -35,24 +35,21 @@ const CoursesSection = () => {
   const [year, setYear] = useState<string>(CURRENT_YEAR);
 
   const onAddCourse = async (course: Course) => {
-    await onAdd(course);
+    onAdd(course);
   }
 
   const onEditCourse = async (course: Course) => {
     if(!AreCoursesDifferent(course, courses.find(c => c.id === course.id)!))
       return;
 
-    await onEdit(course);
+    onEdit(course);
   }
 
   const onDeleteCourse = async (id: string) => {
-    await onDelete(id);
+    onDelete(id);
   };
 
-  const filteredCourses =
-    year !== CURRENT_YEAR ?
-      courses.filter(course => course.year.toString() === year) :
-      courses;
+  const filteredCourses = courses.filter(course => course.year.toString() === year)
 
   const { minYear, maxYear } = courses.reduce((acc, course) => {
     const courseYear = parseInt(course.year.toString());

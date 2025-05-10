@@ -4,13 +4,13 @@ import { Button } from "@/02-components/ui/button";
 import { ChangeEvent, useContext, useEffect, useRef, useState, DragEvent } from "react";
 import { User } from "@/05-model/User";
 import { useForm } from "react-hook-form";
-import { editUser } from "@/03-http/user";
 import { AuthContext } from "@/06-providers/auth/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/02-components/ui/avatar";
 import { Label } from "@/02-components/ui/label";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import { AreUsersDifferent, SaveAndGetAvatarFileName } from "@/02-components/utils/course/course-utils";
 import { uploadPreviewDisplay } from "@/02-components/utils/file-manipulation/file-manipulation";
+import { userService } from "@/03-http/base/services/user";
 
 interface ProfilePageEditProps {
 	user: User;
@@ -23,6 +23,8 @@ const ProfilePageEdit = ({ user }: ProfilePageEditProps) => {
 	const [avatarFile, setAvatarFile] = useState<File | null>(null);
 	const { setSessionUser } = useContext(AuthContext);
 	const [loading, setLoading] = useState<boolean>(false);
+
+	//In questo componente faccio solo una edit, non instanzio il baseComponent perchè non mi serve la cache di react-query
 
 	const defaultValues = {
 		id: user.id,
@@ -76,7 +78,7 @@ const ProfilePageEdit = ({ user }: ProfilePageEditProps) => {
 				const avatarFileName = await SaveAndGetAvatarFileName(avatarFile);
 				editedUser.avatar = avatarFileName;
 			}			
-			const updatedUser = await editUser(editedUser);
+			const updatedUser = await userService.edit(editedUser);
 			setSessionUser(updatedUser);
 		} catch (error) {
 			// Toast 

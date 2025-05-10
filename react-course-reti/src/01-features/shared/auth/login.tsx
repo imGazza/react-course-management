@@ -1,19 +1,13 @@
 import { cn } from "@/98-lib/utils"
 import { Button } from "@/02-components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/02-components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/02-components/ui/card"
 import { Input } from "@/02-components/ui/input"
 import { Label } from "@/02-components/ui/label"
-import { getUser } from "@/03-http/user"
 import { useContext, useState } from "react"
 import { AuthContext } from "@/06-providers/auth/auth-context"
 import { useNavigate } from "react-router"
 import { useForm } from "react-hook-form"
+import { userService } from "@/03-http/base/services/user"
 
 const Login = ({ className, ...props}: React.ComponentProps<"div">) => {
 
@@ -31,7 +25,7 @@ const Login = ({ className, ...props}: React.ComponentProps<"div">) => {
   })
 
   const onSubmit = async (data: { email: string, password: string }) => {
-    const user = await getUser(data.email, data.password);
+    const user = await userService.getUserToLog(data.email, data.password);
     if (user) {
       setSessionUser(user);
       navigate('/');

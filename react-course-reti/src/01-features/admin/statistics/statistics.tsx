@@ -1,51 +1,48 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/02-components/ui/card";
-import { getCourses } from "@/03-http/course";
-import { getSubscribersCourses } from "@/03-http/subscriber";
+import { courseService } from "@/03-http/base/services/course";
+import { subscriberService } from "@/03-http/base/services/subscriber";
 import { Users, BookOpenText, GraduationCap, Presentation } from "lucide-react";
 import { CourseSubscribers } from "@/05-model/Course";
 import { SubscriberCourse } from "@/05-model/Subscribers";
-import { getLessons } from "@/03-http/lesson";
 import { Lesson } from "@/05-model/Lesson";
 import AreaChartSubscriptions from "./area-chart-data/area-chart-subscriptions";
 import BarChartCourses from "./bar-chart-data/bar-chart-courses";
 import useBreadcrumbs from "@/04-hooks/use-breadcrums";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
+import { lessonService } from "@/03-http/base/services/lesson";
 
 const Statistics = () => {
 
+	const queryClient = useQueryClient();
+
 	useBreadcrumbs([{ label: "Statistiche", url: "#" }])
 
-	const [courses, setCourses] = useState<CourseSubscribers[]>([]);
-	const [subscriptions, setSubscriptions] = useState<SubscriberCourse[]>([]);
-	const [lessons, setLessons] = useState<Lesson[]>([]);
+	//TODO: separa in un altro componente le cards
+	//TODO: aggiungi loader con spinner ai due grafici durante caricamento dati
 
-	const [averageLessonsPerCourse, setAverageLessonsPerCourse] = useState<number>(0);
-	const [averageCoursesPerUser, setAverageCoursesPerUser] = useState<number>(0);
-	const [mostPopularCourseTotalSubscribers, setMostPopularCourseTotalSubscribers] = useState<number>(0);
-	const [uniqueSubscribedUsers, setUniqueSubscribedUsers] = useState<number>(0);
-
-	useEffect(() => {
-		const fetchStatistics = async () => {
-			try {
-				const [courses, subscriptions, lessons] = await Promise.all([
-					getCourses(),
-					getSubscribersCourses(),
-					getLessons()
-				]);
-				setCourses(courses);
-				setSubscriptions(subscriptions);
-				setLessons(lessons);
-
-				setAverageLessonsPerCourse(countAverageLessonsPerCourse(lessons));
-				setAverageCoursesPerUser(countAverageCoursesPerUser(subscriptions));
-				setMostPopularCourseTotalSubscribers(countMostPopularCourseTotalSubscribers(courses));
-				setUniqueSubscribedUsers(countUniqueSubscribedUsers(subscriptions));
-			} catch (error) {
-				// Toast
+	const queries = useQueries({
+		queries: [
+			{
+				queryKey: ["courses"],
+				queryFn: courseService.getAll
+			},
+			{
+				queryKey: ["subscribers"],
+				queryFn: subscriberService.getSubscribersWithCourse
+			},
+			{
+				queryKey: ["lessons"],
+				queryFn: lessonService.getAll
 			}
-		};
-		fetchStatistics();
-	}, []);
+		]	
+	})
+
+	const [courses, subscriptions, lessons] = queries.map(query => query.data ?? []) as [CourseSubscribers[], SubscriberCourse[], Lesson[]];
+
+	useMemo(() => {
+			console.log(queryClient.getQueryState(["courses"]))		
+	}, [courses])
 
 	const countUniqueSubscribedUsers = (subscriptions: SubscriberCourse[]) => {
 		const uniqueUsers = new Set(subscriptions.map(sub => sub.userId));
@@ -91,6 +88,13 @@ const Statistics = () => {
 		return Math.max(...courses.map(course => course.subscribers?.length || 0));
 	}
 
+	const statistics = useMemo(() => ({
+		averageLessonsPerCourse: countAverageLessonsPerCourse(lessons),
+		averageCoursesPerUser: countAverageCoursesPerUser(subscriptions),
+		mostPopularCourseTotalSubscribers: countMostPopularCourseTotalSubscribers(courses),
+		uniqueSubscribedUsers: countUniqueSubscribedUsers(subscriptions)
+	}), [courses, subscriptions, lessons]);
+
 	return (
 		<>
 			<div className="grid grid-cols-1 @xl/main:grid-cols-4 gap-4 px-4 *:data-[slot=card]:shadow-xs *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">
@@ -129,7 +133,7 @@ const Statistics = () => {
 							Popolarità
 						</div>
 						<div className="text-muted-foreground">
-							{`Il corso più popolare conta ${mostPopularCourseTotalSubscribers} iscritt${mostPopularCourseTotalSubscribers === 1 ? "o" : "i"}`}
+							{`Il corso più popolare conta ${statistics.mostPopularCourseTotalSubscribers} iscritt${statistics.mostPopularCourseTotalSubscribers === 1 ? "o" : "i"}`}
 						</div>
 					</CardFooter>
 				</Card>
@@ -141,7 +145,7 @@ const Statistics = () => {
 							Media lezioni per corso
 						</CardDescription>
 						<CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums">
-							{averageLessonsPerCourse}
+							{statistics.averageLessonsPerCourse}
 						</CardTitle>
 					</CardHeader>
 					<CardFooter className="flex-col items-start gap-1 text-sm">
@@ -161,7 +165,7 @@ const Statistics = () => {
 							Media corsi per studente
 						</CardDescription>
 						<CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums line-clamp-1">
-							{averageCoursesPerUser}
+							{statistics.averageCoursesPerUser}
 						</CardTitle>
 					</CardHeader>
 					<CardFooter className="flex-col items-start gap-1 text-sm">
@@ -169,7 +173,7 @@ const Statistics = () => {
 							Utenti iscritti a corsi
 						</div>
 						<div className="text-muted-foreground">
-							{`${uniqueSubscribedUsers} utent${uniqueSubscribedUsers === 1 ? 'e ha' : 'i hanno'} almeno un'iscrizione`}
+							{`${statistics.uniqueSubscribedUsers} utent${statistics.uniqueSubscribedUsers === 1 ? 'e ha' : 'i hanno'} almeno un'iscrizione`}
 						</div>
 					</CardFooter>
 				</Card>

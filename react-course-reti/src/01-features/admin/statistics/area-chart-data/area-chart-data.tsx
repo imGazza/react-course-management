@@ -1,5 +1,5 @@
-import { getSubscribers } from "@/03-http/subscriber";
-import { getUsers } from "@/03-http/user";
+import { subscriberService } from "@/03-http/base/services/subscriber";
+import { userService } from "@/03-http/base/services/user";
 import { Subscriber } from "@/05-model/Subscribers";
 import { User } from "@/05-model/User";
 import { eachMonthOfInterval, subMonths } from "date-fns";
@@ -33,8 +33,8 @@ export const createAreaChartData = async (months: string) => {
 }
 
 const getBaseData = async () => {
-	const allUsers = await getUsers(0);
-	const allSubscribers = await getSubscribers(0);
+	const allUsers = await userService.getAll(0);
+	const allSubscribers = await subscriberService.getAll(0);
 
 	return {
 		allUsers,

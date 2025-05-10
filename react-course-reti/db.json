@@ -597,15 +597,6 @@
       "status": "Chiuso",
       "year": 2024,
       "closeDate": "2025-04-30T22:00:00.000Z"
-    },
-    {
-      "id": "6ndhk",
-      "name": "Test",
-      "description": "Test",
-      "image": "test",
-      "status": "In corso",
-      "year": 2025,
-      "closeDate": "2025-05-08T10:04:08.289Z"
     }
   ],
   "materials": [
@@ -686,7 +677,7 @@
       "userId": "7",
       "courseId": "2",
       "subscriptionDate": "2025-12-10T11:20:00.000Z",
-      "grade": null
+      "grade": 25
     },
     {
       "id": "7",
@@ -715,41 +706,6 @@
       "courseId": "2",
       "subscriptionDate": "2025-08-05T14:20:00.000Z",
       "grade": 30
-    },
-    {
-      "id": "11",
-      "userId": "12",
-      "courseId": "3",
-      "subscriptionDate": "2025-12-20T09:45:00.000Z",
-      "grade": null
-    },
-    {
-      "id": "12",
-      "userId": "13",
-      "courseId": "3",
-      "subscriptionDate": "2025-11-15T16:30:00.000Z",
-      "grade": null
-    },
-    {
-      "id": "13",
-      "userId": "14",
-      "courseId": "3",
-      "subscriptionDate": "2025-10-25T11:50:00.000Z",
-      "grade": null
-    },
-    {
-      "id": "14",
-      "userId": "15",
-      "courseId": "3",
-      "subscriptionDate": "2025-09-30T13:15:00.000Z",
-      "grade": null
-    },
-    {
-      "id": "15",
-      "userId": "16",
-      "courseId": "3",
-      "subscriptionDate": "2025-08-15T15:40:00.000Z",
-      "grade": null
     },
     {
       "id": "16",
@@ -1053,73 +1009,31 @@
       "grade": null
     },
     {
-      "id": "8mn5z",
-      "userId": "24",
-      "courseId": "6ndhk",
-      "subscriptionDate": "2025-05-08T09:10:51.362Z",
-      "grade": null
-    },
-    {
-      "id": "k4ohy",
-      "userId": "32",
-      "courseId": "6ndhk",
-      "subscriptionDate": "2025-05-08T09:12:47.591Z",
-      "grade": null
-    },
-    {
-      "id": "lr39e",
-      "userId": "40",
-      "courseId": "6ndhk",
-      "subscriptionDate": "2025-05-08T09:13:00.279Z",
-      "grade": null
-    },
-    {
-      "id": "d480u",
-      "userId": "49",
-      "courseId": "6ndhk",
-      "subscriptionDate": "2025-05-08T09:14:58.890Z",
-      "grade": null
-    },
-    {
-      "id": "hbz4s",
-      "userId": "50",
-      "courseId": "6ndhk",
-      "subscriptionDate": "2025-05-08T09:16:33.924Z",
-      "grade": null
-    },
-    {
-      "id": "kiegb",
-      "userId": "26",
-      "courseId": "6ndhk",
-      "subscriptionDate": "2025-05-08T09:18:51.355Z",
-      "grade": null
-    },
-    {
-      "id": "c47e7",
-      "userId": "25",
-      "courseId": "6ndhk",
-      "subscriptionDate": "2025-05-08T09:20:04.827Z",
-      "grade": null
-    },
-    {
-      "id": "q4xle",
-      "userId": "4",
-      "courseId": "6ndhk",
-      "subscriptionDate": "2025-05-08T09:21:16.360Z",
-      "grade": null
-    },
-    {
-      "id": "ox0bk",
+      "id": "es622",
       "userId": "3",
-      "courseId": "6ndhk",
-      "subscriptionDate": "2025-05-08T09:22:14.248Z",
+      "courseId": "3",
+      "subscriptionDate": "2025-05-08T13:06:19.620Z",
       "grade": null
     },
     {
-      "id": "6a0mm",
-      "userId": "23",
-      "courseId": "6ndhk",
-      "subscriptionDate": "2025-05-08T09:31:16.625Z",
+      "id": "t94mw",
+      "userId": "5",
+      "courseId": "3",
+      "subscriptionDate": "2025-05-08T13:50:20.309Z",
+      "grade": null
+    },
+    {
+      "id": "iz1sk",
+      "userId": "3",
+      "courseId": "3",
+      "subscriptionDate": "2025-05-08T13:50:20.310Z",
+      "grade": null
+    },
+    {
+      "id": "z5fo7",
+      "userId": "4",
+      "courseId": "3",
+      "subscriptionDate": "2025-05-08T18:56:51.393Z",
       "grade": null
     }
   ],

@@ -7,14 +7,14 @@ import { useContext, useEffect, useState } from "react";
 import { Badge } from "@/02-components/ui/badge";
 import { useParams } from "react-router";
 import { Subscriber, SubscriberUser } from "@/05-model/Subscribers";
-import { addCourseSubscriber, deleteSubscriber, getSubscribersUsers } from "@/03-http/subscriber";
+import { addCourseSubscriber, deleteSubscriber, getSubscribersUsers } from "@/03-http/base/services/subscriber";
 import CourseDetailGrades from "./course-detail-grades";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/02-components/ui/tooltip";
 import { subDays } from "date-fns";
 import { CourseContext } from "@/06-providers/course/course-context";
 import { GenerateId } from "@/05-model/BaseEntity";
-import useBaseComponent from "@/04-hooks/use-base-component";
+import useBaseComponent from "@/04-hooks/use-base-component-custom";
 
 const CourseDetailTabs = () => {
 
@@ -22,12 +22,18 @@ const CourseDetailTabs = () => {
 	const { course, setSubscribersNumber } = useContext(CourseContext);
 	const [activeTab, setActiveTab] = useState("subscribers");
 
-	const { query: { data: subscribers = [] }, onAdd, onDelete, isLoading, refetch } = useBaseComponent<Subscriber, SubscriberUser, SubscriberUser[]>({
-		queryKey: ["subscribers"],
-		fetch: () => getSubscribersUsers(courseId!),
-		add: addCourseSubscriber,
-		del: deleteSubscriber,
-	});
+	const {
+		query: { data: subscribers = [] },
+		onAdd,
+		onDelete,
+		isLoading,
+		remove 
+	} = useBaseComponent<Subscriber, SubscriberUser, SubscriberUser[]>({
+			queryKey: ['subscribers'],
+			fetch: () => getSubscribersUsers(courseId!),
+			add: addCourseSubscriber,
+			del: deleteSubscriber
+		});
 
 	useEffect(() => {
 		if (!course)
@@ -51,7 +57,7 @@ const CourseDetailTabs = () => {
 				grade: null
 			});
 		}
-		refetch(); // refetch perchè aggiungendo un iscritto senza relation di User, perdo le info dell'utente
+		remove(['subscribers']); // remove perchè aggiungendo un iscritto senza relation di User, perdo le info dell'utente, devo quindi 
 	}
 
 	const onDeleteSubscriber = async (id: string) => {
@@ -73,7 +79,7 @@ const CourseDetailTabs = () => {
 
 	const isGradesEnabled = course?.status === "Chiuso" && course.closeDate && new Date(course.closeDate) > subDays(new Date(), 30);
 
-	if (isLoading || !course || subscribers.some(s => !s.user))
+	if (isLoading || !course)
 		return <CourseDetailTabsSkeleton />;
 
 	return (

@@ -1,4 +1,4 @@
-import { getCourses } from "@/03-http/course";
+import { getCourses } from "@/03-http/base/services/course";
 import { CourseSubscribers } from "@/05-model/Course";
 import { eachYearOfInterval, subYears } from "date-fns";
 

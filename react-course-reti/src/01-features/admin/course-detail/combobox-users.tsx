@@ -1,7 +1,7 @@
 import { Button } from "@/02-components/ui/button"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/02-components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/02-components/ui/popover"
-import { getUsers } from "@/03-http/user"
+import { userService } from "@/03-http/base/services/user"
 import useBaseComponent from "@/04-hooks/use-base-component"
 import { User } from "@/05-model/User"
 import { Check, ChevronsUpDown } from "lucide-react"
@@ -13,10 +13,10 @@ interface ComboboxUsersProps {
 
 const ComboboxUsers = ({ onAddSubscriber }: ComboboxUsersProps) => {
 
-	const { query: { data: users = [] } } = useBaseComponent<User, User, User[]>(
+	const { query: { data: users = [] } } = useBaseComponent<User, User[]>(
 		{
 			queryKey: ["users"],
-			fetch: getUsers
+			fetch: userService.getAll
 		}
 	)
 

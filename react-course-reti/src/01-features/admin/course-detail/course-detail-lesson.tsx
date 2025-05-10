@@ -1,28 +1,28 @@
 import { Plus, Presentation, BookOpenText, Edit, Trash2 } from "lucide-react"
 import { Button } from "@/02-components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/02-components/ui/card"
-import { useContext, useEffect, useState } from "react"
-import { AreLessonsDifferent, FetchInitialData } from "@/02-components/utils/course/course-utils"
+import { useContext, useEffect } from "react"
+import { AreLessonsDifferent } from "@/02-components/utils/course/course-utils"
 import { useParams } from "react-router"
 import { Lesson } from "@/05-model/Lesson"
-import { addNewLesson, deleteLesson, editLesson, getCourseLessons } from "@/03-http/lesson"
 import GazzaDialog from "@/02-components/ui/gazza-dialog"
 import LessonDialog from "@/02-components/utils/dialogs/lesson-dialog"
 import { Skeleton } from "@/02-components/ui/skeleton"
 import { ScrollArea } from "@/02-components/ui/scroll-area"
 import { CourseContext } from "@/06-providers/course/course-context"
 import useBaseComponent from "@/04-hooks/use-base-component"
+import { lessonService } from "@/03-http/base/services/lesson"
 
 const CourseDetailLesson = () => {
 
 	const { courseId } = useParams();
 	const { setLessonsNumber } = useContext(CourseContext);
-	const { query: {data : lessons = []}, onAdd, onEdit, onDelete, isLoading} = useBaseComponent<Lesson, Lesson, Lesson[]>({
+	const { query: {data : lessons = []}, onAdd, onEdit, onDelete, isLoading} = useBaseComponent<Lesson, Lesson[]>({
 		queryKey: ["lessons", courseId!],
-		fetch: () => getCourseLessons(courseId!),
-		add: addNewLesson,
-		edit: editLesson,
-		del: deleteLesson
+		fetch: () => lessonService.getLessonsByCourseId(courseId!),
+		add: lessonService.add,
+		edit: lessonService.edit,
+		del: lessonService.delete,
 	})
 
 	useEffect(() => {
