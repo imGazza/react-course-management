@@ -9,8 +9,8 @@ class UserService extends BaseService<User>  {
         super("users")
     } 
 
-    getUserToLog = async (email: string, password: string): Promise<User> => {
-        return client.get<User>(`${BASE_URL}?email=${email}&password=${password}`);
+    getUserToLog = async (email: string, password: string, delay?: number): Promise<User[]> => {
+        return client.get<User[]>(`${BASE_URL}?email=${email}&password=${password}`, delay);
     }
 
     getUsersWithSubscriptions = async (): Promise<UserEmbedsSubscriptions[]> => {

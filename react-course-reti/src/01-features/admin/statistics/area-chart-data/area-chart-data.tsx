@@ -33,8 +33,11 @@ export const createAreaChartData = async (months: string) => {
 }
 
 const getBaseData = async () => {
-	const allUsers = await userService.getAll(0);
-	const allSubscribers = await subscriberService.getAll(0);
+
+	const [allUsers, allSubscribers] = await Promise.all([
+		userService.getAll(0),
+		subscriberService.getAll(0)
+	]);
 
 	return {
 		allUsers,

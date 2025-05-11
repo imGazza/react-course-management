@@ -17,6 +17,7 @@ import { GenerateId } from "@/05-model/BaseEntity";
 import useBaseComponentCustom from "@/04-hooks/use-base-component-custom";
 import { courseSubscriptionService } from "@/03-http/course-subscription-service";
 import { User } from "@/05-model/User";
+import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";
 
 const CourseDetailTabs = () => {
 
@@ -162,8 +163,8 @@ const CourseDetailTabsSkeleton = () => {
 						<Skeleton className="h-4 w-32" />
 						<Skeleton className="h-4 w-24" />
 					</div>
-					{[...Array(5)].map(() => (
-						<div key={`skeleton-row-${crypto.randomUUID()}`} className="flex items-center space-x-4 py-2">
+					{createSkeletonArray(5).map(() => (
+						<div key={skeletonUniqueId()} className="flex items-center space-x-4 py-2">
 							<Skeleton className="h-4 w-20" />
 							<Skeleton className="h-4 w-20" />
 							<Skeleton className="flex-1 h-4" />

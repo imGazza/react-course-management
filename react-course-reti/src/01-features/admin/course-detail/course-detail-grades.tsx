@@ -7,6 +7,7 @@ import { Input } from "@/02-components/ui/input";
 import { useEffect, useState } from "react";
 import { subscriberService } from "@/03-http/base/services/subscriber";
 import { ScrollArea } from "@/02-components/ui/scroll-area";
+import { avatarFallback } from "@/02-components/utils/misc";
 
 interface CourseDetailSubscriberProps {
 	initialSubscriptionsWithUser: SubscriptionsWithUser[];
@@ -79,7 +80,7 @@ const CourseDetailGrades = ({ initialSubscriptionsWithUser }: CourseDetailSubscr
 								<div className="flex items-center space-x-4">
 									<Avatar>
 										<AvatarImage src={`/avatars/${subscriptionWithUser.user.avatar}`} className="object-cover" />
-										<AvatarFallback className="text-xs">{subscriptionWithUser.user.firstName.charAt(0) + subscriptionWithUser.user.lastName.charAt(0)}</AvatarFallback>
+										<AvatarFallback className="text-xs">{avatarFallback(subscriptionWithUser.user.firstName, subscriptionWithUser.user.lastName)}</AvatarFallback>
 									</Avatar>
 									<div className="flex-1">
 										<div className="font-medium">{`${subscriptionWithUser.user.firstName} ${subscriptionWithUser.user.lastName}`}</div>

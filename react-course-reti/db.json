@@ -24,9 +24,8 @@
       "firstName": "John",
       "lastName": "Smith",
       "email": "john.smith@email.com",
-      "password": "password",
-      "isAdmin": false,
       "avatar": "",
+      "isAdmin": false,
       "joinedDate": "2020-11-30T16:20:00.000Z"
     },
     {
@@ -597,14 +596,6 @@
       "status": "Chiuso",
       "year": 2024,
       "closeDate": "2025-04-30T22:00:00.000Z"
-    },
-    {
-      "id": "pa5y3",
-      "name": "dfgdf",
-      "description": "dfgdfg",
-      "image": "gdfgdf",
-      "status": "Pianificato",
-      "year": 2025
     }
   ],
   "materials": [
@@ -699,7 +690,7 @@
       "userId": "9",
       "courseId": "2",
       "subscriptionDate": "2025-10-15T15:10:00.000Z",
-      "grade": null
+      "grade": 13
     },
     {
       "id": "9",
@@ -1028,13 +1019,6 @@
       "userId": "5",
       "courseId": "3",
       "subscriptionDate": "2025-05-08T13:50:20.309Z",
-      "grade": null
-    },
-    {
-      "id": "iz1sk",
-      "userId": "3",
-      "courseId": "3",
-      "subscriptionDate": "2025-05-08T13:50:20.310Z",
       "grade": null
     },
     {

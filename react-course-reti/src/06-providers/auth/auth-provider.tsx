@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { AuthContext } from "./auth-context";
 import { User } from "@/05-model/User";
 import { useNavigate } from "react-router";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AuthProviderProps {
     children: React.ReactNode;
@@ -14,6 +15,7 @@ function AuthProvider({children}: Readonly<AuthProviderProps>) {
         return loggedUser ? JSON.parse(loggedUser) : null;
     }
   );
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const setSessionUser = (user: User) => {
@@ -24,6 +26,7 @@ function AuthProvider({children}: Readonly<AuthProviderProps>) {
   const removeSessionUser = () => {
     setUser(null);
     localStorage.removeItem('user');
+    queryClient.clear();
     navigate('/login');
   }
 

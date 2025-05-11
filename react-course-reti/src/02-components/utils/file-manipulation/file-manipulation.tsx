@@ -1,5 +1,7 @@
 import { ChangeEvent } from "react";
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
 // Avatar
 
 // Crea un URL temporaneo per visualizzare l'anteprima dell'immagine caricata
@@ -67,3 +69,7 @@ export const compressImage = (file: File): Promise<File> => {
 		};
 	});
 };
+
+export const IsFileSizeValid = (file: File) => {
+	return file.size <= MAX_FILE_SIZE;
+}

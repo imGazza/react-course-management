@@ -9,6 +9,7 @@ import CourseDetail from "@/01-features/admin/course-detail/course-detail";
 import UsersSection from "@/01-features/admin/users-list/users-section";
 import PersonalCoursesList from "@/01-features/shared/personal-courses/personal-courses-list";
 import Statistics from "@/01-features/admin/statistics/statistics";
+import CoursesSection from "@/01-features/admin/courses-list/courses-section";
 
 export const routes = createBrowserRouter([
     {
@@ -33,11 +34,11 @@ export const routes = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <ProtectedRoute><AdminCourses /></ProtectedRoute>
+                        element: <ProtectedRoute><CoursesSection /></ProtectedRoute>
                     },
                     {
                         path: "detail/:courseId",
-                        Component: CourseDetail
+                        element: <ProtectedRoute><CourseDetail /></ProtectedRoute>
                     }
                 ]
             },
@@ -50,7 +51,7 @@ export const routes = createBrowserRouter([
                     },
                     {
                         path: "detail/:userId",
-                        Component: UserDetail
+                        element: <ProtectedRoute><UserDetail /></ProtectedRoute>
                     }
                 ]
             },
@@ -64,7 +65,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "stats",
-                Component: Statistics
+                element: <ProtectedRoute><Statistics /></ProtectedRoute>
             }
         ]
     },

@@ -10,13 +10,14 @@ import { Progress } from "@/02-components/ui/progress";
 import { Separator } from "@/02-components/ui/separator";
 import { Button } from "@/02-components/ui/button";
 import GazzaDialog from "@/02-components/ui/gazza-dialog";
-import MaterialsDialog from "@/02-components/utils/dialogs/materials-dialog";
-import LessonsDialog from "@/02-components/utils/dialogs/lessons-dialog";
+import MaterialsDialog from "@/02-components/ui/dialogs/materials-dialog";
+import LessonsDialog from "@/02-components/ui/dialogs/lessons-dialog";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import useBreadcrumbs from "@/04-hooks/use-breadcrums";
 import { PersonalCoursesInfo } from "@/05-model/PersonalCourses";
 import useBaseComponentCustom from "@/04-hooks/use-base-component-custom";
 import { personalCoursesService } from "@/03-http/personal-courses-service";
+import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";
 
 const PersonalCoursesList = () => {
 
@@ -65,7 +66,12 @@ const PersonalCoursesList = () => {
 													<BookOpen className="h-5 w-5 text-muted-foreground" />
 													<h3 className="text-lg font-semibold">{personalCourse.course.name}</h3>
 												</div>
-												<Badge variant="secondary">{personalCourse.progress.percentageCompleted}% Completato</Badge>
+												<div className="flex gap-2">
+													{personalCourse.course.status && (
+														<Badge variant="outline">{personalCourse.course.status}</Badge>
+													)}
+													<Badge variant="secondary">{personalCourse.progress.percentageCompleted}% Completato</Badge>
+												</div>
 											</div>
 
 											<Progress value={personalCourse.progress.percentageCompleted} className="h-2" />
@@ -124,8 +130,8 @@ const PersonalCoursesListSkeleton = () => {
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-6">
-						{Array.from({ length: 3 }).map((_, index) => (
-							<div key={index} className="space-y-4">
+						{createSkeletonArray(3).map((_, index) => (
+							<div key={skeletonUniqueId()} className="space-y-4">
 								<div className="flex flex-col md:flex-row gap-6">
 									<div className="relative w-full md:w-1/4 h-48 rounded-lg overflow-hidden">
 										<Skeleton className="w-full h-full" />

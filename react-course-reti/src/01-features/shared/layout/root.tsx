@@ -2,6 +2,7 @@ import AuthProvider from "@/06-providers/auth/auth-provider";
 import { ThemeProvider } from "@/06-providers/theme/theme-provider";
 import MainWrapper from "./main-wrapper";
 import BreadcrumbProvider from "@/06-providers/breadcrumb/breadcrumb-provider";
+import { Toaster } from "sonner";
 
 const Root = () => {
 
@@ -9,6 +10,7 @@ const Root = () => {
 		<AuthProvider>
 			<ThemeProvider>
 				<BreadcrumbProvider>
+					<Toaster />
 					<MainWrapper />
 				</BreadcrumbProvider>
 			</ThemeProvider>
@@ -17,7 +19,6 @@ const Root = () => {
 }
 export default Root;
 
-//TODO: Refactora le cartelle
 //TODO: Controlla tutti gli error handling
 //TODO: Controlla i nomi delle varie variabili e componenti
 //TODO: Sostituisci le parti che possono diventare troppo lunghe con ScrollArea

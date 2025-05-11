@@ -4,30 +4,41 @@ import { Material } from "./Material";
 import { Subscriber } from "./Subscribers";
 
 export interface Course extends BaseEntity {
-    name: string;
-    description: string;
-    image: string;
-    status: "Pianificato" | "In corso" | "Chiuso";
-    year: number;
-    closeDate: string;
+	name: string;
+	description: string;
+	image: string;
+	status: "Pianificato" | "In corso" | "Chiuso";
+	year: number;
+	closeDate: string;
 }
 
-export interface CourseEmbedsSubscriptions extends Course  {
-    subscribers: Subscriber[];
+export interface CourseEmbedsSubscriptions extends Course {
+	subscribers: Subscriber[];
 }
 
-export interface CourseEnrollmentInfoForUser{
-    courseWithSubscriptions: CourseWithSubscriptions;
-    userSubscription: Subscriber | null;
+export interface CourseEmbedsLessonsAndMaterials extends Course {
+	lessons: Lesson[];
+	materials: Material[];
 }
 
-export interface CourseWithSubscriptions{
-    course: Course;
-    subscriptions: Subscriber[];
+export interface CourseEnrollmentInfoForUser {
+	courseWithSubscriptions: CourseWithSubscriptions;
+	userSubscription: Subscriber | null;
 }
 
-export interface CourseWithLessonsAndMaterialsByUserId{
-    course: Course;
-    lessons: Lesson[];
-    materials: Material[]; 
+export interface CourseWithSubscriptions {
+	course: Course;
+	subscriptions: Subscriber[];
+}
+
+export interface CourseWithLessonsAndMaterials {
+	course: Course;
+	lessons: Lesson[];
+	materials: Material[];
+}
+
+// Utils
+
+export const AreCoursesDifferent = (course: Course, editedCourse: Course) => {
+	return course.name !== editedCourse.name || course.description !== editedCourse.description || course.year !== editedCourse.year || course.status !== editedCourse.status || course.closeDate !== editedCourse.closeDate;
 }

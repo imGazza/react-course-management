@@ -28,6 +28,7 @@ import {
 import { User } from "@/05-model/User"
 import { Link } from "react-router"
 import { cn } from "@/98-lib/utils"
+import { avatarFallback } from "@/02-components/utils/misc"
 
 interface NavUserProps {
   user: User | null,
@@ -48,7 +49,7 @@ const NavUser = ({ user, logout }: NavUserProps) => {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={`/avatars/${user.avatar}`} alt={`${user.firstName} ${user.lastName}`} className="object-cover" />
-                <AvatarFallback className="rounded-lg">{`${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`}</AvatarFallback>
+                <AvatarFallback className="rounded-lg">{avatarFallback(user.firstName, user.lastName)}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{`${user.firstName} ${user.lastName}`}</span>
@@ -67,7 +68,7 @@ const NavUser = ({ user, logout }: NavUserProps) => {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={`/avatars/${user.avatar}`} alt={`${user.firstName} ${user.lastName}`} className="object-cover" />
-                  <AvatarFallback className="rounded-lg">{`${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`}</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">{avatarFallback(user.firstName, user.lastName)}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{`${user.firstName} ${user.lastName}`}</span>

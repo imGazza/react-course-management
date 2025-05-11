@@ -9,6 +9,7 @@ import { DeleteMaterial, DownloadMaterial, GetFileSizeInMB, SaveAndGetMaterial }
 import { ScrollArea } from "@/02-components/ui/scroll-area";
 import useBaseComponent from "@/04-hooks/use-base-component";
 import { materialService } from "@/03-http/base/services/material";
+import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";
 
 const CourseDetailMaterial = () => {
   const { courseId } = useParams();
@@ -121,8 +122,8 @@ const CourseDetailMaterialSkeleton = () => {
       </CardHeader>
       <CardContent className="flex-1">
         <div className="space-y-4">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <div key={index} className="flex items-center justify-between p-3 border rounded-md">
+          {createSkeletonArray(3).map(() => (
+            <div key={skeletonUniqueId()} className="flex items-center justify-between p-3 border rounded-md">
               <div className="flex items-center gap-3">
                 <Skeleton className="h-5 w-5" />
                 <div>

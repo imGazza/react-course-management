@@ -6,6 +6,7 @@ import { Skeleton } from "@/02-components/ui/skeleton";
 import useBaseComponent from "@/04-hooks/use-base-component";
 import { User } from "@/05-model/User";
 import { userService } from "@/03-http/base/services/user";
+import { avatarFallback } from "@/02-components/utils/misc";
 
 const UserDetailInfo = ({ userId }: { userId: string }) => {
 
@@ -26,7 +27,7 @@ const UserDetailInfo = ({ userId }: { userId: string }) => {
 						<div>
 							<Avatar className="w-24 h-24 border-muted">
 								<AvatarImage src={`/avatars/${user.avatar}`} alt={`${user.firstName} ${user.lastName}`} className="object-cover" />
-								<AvatarFallback className="text-3xl">{`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`}</AvatarFallback>
+								<AvatarFallback className="text-3xl">{avatarFallback(user.firstName, user.lastName)}</AvatarFallback>
 							</Avatar>
 						</div>
 

@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { courseService } from "@/03-http/base/services/course"
-import { Course, CourseWithSubscriptions } from "@/05-model/Course"
+import { AreCoursesDifferent, Course, CourseWithSubscriptions } from "@/05-model/Course"
 import CourseCard, { CourseCardSkeleton } from "./course-card"
 import YearSelect from "./year-select"
 import { Plus } from "lucide-react"
-import CourseDialog from "@/02-components/utils/dialogs/course-dialog"
+import CourseDialog from "@/02-components/ui/dialogs/course-dialog"
 import GazzaDialog from "@/02-components/ui/gazza-dialog"
 import { Button } from "@/02-components/ui/button"
-import { AreCoursesDifferent } from "@/02-components/utils/course/course-utils"
 import useBreadcrumbs from "@/04-hooks/use-breadcrums"
 import useBaseComponentCustom from "@/04-hooks/use-base-component-custom"
 import { courseSubscriptionService } from "@/03-http/course-subscription-service"
+import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc"
 
 const CoursesSection = () => {
 
   const CURRENT_YEAR = new Date().getFullYear().toString();
 
   useBreadcrumbs([{ label: "Corsi", url: "#" }]);
-  const { 
+  const {
     query: { data: courseWithSubscriptions = [] },
-    onAdd, 
-    onEdit, 
+    onAdd,
+    onEdit,
     onDelete,
     isLoading
   } = useBaseComponentCustom<Course, CourseWithSubscriptions, 'course', CourseWithSubscriptions[]>(
@@ -31,7 +31,7 @@ const CoursesSection = () => {
       edit: courseService.edit,
       del: courseService.deleteCourse,
       entityKey: 'course',
-      defaultEmptyItem: {  subscriptions: [] },
+      defaultEmptyItem: { subscriptions: [] },
     }
   )
 
@@ -42,7 +42,7 @@ const CoursesSection = () => {
   }
 
   const onEditCourse = async (course: Course) => {
-    if(!AreCoursesDifferent(course, courseWithSubscriptions.find(c => c.course.id === course.id)!.course))
+    if (!AreCoursesDifferent(course, courseWithSubscriptions.find(c => c.course.id === course.id)!.course))
       return;
 
     onEdit(course);
@@ -79,8 +79,8 @@ const CoursesSection = () => {
             <CourseCard key={c.course.id} courseWithSubscriptions={c} onEdit={onEditCourse} onDelete={onDeleteCourse} />
           ))
           :
-          Array.from({ length: 12 }).map((_, index) => (
-            <CourseCardSkeleton key={index} />
+          createSkeletonArray(12).map(() => (
+            <CourseCardSkeleton key={skeletonUniqueId()} />
           ))
         }
       </div>

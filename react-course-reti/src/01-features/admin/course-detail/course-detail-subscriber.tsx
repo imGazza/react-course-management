@@ -9,8 +9,7 @@ import { Skeleton } from "@/02-components/ui/skeleton"
 import { CourseContext } from "@/06-providers/course/course-context"
 import ComboboxUsers from "./combobox-users"
 import { User } from "@/05-model/User"
-
-const SKELETON_ROWS = 4;
+import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc"
 
 interface CourseDetailSubscriberProps {
 	subscriptionsWithUser: SubscriptionsWithUser[];
@@ -102,8 +101,8 @@ const CourseDetailSubscriberSkeleton = () => {
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{[...Array(SKELETON_ROWS)].map(() => (
-								<TableRow key={`skeleton-row-${crypto.randomUUID()}`}>
+							{createSkeletonArray(4).map(() => (
+								<TableRow key={skeletonUniqueId()}>
 									<TableCell>
 										<Skeleton className="h-5 w-40" />
 									</TableCell>

@@ -2,15 +2,17 @@ import { Card } from "@/02-components/ui/card";
 import { Input } from "@/02-components/ui/input";
 import { Button } from "@/02-components/ui/button";
 import { ChangeEvent, useContext, useEffect, useRef, useState, DragEvent } from "react";
-import { User } from "@/05-model/User";
+import { AreUsersDifferent, User } from "@/05-model/User";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "@/06-providers/auth/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/02-components/ui/avatar";
 import { Label } from "@/02-components/ui/label";
 import { Skeleton } from "@/02-components/ui/skeleton";
-import { AreUsersDifferent, SaveAndGetAvatarFileName } from "@/02-components/utils/course/course-utils";
 import { uploadPreviewDisplay } from "@/02-components/utils/file-manipulation/file-manipulation";
 import { userService } from "@/03-http/base/services/user";
+import { useQueryClient } from "@tanstack/react-query";
+import { SaveAndGetAvatarFileName } from "@/02-components/utils/profile/profile-utils";
+import { avatarFallback } from "@/02-components/utils/misc";
 
 interface ProfilePageEditProps {
 	user: User;
@@ -23,6 +25,7 @@ const ProfilePageEdit = ({ user }: ProfilePageEditProps) => {
 	const [avatarFile, setAvatarFile] = useState<File | null>(null);
 	const { setSessionUser } = useContext(AuthContext);
 	const [loading, setLoading] = useState<boolean>(false);
+	const queryClient = useQueryClient();
 
 	//In questo componente faccio solo una edit, non instanzio il baseComponent perchè non mi serve la cache di react-query
 
@@ -68,6 +71,8 @@ const ProfilePageEdit = ({ user }: ProfilePageEditProps) => {
 		}
 	};
 
+	// Unca chiamata, non importo il custom hook di react-query per comodità
+	// Importo solo il QueryClient per invalidare la cache
 	const onSubmit = async (editedUser: User) => {		
 		if(!AreUsersDifferent(user, editedUser) && !avatarFile)
 			return;
@@ -80,6 +85,7 @@ const ProfilePageEdit = ({ user }: ProfilePageEditProps) => {
 			}			
 			const updatedUser = await userService.edit(editedUser);
 			setSessionUser(updatedUser);
+			queryClient.removeQueries({ queryKey: ["user", user.id] });
 		} catch (error) {
 			// Toast 
 		} finally {
@@ -96,7 +102,7 @@ const ProfilePageEdit = ({ user }: ProfilePageEditProps) => {
 				<div className="flex gap-8 items-center">
 					<Avatar className="w-24 h-24 border-muted">
 						<AvatarImage src={previewUrl ?? `/avatars/${user.avatar}`} alt={`${user.firstName} ${user.lastName}`} className="object-cover" />
-						<AvatarFallback className="text-3xl">{`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`}</AvatarFallback>
+						<AvatarFallback className="text-3xl">{avatarFallback(user.firstName, user.lastName)}</AvatarFallback>
 					</Avatar>
 					<button 
 						onClick={() => fileInput.current?.click()} 

@@ -1,6 +1,7 @@
 import { BaseEntity } from "@/05-model/BaseEntity";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BaseComponentProps } from "./use-base-component";
+import { toast } from "sonner";
 
 interface BaseComponentCustomProps<
 	T extends BaseEntity,
@@ -67,17 +68,20 @@ const useBaseComponentCustom = <
 	// Override delle mutation dell'hook base
 	const addMutation = useMutation({
 		mutationFn: add,
-		onSuccess: (added: T) => addQueryData(queryClient, added)
+		onSuccess: (added: T) => addQueryData(queryClient, added),
+		onError: (error) => onError(error)
 	});
 
 	const editMutation = useMutation({
 		mutationFn: edit,
-		onSuccess: (edited: T) => editQueryData(queryClient, edited)
+		onSuccess: (edited: T) => editQueryData(queryClient, edited),
+		onError: (error) => onError(error)
 	});
 
 	const deleteMutation = useMutation({
 		mutationFn: del,
-		onSuccess: (_, id: string) => deleteQueryData(queryClient, id)
+		onSuccess: (_, id: string) => deleteQueryData(queryClient, id),
+		onError: (error) => onError(error)
 	});
 
 	// QueryData
@@ -85,10 +89,11 @@ const useBaseComponentCustom = <
 	// Se viene fatta un'add, significa che si parte da un array in partenza, quindi aggiungo l'elemento alla fine
 	const addQueryData = (queryClient: QueryClient, added: T) => {
 		queryClient.setQueryData(queryKey, (prev: U[]) => {
-			if (prev)
+			if (prev) {
 				// Necessario aggiungere in input un defaultEmptyItem per inizializzare tutte le altre proprietà di U
 				// nella proprietà entityKey aggiungo il nuovo elemento (esempio T = Course, entityKey = course, added = Course)
 				return [...prev, { ...defaultEmptyItem as U, [entityKey]: added }];
+			}
 		});
 	};
 
@@ -130,12 +135,18 @@ const useBaseComponentCustom = <
 
 	const isLoading = query.isLoading || addMutation.isPending || editMutation.isPending || deleteMutation.isPending;
 
+	
+
 	const refetch = () => {
 		queryClient.invalidateQueries({ queryKey: queryKey });
 	};
 
 	const remove = (queryKey: unknown[]) => {
 		queryClient.removeQueries({ queryKey: queryKey });
+	}
+
+	const onError = (error: Error) => {
+		toast.error(error.message);
 	}
 
 	return {

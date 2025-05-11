@@ -2,13 +2,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/02-components/ui/avatar"
 import { Badge } from "@/02-components/ui/badge"
 import { Button } from "@/02-components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/02-components/ui/tooltip"
-import UserDialog from "@/02-components/utils/dialogs/user-dialog"
+import UserDialog from "@/02-components/ui/dialogs/user-dialog"
 import GazzaConfirmDialog from "@/02-components/ui/gazza-confirm-dialog"
 import GazzaDialog from "@/02-components/ui/gazza-dialog"
 import { User, UserState } from "@/05-model/User"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, Pencil, ShieldCheck, SquareArrowOutUpRight, Trash2, User as UserIcon } from "lucide-react"
 import { Link } from "react-router"
+import { avatarFallback } from "@/02-components/utils/misc"
 
 interface ColumnsProps {
     onEditUser: (user: User) => void;
@@ -38,7 +39,7 @@ export const columns = ({ onEditUser, onDeleteUser }: ColumnsProps): ColumnDef<U
                 <div className="flex gap-3 items-center w-[200px]">
                     <Avatar className="h-10 w-10 rounded-lg">
                         <AvatarImage src={`/avatars/${state.user.avatar}`} alt={`${state.user.firstName} ${state.user.lastName}`} className="object-cover" />
-                        <AvatarFallback className="rounded-lg">{`${state.user.firstName.charAt(0).toUpperCase()}${state.user.lastName.charAt(0).toUpperCase()}`}</AvatarFallback>
+                        <AvatarFallback className="rounded-lg">{avatarFallback(state.user.firstName, state.user.lastName)}</AvatarFallback>
                     </Avatar>
                     {`${state.user.firstName} ${state.user.lastName}`}
                 </div>

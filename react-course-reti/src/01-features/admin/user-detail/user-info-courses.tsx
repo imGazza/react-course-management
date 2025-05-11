@@ -12,6 +12,7 @@ import useBaseComponent from "@/04-hooks/use-base-component-custom"
 import { courseEnrollmentService } from "@/03-http/course-enrollment-service"
 import { subscriberService } from "@/03-http/base/services/subscriber"
 import { CourseEnrollmentInfoForUser } from "@/05-model/Course"
+import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc"
 
 
 const UserInfoCourses = () => {
@@ -141,8 +142,8 @@ const UserInfoCoursesSkeleton = () => {
 			<TabsContent value="subscribed">
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 					{
-						Array.from({ length: 4 }).map((_, index) => (
-							<CourseCardSkeleton key={index} />
+						createSkeletonArray(4).map(() => (
+							<CourseCardSkeleton key={skeletonUniqueId()} />
 						))
 					}
 				</div>

@@ -23,6 +23,7 @@ import React, { useState } from "react"
 import { Input } from "@/02-components/ui/input"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Skeleton } from "@/02-components/ui/skeleton"
+import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -145,16 +146,16 @@ export function DataTableSkeleton() {
                 <Table>
                     <TableHeader className="bg-muted/40">
                         <TableRow>
-                            {Array.from({ length: 4 }).map((_, index) => (
-                                <TableHead key={index} className="p-0">
+                            {createSkeletonArray(4).map(() => (
+                                <TableHead key={skeletonUniqueId()} className="p-0">
                                     <Skeleton className="h-full w-full rounded-none" />
                                 </TableHead>
                             ))}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {Array.from({ length: 8 }).map((_, rowIndex) => (
-                            <TableRow key={rowIndex} className="h-[57px]">                                
+                        {createSkeletonArray(8).map(() => (
+                            <TableRow key={skeletonUniqueId()} className="h-[57px]">                                
                                 <TableCell>
                                     <Skeleton className="h-4 w-full" />
                                 </TableCell>                                

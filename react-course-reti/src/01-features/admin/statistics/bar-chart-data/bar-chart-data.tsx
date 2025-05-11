@@ -15,7 +15,7 @@ export const createBarChartData = async ({ uniqueCourses, allCoursesWithSubscrip
 
 	const result = yearRange.map(year => ({
 		year: year.getFullYear(),
-		...Object.fromEntries(Array.from(uniqueCourses).map(course => [
+		...Object.fromEntries([...uniqueCourses].map(course => [
 			course,
 			allCoursesWithSubscriptions.find(c => c.name === course && c.year === year.getFullYear())?.subscribers?.length ?? 0
 		]))

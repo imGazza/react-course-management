@@ -1,5 +1,6 @@
 import { BaseEntity } from "@/05-model/BaseEntity";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export interface BaseComponentProps<
 	T extends BaseEntity, // Entità base per CRUD nelle mutations
@@ -31,28 +32,35 @@ const useBaseComponent = <
 }: BaseComponentProps<T, Z>) => {
 
 	//TODO: Aggiungi gestione errori
-	const queryClient = useQueryClient();
+	const queryClient = useQueryClient();	
 
 	const query = useQuery<Z>({
 		queryKey: queryKey,
 		queryFn: fetch,
 		refetchOnWindowFocus: false,
+		throwOnError(error) {
+			onError(error);
+			return true;
+		},
 	});
 
 	// Mutations
 	const addMutation = useMutation({
 		mutationFn: add,
-		onSuccess: (added: T) => addQueryData(queryClient, added)
+		onSuccess: (added: T) => addQueryData(queryClient, added),
+		onError: (error) => onError(error)
 	});
 
 	const editMutation = useMutation({
 		mutationFn: edit,
-		onSuccess: (edited: T) => editQueryData(queryClient, edited)
+		onSuccess: (edited: T) => editQueryData(queryClient, edited),
+		onError: (error) => onError(error)
 	});
 
 	const deleteMutation = useMutation({
 		mutationFn: del,
-		onSuccess: (_, id: string) => deleteQueryData(queryClient, id)
+		onSuccess: (_, id: string) => deleteQueryData(queryClient, id),
+		onError: (error) => onError(error)
 	});
 
 	// QueryData
@@ -95,8 +103,9 @@ const useBaseComponent = <
 		queryClient.removeQueries({ queryKey: queryKey });
 	}
 
-	// const onError = (error) => {
-	// }
+	const onError = (error: unknown) => {
+		toast.error(error as string);
+	}
 
 	return {
 		query,

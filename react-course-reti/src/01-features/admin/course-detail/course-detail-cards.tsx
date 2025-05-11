@@ -6,16 +6,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/02-components/ui/card"
-import { Course } from "@/05-model/Course";
+import { AreCoursesDifferent, Course } from "@/05-model/Course";
 import { Button } from "@/02-components/ui/button";
 import GazzaDialog from "@/02-components/ui/gazza-dialog";
-import CourseDialog from "@/02-components/utils/dialogs/course-dialog";
+import CourseDialog from "@/02-components/ui/dialogs/course-dialog";
 import GazzaConfirmDialog from "@/02-components/ui/gazza-confirm-dialog";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import { useContext, useEffect, useState } from "react";
 import { courseService } from "@/03-http/base/services/course";
 import { useNavigate, useParams } from "react-router";
-import { AreCoursesDifferent } from "@/02-components/utils/course/course-utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/02-components/ui/popover";
 import { Calendar } from "@/02-components/ui/calendar";
 import { CourseContext } from "@/06-providers/course/course-context";

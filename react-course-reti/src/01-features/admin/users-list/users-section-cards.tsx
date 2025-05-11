@@ -2,6 +2,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/02-components/ui
 import { UserState } from "@/05-model/User"
 import { Skeleton } from "@/02-components/ui/skeleton"
 import { subDays } from "date-fns";
+import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";
 
 interface UsersSectionCardsProps {
 	usersState: UserState[];
@@ -69,8 +70,8 @@ const UsersSectionCards = ({ usersState, loading }: UsersSectionCardsProps) => {
 const UsersSectionCardsSkeleton = () => {
 	return (
 		<>
-			{Array.from({ length: 4 }).map((_, index) => (
-				<Card key={index} className="@container/card gap-8">
+			{createSkeletonArray(4).map(() => (
+				<Card key={skeletonUniqueId()} className="@container/card gap-8">
 					<CardHeader>
 						<CardDescription className="flex items-center gap-2">
 							<Skeleton className="h-7 w-28" />
