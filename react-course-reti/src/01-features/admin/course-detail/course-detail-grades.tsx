@@ -29,7 +29,8 @@ const CourseDetailGrades = ({ initialSubscriptionsWithUser }: CourseDetailSubscr
 		if (isNaN(grade))
 			return;
 
-		setSubscriptionsWithUser(subscriptionsWithUser.map(s => s.subscription.id === subscriber.subscription.id ? { ...s, grade: grade } : s));
+		setSubscriptionsWithUser(subscriptionsWithUser.map(s => 
+			s.subscription.id === subscriber.subscription.id ? { ...s, subscription: { ...s.subscription, grade: grade } } : s));
 	};
 
 	const handleGradeSubmit = async (subscribptionWithUser: SubscriptionsWithUser) => {

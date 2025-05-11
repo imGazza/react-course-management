@@ -1,16 +1,16 @@
 import { useMemo } from "react";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/02-components/ui/card";
-import { courseService } from "@/03-http/base/services/course";
-import { subscriberService } from "@/03-http/base/services/subscriber";
 import { Users, BookOpenText, GraduationCap, Presentation } from "lucide-react";
-import { CourseEmbedsSubscriptions } from "@/05-model/Course";
-import { SubscriptionsEmbedsCourse } from "@/05-model/Subscribers";
+import { CourseWithSubscriptions } from "@/05-model/Course";
 import { Lesson } from "@/05-model/Lesson";
 import AreaChartSubscriptions from "./area-chart-data/area-chart-subscriptions";
 import BarChartCourses from "./bar-chart-data/bar-chart-courses";
 import useBreadcrumbs from "@/04-hooks/use-breadcrums";
 import { useQueries } from "@tanstack/react-query";
 import { lessonService } from "@/03-http/base/services/lesson";
+import { userManagementService } from "@/03-http/users-management-service";
+import { UserWithSubscriptions } from "@/05-model/User";
+import { courseSubscriptionService } from "@/03-http/course-subscription-service";
 
 const Statistics = () => {
 
@@ -22,12 +22,12 @@ const Statistics = () => {
 	const queries = useQueries({
 		queries: [
 			{
-				queryKey: ["courses"],
-				queryFn: () => courseService.getCoursesEmbedsSubscribers(0)
+				queryKey: ["coursesWithSubscriptions"],
+				queryFn: () => courseSubscriptionService.getCourseWithSubscriptions(0)
 			},
 			{
-				queryKey: ["subscribers"],
-				queryFn: () => subscriberService.getSubscriptionsWithCourse(0)
+				queryKey: ["usersWithSubscriptions"],
+				queryFn: () => userManagementService.getUsersWithSubscriptions(0)
 			},
 			{
 				queryKey: ["lessons"],
@@ -36,25 +36,15 @@ const Statistics = () => {
 		]	
 	})
 
-	const [courses, subscriptions, lessons] = queries.map(query => query.data ?? []) as [CourseEmbedsSubscriptions[], SubscriptionsEmbedsCourse[], Lesson[]];
+	const [coursesWithSubscriptions, usersWithSubscriptions, lessons] = queries.map(query => query.data ?? []) as [CourseWithSubscriptions[], UserWithSubscriptions[], Lesson[]];
 
-	const countUniqueSubscribedUsers = (subscriptions: SubscriptionsEmbedsCourse[]) => {
-		const uniqueUsers = new Set(subscriptions.map(sub => sub.userId));
-		return uniqueUsers.size;
+	const countUniqueSubscribedUsers = (usersWithSubscriptions: UserWithSubscriptions[]) => {
+		return usersWithSubscriptions.filter(user => user.subscriptions.length > 0).length;
 	}
 
-	const countAverageCoursesPerUser = (subscriptions: SubscriptionsEmbedsCourse[]) => {
-		const coursesGroupedByUser = subscriptions.reduce((groups, subscription) => {
-			const key = subscription.userId;
-			if (!groups[key]) {
-				groups[key] = [];
-			}
-			groups[key].push(subscription);
-			return groups;
-		}, {} as Record<string, SubscriptionsEmbedsCourse[]>);
-
-		const averageCoursesPerUser = Object.values(coursesGroupedByUser).length > 0
-			? Number((Object.values(coursesGroupedByUser).reduce((sum, courses) => sum + courses.length, 0) / Object.values(coursesGroupedByUser).length).toFixed(1))
+	const countAverageCoursesPerUser = (usersWithSubscriptions: UserWithSubscriptions[]) => {
+		const averageCoursesPerUser = usersWithSubscriptions.length > 0
+			? Number(usersWithSubscriptions.reduce((sum, subs) => sum + subs.subscriptions.length, 0) / usersWithSubscriptions.length).toFixed(1)
 			: 0;
 
 		return averageCoursesPerUser;
@@ -78,16 +68,16 @@ const Statistics = () => {
 		return averageLessonsPerCourse;
 	}
 
-	const countMostPopularCourseTotalSubscribers = (courses: CourseEmbedsSubscriptions[]) => {
-		return Math.max(...courses.map(course => course.subscribers?.length || 0));
+	const countMostPopularCourseTotalSubscribers = (coursesWithSubscriptions: CourseWithSubscriptions[]) => {
+		return Math.max(...coursesWithSubscriptions.map(courseWithSubscriptions => courseWithSubscriptions.subscriptions?.length || 0));
 	}
 
 	const statistics = useMemo(() => ({
 		averageLessonsPerCourse: countAverageLessonsPerCourse(lessons),
-		averageCoursesPerUser: countAverageCoursesPerUser(subscriptions),
-		mostPopularCourseTotalSubscribers: countMostPopularCourseTotalSubscribers(courses),
-		uniqueSubscribedUsers: countUniqueSubscribedUsers(subscriptions)
-	}), [courses, subscriptions, lessons]);
+		averageCoursesPerUser: countAverageCoursesPerUser(usersWithSubscriptions),
+		mostPopularCourseTotalSubscribers: countMostPopularCourseTotalSubscribers(coursesWithSubscriptions),
+		uniqueSubscribedUsers: countUniqueSubscribedUsers(usersWithSubscriptions)
+	}), [coursesWithSubscriptions, usersWithSubscriptions, lessons]);
 
 	return (
 		<>
@@ -99,7 +89,7 @@ const Statistics = () => {
 							Corsi
 						</CardDescription>
 						<CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums line-clamp-1">
-							{courses.length}
+							{coursesWithSubscriptions.length}
 						</CardTitle>
 					</CardHeader>
 					<CardFooter className="flex-col items-start gap-1 text-sm">
@@ -107,7 +97,7 @@ const Statistics = () => {
 							Corsi totali
 						</div>
 						<div className="text-muted-foreground">
-							{`Di cui ${courses.filter(c => c.status === "Chiuso").length} chiusi`}
+							{`Di cui ${coursesWithSubscriptions.filter(courseWithSubscriptions => courseWithSubscriptions.course.status === "Chiuso").length} chiusi`}
 						</div>
 					</CardFooter>
 				</Card>
@@ -119,7 +109,7 @@ const Statistics = () => {
 							Utenti totali
 						</CardDescription>
 						<CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums line-clamp-1">
-							{subscriptions.length}
+							{usersWithSubscriptions.length}
 						</CardTitle>
 					</CardHeader>
 					<CardFooter className="flex-col items-start gap-1 text-sm">

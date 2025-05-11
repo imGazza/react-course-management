@@ -599,12 +599,12 @@
       "closeDate": "2025-04-30T22:00:00.000Z"
     },
     {
-      "id": "xp8pv",
-      "name": "dfsdsdf2",
-      "description": "dsfsdfsd2",
-      "image": "sdfsdfds2",
+      "id": "pa5y3",
+      "name": "dfgdf",
+      "description": "dfgdfg",
+      "image": "gdfgdf",
       "status": "Pianificato",
-      "year": "2026"
+      "year": 2025
     }
   ],
   "materials": [
@@ -1111,12 +1111,6 @@
       "name": "Generics e Decoratori",
       "courseId": "5",
       "lessonDate": "2025-04-20T09:00:00.000Z"
-    },
-    {
-      "id": "15",
-      "name": "TypeScript con React",
-      "courseId": "5",
-      "lessonDate": "2025-05-20T09:00:00.000Z"
     },
     {
       "id": "16",

@@ -7,7 +7,7 @@ class LessonService extends BaseService<Lesson>{
        super("lessons");
     }
 
-    async getLessonsByCourseId(courseId: string): Promise<Lesson[]> {
+    getLessonsByCourseId = async (courseId: string): Promise<Lesson[]> => {
         return await client.get<Lesson[]>(`${this.baseUrl}?courseId=${courseId}`);
     }
 }

@@ -7,7 +7,7 @@ class MaterialService extends BaseService<Material> {
         super("materials")
     } 
 
-    async getMaterialsByCourseId(courseId: string): Promise<Material[]> {
+    getMaterialsByCourseId = async (courseId: string): Promise<Material[]> => {
         return await client.get<Material[]>(`${this.baseUrl}?courseId=${courseId}`);
     }
 }

@@ -41,7 +41,7 @@ const CourseDetailCards = () => {
       queryKey: ['course', courseId!],
       fetch: () => courseService.get(courseId!),
       edit: courseService.edit,
-      del: courseService.delete,
+      del: courseService.deleteCourse,
     }
   )
 

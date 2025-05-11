@@ -8,7 +8,7 @@ import { Check, ChevronsUpDown } from "lucide-react"
 import { useState } from "react"
 
 interface ComboboxUsersProps {
-	onAddSubscriber: (userIds: string[]) => void;
+	onAddSubscriber: (users: User[]) => void;
 }
 
 const ComboboxUsers = ({ onAddSubscriber }: ComboboxUsersProps) => {
@@ -34,7 +34,7 @@ const ComboboxUsers = ({ onAddSubscriber }: ComboboxUsersProps) => {
 	}
 
 	const onAdd = async (userIds: string[]) => {
-		onAddSubscriber(userIds);
+		onAddSubscriber(users.filter(user => userIds.includes(user.id)));
 		setSelectedValues([]);
 	}
 

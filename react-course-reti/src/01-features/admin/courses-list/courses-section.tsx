@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { courseService } from "@/03-http/base/services/course"
 import { Course, CourseWithSubscriptions } from "@/05-model/Course"
 import CourseCard, { CourseCardSkeleton } from "./course-card"
@@ -26,10 +26,10 @@ const CoursesSection = () => {
   } = useBaseComponentCustom<Course, CourseWithSubscriptions, 'course', CourseWithSubscriptions[]>(
     {
       queryKey: ["courses"],
-      fetch: courseSubscriptionService.getCourseWithSubscriptions,
+      fetch: () => courseSubscriptionService.getCourseWithSubscriptions(),
       add: courseService.add,
       edit: courseService.edit,
-      del: courseService.delete,
+      del: courseService.deleteCourse,
       entityKey: 'course',
       defaultEmptyItem: {  subscriptions: [] },
     }
@@ -52,7 +52,7 @@ const CoursesSection = () => {
     onDelete(id);
   };
 
-  const filteredCoursesWithSubscriptions = courseWithSubscriptions.filter(c => c.course.year.toString() === year)
+  const filteredCoursesWithSubscriptions = courseWithSubscriptions.length > 0 ? courseWithSubscriptions.filter(c => c.course.year.toString() === year) : [];
 
   const { minYear, maxYear } = courseWithSubscriptions.reduce((acc, c) => {
     const courseYear = parseInt(c.course.year.toString());

@@ -1,6 +1,6 @@
 import { BaseEntity } from "@/05-model/BaseEntity";
-import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
-import useBaseComponent, { BaseComponentProps } from "./use-base-component";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { BaseComponentProps } from "./use-base-component";
 
 interface BaseComponentCustomProps<
 	T extends BaseEntity,
@@ -34,15 +34,14 @@ const useBaseComponentCustom = <
 	entityKey,
 	defaultEmptyItem
 }: BaseComponentCustomProps<T, U, K, Z>) => {
-	const baseHook = useBaseComponent<T, Z>({
-		queryKey,
-		fetch,
-		add: add ? (data: T) => add(data) : undefined,
-		edit: edit ? (data: T) => edit(data) : undefined,
-		del: del ? (id: string) => del(id) : undefined,
-	});
 
 	const queryClient = useQueryClient();
+
+	const query = useQuery<Z>({
+		queryKey: queryKey,
+		queryFn: fetch,
+		refetchOnWindowFocus: false,
+	});
 
 	// Estrae l'entità T dall'oggetto U
 	const getEntity = (item: U): T | null => {
@@ -86,9 +85,10 @@ const useBaseComponentCustom = <
 	// Se viene fatta un'add, significa che si parte da un array in partenza, quindi aggiungo l'elemento alla fine
 	const addQueryData = (queryClient: QueryClient, added: T) => {
 		queryClient.setQueryData(queryKey, (prev: U[]) => {
-			// Necessario aggiungere in input un defaultEmptyItem per inizializzare tutte le altre proprietà di U
-			// nella proprietà entityKey aggiungo il nuovo elemento (esempio T = Course, entityKey = course, added = Course)
-			return [...prev, { ...defaultEmptyItem as U, [entityKey]: added }];
+			if (prev)
+				// Necessario aggiungere in input un defaultEmptyItem per inizializzare tutte le altre proprietà di U
+				// nella proprietà entityKey aggiungo il nuovo elemento (esempio T = Course, entityKey = course, added = Course)
+				return [...prev, { ...defaultEmptyItem as U, [entityKey]: added }];
 		});
 	};
 
@@ -128,14 +128,24 @@ const useBaseComponentCustom = <
 		});
 	};
 
-	const isLoading = baseHook.isLoading || addMutation.isPending || editMutation.isPending || deleteMutation.isPending;
+	const isLoading = query.isLoading || addMutation.isPending || editMutation.isPending || deleteMutation.isPending;
+
+	const refetch = () => {
+		queryClient.invalidateQueries({ queryKey: queryKey });
+	};
+
+	const remove = (queryKey: unknown[]) => {
+		queryClient.removeQueries({ queryKey: queryKey });
+	}
 
 	return {
-		...baseHook,
+		query,
 		onAdd: addMutation.mutateAsync,
 		onEdit: editMutation.mutateAsync,
 		onDelete: deleteMutation.mutateAsync,
-		isLoading
+		isLoading,
+		refetch,
+		remove
 	};
 };
 

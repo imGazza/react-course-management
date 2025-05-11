@@ -16,6 +16,7 @@ import { CourseContext } from "@/06-providers/course/course-context";
 import { GenerateId } from "@/05-model/BaseEntity";
 import useBaseComponentCustom from "@/04-hooks/use-base-component-custom";
 import { courseSubscriptionService } from "@/03-http/course-subscription-service";
+import { User } from "@/05-model/User";
 
 const CourseDetailTabs = () => {
 
@@ -30,7 +31,7 @@ const CourseDetailTabs = () => {
 		isLoading,
 		remove 
 	} = useBaseComponentCustom<Subscriber, SubscriptionsWithUser, 'subscription', SubscriptionsWithUser[]>({
-			queryKey: ['subscriptions'],
+			queryKey: ['subscriptions', courseId!],
 			fetch: () => courseSubscriptionService.getSubscriptionsWithUserByCourseId(courseId!),
 			add: subscriberService.add,
 			del: subscriberService.delete,
@@ -49,17 +50,20 @@ const CourseDetailTabs = () => {
 		setSubscribersNumber(subscriptionsWithUser.length);
 	}, [subscriptionsWithUser])
 
-	const onAddSubscriber = async (userIds: string[]) => {
-		for (const userId of userIds) {
+	const onAddSubscriber = async (users: User[]) => {
+		for (const user of users) {
+			if (subscriptionsWithUser.find(subscriptionWithUser => subscriptionWithUser.user.id === user.id))
+				continue;
+
 			onAdd({
 				id: GenerateId(),
-				userId: userId,
+				userId: user.id,
 				courseId: courseId!,
 				subscriptionDate: new Date().toISOString(),
 				grade: null
 			});
 		}
-		remove('subscriptions'); // remove perchè aggiungendo un iscritto senza relation di User, perdo le info dell'utente
+		remove(['subscriptions', courseId!]); // remove perchè aggiungendo un iscritto senza relation di User, perdo le info dell'utente
 	}
 
 	const onDeleteSubscriber = async (id: string) => {

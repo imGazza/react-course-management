@@ -8,12 +8,13 @@ import { ScrollArea } from "@/02-components/ui/scroll-area"
 import { Skeleton } from "@/02-components/ui/skeleton"
 import { CourseContext } from "@/06-providers/course/course-context"
 import ComboboxUsers from "./combobox-users"
+import { User } from "@/05-model/User"
 
 const SKELETON_ROWS = 4;
 
 interface CourseDetailSubscriberProps {
 	subscriptionsWithUser: SubscriptionsWithUser[];
-	onAddSubscriber: (userIds: string[]) => void;
+	onAddSubscriber: (users: User[]) => void;
 	onDeleteSubscriber: (subscriberId: string) => void;
 }
 

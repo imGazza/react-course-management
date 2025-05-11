@@ -25,7 +25,9 @@ const Login = ({ className, ...props}: React.ComponentProps<"div">) => {
   })
 
   const onSubmit = async (data: { email: string, password: string }) => {
+    console.log(data);
     const user = await userService.getUserToLog(data.email, data.password);
+    console.log(user);
     if (user) {
       setSessionUser(user);
       navigate('/');

@@ -12,8 +12,8 @@ class CourseSubscriptionService {
         return subscriptionsEmbedsUser.map(subscriber => ({ subscription: subscriber as Subscriber, user: subscriber.user }));
     }
 
-    async getCourseWithSubscriptions(): Promise<CourseWithSubscriptions[]>{
-        const courseEmbedsSubscriptions = await courseService.getCoursesEmbedsSubscribers();
+    async getCourseWithSubscriptions(delay?: number): Promise<CourseWithSubscriptions[]>{
+        const courseEmbedsSubscriptions = await courseService.getCoursesEmbedsSubscribers(delay);
         return courseEmbedsSubscriptions.map(course => ({ course: course as Course, subscriptions: course.subscribers }));
     }
 }
