@@ -92,7 +92,6 @@ const LessonDialog = ({ lesson, submit, setOpen, open, courseId }: LessonDialogP
                                             shouldValidate: true 
                                         });
                                     }}
-                                    initialFocus
                                     locale={it}
                                 />
                             </PopoverContent>

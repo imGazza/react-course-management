@@ -12,6 +12,13 @@ export interface BaseComponentProps<
 	del?: (id: string) => Promise<T>;
 }
 
+/**
+ * Custom hook per eseguire operazioni CRUD sui componenti
+ * @template T - Tipo base dell'entità che finisce a DB
+ * @template Z - Tipo generico specificato per poter gestire diversi tipi di T (singola entità o array, necessario per far star tranquillo Typescript)
+ * 
+ **/
+
 const useBaseComponent = <
 	T extends BaseEntity,
     Z = T
@@ -28,7 +35,8 @@ const useBaseComponent = <
 
 	const query = useQuery<Z>({
 		queryKey: queryKey,
-		queryFn: fetch
+		queryFn: fetch,
+		refetchOnWindowFocus: false,
 	});
 
 	// Mutations
@@ -77,11 +85,8 @@ const useBaseComponent = <
 		});
 	};
 
-	const isLoading = query.isLoading ||
-		addMutation.isPending ||
-		editMutation.isPending ||
-		deleteMutation.isPending;
-
+	const isLoading = query.isLoading || addMutation.isPending || editMutation.isPending || deleteMutation.isPending;
+	
 	const refetch = () => {
 		queryClient.invalidateQueries({ queryKey: queryKey });
 	};

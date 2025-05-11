@@ -1,6 +1,6 @@
 import { BaseEntity } from "@/05-model/BaseEntity";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { BaseComponentProps } from "./use-base-component";
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
+import useBaseComponent, { BaseComponentProps } from "./use-base-component";
 
 interface BaseComponentCustomProps<
 	T extends BaseEntity,
@@ -8,21 +8,16 @@ interface BaseComponentCustomProps<
 	K extends keyof U & string,
 	Z
 > extends BaseComponentProps<T, Z> {
-	queryKey: readonly unknown[];
-	fetch: () => Promise<Z>;
-	add?: (data: T) => Promise<T>;
-	edit?: (data: T) => Promise<T>;
-	del?: (id: string) => Promise<T>;
 	entityKey: K; // stringa specificata dal chiamante che indica il nome della proprietà T che verrà modificata a DB dalle CRUD
 	defaultEmptyItem?: unknown
 }
 
 /**
- * A custom hook for handling CRUD operations with React Query
- * @template T - Type of the base entity for mutations
- * @template U - Type of the item that contains entity T as a property
- * @template K - Key in U that represents where the entity is stored
- * @template Z - 
+ * Custom hook per eseguire operazioni CRUD sui componenti
+ * @template T - Tipo base dell'entità che finisce a DB
+ * @template U - Tipo personalizzato più ampio che contiene almeno un campo di tipo T
+ * @template K - Key in U che rappresenta la proprietà di tipo T all'interno di U
+ * @template Z - Tipo generico specificato per poter gestire diversi tipi di T (singola entità o array, necessario per far star tranquillo Typescript)
  * 
  **/
 const useBaseComponentCustom = <
@@ -39,14 +34,15 @@ const useBaseComponentCustom = <
 	entityKey,
 	defaultEmptyItem
 }: BaseComponentCustomProps<T, U, K, Z>) => {
-
-	//TODO: Aggiungi gestione errori
-	const queryClient = useQueryClient();
-
-	const query = useQuery<Z>({
-		queryKey: queryKey,
-		queryFn: fetch,
+	const baseHook = useBaseComponent<T, Z>({
+		queryKey,
+		fetch,
+		add: add ? (data: T) => add(data) : undefined,
+		edit: edit ? (data: T) => edit(data) : undefined,
+		del: del ? (id: string) => del(id) : undefined,
 	});
+
+	const queryClient = useQueryClient();
 
 	// Estrae l'entità T dall'oggetto U
 	const getEntity = (item: U): T | null => {
@@ -69,7 +65,7 @@ const useBaseComponentCustom = <
 		return entity as unknown as U;
 	};
 
-	// Mutations
+	// Override delle mutation dell'hook base
 	const addMutation = useMutation({
 		mutationFn: add,
 		onSuccess: (added: T) => addQueryData(queryClient, added)
@@ -90,7 +86,8 @@ const useBaseComponentCustom = <
 	// Se viene fatta un'add, significa che si parte da un array in partenza, quindi aggiungo l'elemento alla fine
 	const addQueryData = (queryClient: QueryClient, added: T) => {
 		queryClient.setQueryData(queryKey, (prev: U[]) => {
-			console.log([...prev, { ...defaultEmptyItem as U, [entityKey]: added }]);
+			// Necessario aggiungere in input un defaultEmptyItem per inizializzare tutte le altre proprietà di U
+			// nella proprietà entityKey aggiungo il nuovo elemento (esempio T = Course, entityKey = course, added = Course)
 			return [...prev, { ...defaultEmptyItem as U, [entityKey]: added }];
 		});
 	};
@@ -99,6 +96,7 @@ const useBaseComponentCustom = <
 	const editQueryData = (queryClient: QueryClient, edited: T) => {
 		queryClient.setQueryData(queryKey, (prev: U[] | U) => {
 			if (Array.isArray(prev)) {
+				// Se array ricavo l'elemento vecchio e stostituisco
 				return prev.map(item => {
 					const entity = getEntity(item);
 					if (entity!.id === edited.id) {
@@ -107,6 +105,7 @@ const useBaseComponentCustom = <
 					return item;
 				});
 			} else {
+				// Se singolo, controllo se è quello che devo modificare e lo sostituisco
 				const entity = getEntity(prev);
 				if (entity!.id === edited.id) {
 					return updateEntity(prev, edited);
@@ -129,30 +128,15 @@ const useBaseComponentCustom = <
 		});
 	};
 
-	const isLoading = query.isLoading ||
-		addMutation.isPending ||
-		editMutation.isPending ||
-		deleteMutation.isPending;
-
-	const refetch = () => {
-		queryClient.invalidateQueries({ queryKey: queryKey });
-	};
-
-	const remove = (queryKey: unknown[]) => {
-		queryClient.removeQueries({ queryKey: queryKey });
-	}
-
-	if(query.error)
-		console.log(query.error);
+	const isLoading = baseHook.isLoading || addMutation.isPending || editMutation.isPending || deleteMutation.isPending;
 
 	return {
-		query,
+		...baseHook,
 		onAdd: addMutation.mutateAsync,
 		onEdit: editMutation.mutateAsync,
 		onDelete: deleteMutation.mutateAsync,
-		isLoading,
-		refetch,
-		remove
+		isLoading
 	};
 };
+
 export default useBaseComponentCustom;
