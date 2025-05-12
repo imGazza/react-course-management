@@ -16,7 +16,7 @@ const CourseDetail = lazy(() => import("@/01-features/admin/course-detail/course
 export const routes = createBrowserRouter([
 	{
 		path: "/login",
-		element: <AuthLayout />,
+		Component: AuthLayout,
 		children: [
 			{
 				index: true,

@@ -21,7 +21,7 @@ export default Root;
 
 
 //TODO: Popola dati
-//TODO: Indaga ErrorBoundary
 //TODO: Controlla il tema in tutte le pagine e il responsive
+//TODO: Indaga ErrorBoundary
 //TODO: Pagina di unauthrized e 404
 //TODO: Rifare la parte degli oggetti delle chiamate

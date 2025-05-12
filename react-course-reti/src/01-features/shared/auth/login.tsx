@@ -33,7 +33,7 @@ const Login = ({ className, ...props }: React.ComponentProps<"div">) => {
       navigate('/');
     }
     else {
-      setCardDescription(<span className="text-red-400">L'email o la password errate</span>);
+      setCardDescription(<span className="text-red-400">L'email o la password sono errate</span>);
     }
   }
 
