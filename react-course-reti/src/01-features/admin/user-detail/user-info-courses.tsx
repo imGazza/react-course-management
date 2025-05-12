@@ -14,7 +14,6 @@ import { subscriberService } from "@/03-http/base/services/subscriber"
 import { CourseEnrollmentInfoForUser } from "@/05-model/Course"
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc"
 
-
 const UserInfoCourses = () => {
 
 	const { userId } = useParams();
@@ -35,6 +34,7 @@ const UserInfoCourses = () => {
 	const enrolledCourses = enrollments.filter(enrollment => enrollment.userSubscription);
 	const enrollableCourses = enrollments.filter(enrollment => enrollment.courseWithSubscriptions.course.status !== "Chiuso" && !enrollment.userSubscription);
 
+	// Se già iscritto, faccio un unsubscribe, altrimenti un subscribe
 	const handleSubscribe = async (enrollment: CourseEnrollmentInfoForUser) => {
 		if (enrolledCourses.includes(enrollment)) {
 			await unsubscribe(enrollment);

@@ -38,10 +38,10 @@ function AuthProvider({children}: Readonly<AuthProviderProps>) {
             removeSessionUser 
         }
     }, [user]
-  ) 
+  )
 
   return (
     <AuthContext.Provider value={userValue}>{children}</AuthContext.Provider>
-  )
+  )  
 }
 export default AuthProvider;

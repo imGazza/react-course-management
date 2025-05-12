@@ -1,10 +1,9 @@
 import { Card } from "@/02-components/ui/card";
 import { Input } from "@/02-components/ui/input";
 import { Button } from "@/02-components/ui/button";
-import { ChangeEvent, useContext, useEffect, useRef, useState, DragEvent } from "react";
+import { ChangeEvent, useEffect, useRef, useState, DragEvent } from "react";
 import { AreUsersDifferent, User } from "@/05-model/User";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "@/06-providers/auth/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/02-components/ui/avatar";
 import { Label } from "@/02-components/ui/label";
 import { Skeleton } from "@/02-components/ui/skeleton";
@@ -13,6 +12,9 @@ import { userService } from "@/03-http/base/services/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { SaveAndGetAvatarFileName } from "@/02-components/utils/profile/profile-utils";
 import { avatarFallback } from "@/02-components/utils/misc";
+import { toaster } from "@/02-components/utils/toaster";
+import { ErrorMessage } from "@/02-components/utils/error-messages";
+import { useAuth } from "@/04-hooks/use-auth";
 
 interface ProfilePageEditProps {
 	user: User;
@@ -23,7 +25,7 @@ const ProfilePageEdit = ({ user }: ProfilePageEditProps) => {
 	const fileInput = useRef<HTMLInputElement>(null);
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [avatarFile, setAvatarFile] = useState<File | null>(null);
-	const { setSessionUser } = useContext(AuthContext);
+	const { setSessionUser } = useAuth();
 	const [loading, setLoading] = useState<boolean>(false);
 	const queryClient = useQueryClient();
 
@@ -85,9 +87,9 @@ const ProfilePageEdit = ({ user }: ProfilePageEditProps) => {
 			}			
 			const updatedUser = await userService.edit(editedUser);
 			setSessionUser(updatedUser);
-			queryClient.removeQueries({ queryKey: ["user", user.id] });
-		} catch (error) {
-			// Toast 
+			queryClient.removeQueries({ queryKey: ["user", user.id] }); // rimuovo cache per forzare refetch dell'utente
+		} catch {
+			toaster.errorToast(ErrorMessage.EDIT_ERROR);
 		} finally {
 			setLoading(false);
 		}

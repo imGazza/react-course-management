@@ -16,13 +16,14 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/02-components/ui/sidebar"
-import { useContext } from "react"
-import { AuthContext } from "@/06-providers/auth/auth-context"
 import { Link } from "react-router"
+import { User } from "@/05-model/User"
 
 const NavMain = ({
+  user,
   items,
 }: {
+  user: User | null,
   items: {
     title: string
     url: string
@@ -35,11 +36,11 @@ const NavMain = ({
   }[]
 }) => {
 
-  const { user } = useContext(AuthContext);
+  const groupLabel = user?.isAdmin ? "Amministratore" : "Studente"
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>{!user ? "Ospite" : user.isAdmin ? "Admin" : "Utente"}</SidebarGroupLabel>
+      <SidebarGroupLabel>{!user ? "Ospite" : groupLabel}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>

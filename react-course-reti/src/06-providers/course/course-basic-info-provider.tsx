@@ -1,12 +1,12 @@
 import { Course } from "@/05-model/Course";
 import { useMemo, useState } from "react";
-import { CourseContext } from "./course-context";
+import { CourseBasicInfoContext } from "./course-basic-info-context";
 
 interface CourseProvidesProps {
     children: React.ReactNode;
 }
 
-function CourseProvider({ children }: CourseProvidesProps) {
+function CourseBasicInfoProvider({ children }: Readonly<CourseProvidesProps>) {
 
     const [course, setCourse] = useState<Course | null>(null);
     const [subscribersNumber, setSubscribersNumber] = useState<number>(0);
@@ -37,8 +37,8 @@ function CourseProvider({ children }: CourseProvidesProps) {
     },[course, lessonsNumber, subscribersNumber])
 
     return (
-        <CourseContext.Provider value={value}>{children}</CourseContext.Provider>
+        <CourseBasicInfoContext.Provider value={value}>{children}</CourseBasicInfoContext.Provider>
     )
     
 }
-export default CourseProvider;
+export default CourseBasicInfoProvider;

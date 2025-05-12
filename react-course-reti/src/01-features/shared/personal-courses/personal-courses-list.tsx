@@ -1,15 +1,11 @@
-import { useContext } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/02-components/ui/card"
-import { AuthContext } from "@/06-providers/auth/auth-context";
 import { BookOpen, ExternalLink, FileText, GraduationCap, Star } from "lucide-react";
 import { Badge } from "@/02-components/ui/badge";
-import { Material } from "@/05-model/Material";
-import { Lesson } from "@/05-model/Lesson";
 import { Course } from "@/05-model/Course";
 import { Progress } from "@/02-components/ui/progress";
 import { Separator } from "@/02-components/ui/separator";
 import { Button } from "@/02-components/ui/button";
-import GazzaDialog from "@/02-components/ui/gazza-dialog";
+import GazzaDialog from "@/02-components/ui/dialogs/gazza-dialog";
 import MaterialsDialog from "@/02-components/ui/dialogs/materials-dialog";
 import LessonsDialog from "@/02-components/ui/dialogs/lessons-dialog";
 import { Skeleton } from "@/02-components/ui/skeleton";
@@ -18,11 +14,12 @@ import { PersonalCoursesInfo } from "@/05-model/PersonalCourses";
 import useBaseComponentCustom from "@/04-hooks/use-base-component-custom";
 import { personalCoursesService } from "@/03-http/personal-courses-service";
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";
+import { useAuth } from "@/04-hooks/use-auth";
 
 const PersonalCoursesList = () => {
 
 	useBreadcrumbs([{ label: "I miei corsi", url: "#"}]);	
-	const { user } = useContext(AuthContext);
+	const { user } = useAuth();
 	const { query: { data: personalCourses = [] }, isLoading } = useBaseComponentCustom<Course, PersonalCoursesInfo, 'course', PersonalCoursesInfo[]>({
 		queryKey: ['personalCourses'],
 		fetch: () => personalCoursesService.getPersonalCoursesWithInfo(user!.id),

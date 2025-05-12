@@ -1,4 +1,4 @@
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
 import {
 	Card,
@@ -19,12 +19,12 @@ import { useEffect, useState } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/02-components/ui/select"
 
 const chartConfig = {
-	desktop: {
-		label: "Desktop",
+	subscribed: {
+		label: "Utenti",
 		color: "hsl(var(--chart-1))",
 	},
-	mobile: {
-		label: "Mobile",
+	users: {
+		label: "Iscritti",
 		color: "hsl(var(--chart-2))",
 	},
 } satisfies ChartConfig
@@ -96,27 +96,27 @@ const AreaChartSubscriptions = () => {
 						/>
 						<ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 						<defs>
-							<linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+							<linearGradient id="fillSubscribed" x1="0" y1="0" x2="0" y2="1">
 								<stop
 									offset="5%"
-									stopColor="var(--color-desktop)"
+									stopColor="var(--color-subscribed)"
 									stopOpacity={0.8}
 								/>
 								<stop
 									offset="95%"
-									stopColor="var(--color-desktop)"
+									stopColor="var(--color-subscribed)"
 									stopOpacity={0.1}
 								/>
 							</linearGradient>
-							<linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
+							<linearGradient id="fillUsers" x1="0" y1="0" x2="0" y2="1">
 								<stop
 									offset="5%"
-									stopColor="var(--color-mobile)"
+									stopColor="var(--color-users)"
 									stopOpacity={0.8}
 								/>
 								<stop
 									offset="95%"
-									stopColor="var(--color-mobile)"
+									stopColor="var(--color-users)"
 									stopOpacity={0.1}
 								/>
 							</linearGradient>
@@ -124,16 +124,16 @@ const AreaChartSubscriptions = () => {
 						<Area
 							dataKey="Utenti"
 							type="natural"
-							fill="url(#fillMobile)"
+							fill="url(#fillUsers)"
 							fillOpacity={0.4}
-							stroke="var(--color-mobile)"
+							stroke="var(--color-users)"
 						/>
 						<Area
 							dataKey="Iscritti"
 							type="natural"
-							fill="url(#fillDesktop)"
+							fill="url(#fillSubscribed)"
 							fillOpacity={0.4}
-							stroke="var(--color-desktop)"
+							stroke="var(--color-subscribed)"
 						/>
 					</AreaChart>
 				</ChartContainer>

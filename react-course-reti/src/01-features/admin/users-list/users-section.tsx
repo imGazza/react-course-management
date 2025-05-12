@@ -6,6 +6,8 @@ import UsersSectionCards from "./users-section-cards";
 import useBaseComponentCustom from "@/04-hooks/use-base-component-custom";
 import { userService } from "@/03-http/base/services/user";
 import { userManagementService } from "@/03-http/users-management-service";
+import { toaster } from "@/02-components/utils/toaster";
+import { WarningMessage } from "@/02-components/utils/error-messages";
 
 const UsersSection = () => {
 
@@ -32,7 +34,7 @@ const UsersSection = () => {
 
 	const onAddUser = async (user: User) => {
 		if (usersState.find(u => u.user.email === user.email)){
-			// Toast che essite già un utente con questa email
+			toaster.warnToast(WarningMessage.USER_ALREADY_EXISTS)
 			return;
 		}
 

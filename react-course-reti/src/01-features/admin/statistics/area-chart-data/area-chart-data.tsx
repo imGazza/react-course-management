@@ -29,9 +29,10 @@ export const createAreaChartData = async (months: string) => {
 	const signedUpUsers = getSignedUpUsersPerMonth(allUsers, start, end);
 	const subscribedUsers = getSubscribedPerMonth(allSubscribers, start, end);
 
-	return rearrangeData(signedUpUsers, subscribedUsers, start, end);
+	return processRawData(signedUpUsers, subscribedUsers, start, end);
 }
 
+// Recupero i dati generali di base che servono a popolare il grafico
 const getBaseData = async () => {
 
 	const [allUsers, allSubscribers] = await Promise.all([
@@ -61,7 +62,8 @@ const getSubscribedPerMonth = (allSubscribers: Subscriber[], start: Date, end: D
 	);
 }
 
-const rearrangeData = (users: User[], subscribers: Subscriber[], start: Date, end: Date): AreaChartUnit[] => {
+// Riorganizzo i dati per la giusta visualizzazione nel grafico
+const processRawData = (users: User[], subscribers: Subscriber[], start: Date, end: Date): AreaChartUnit[] => {
 	const monthPeriods = eachMonthOfInterval({ start, end });
 
 	const result = monthPeriods.map(monthPeriod => ({

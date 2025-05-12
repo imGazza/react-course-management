@@ -13,7 +13,7 @@ export default defineConfig({
   },
   server: {
     watch: {
-      ignored: ['**/db.json'] // Ignore db.json changes
+      ignored: ['**/db.json'] // Ignora i cambiamenti in db.json
     }
   }
 })

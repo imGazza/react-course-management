@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { Course } from "@/05-model/Course";
 
-export const CourseContext = createContext<{
+export const CourseBasicInfoContext = createContext<{
     course: Course | null,
     lessonsNumber: number,
     subscribersNumber: number,

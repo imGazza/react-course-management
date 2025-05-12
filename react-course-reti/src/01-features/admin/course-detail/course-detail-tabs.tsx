@@ -3,7 +3,7 @@ import { Card } from "@/02-components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/02-components/ui/tabs"
 import CourseDetailSubscriber from "./course-detail-subscriber";
 import { GraduationCap, Users } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge } from "@/02-components/ui/badge";
 import { useParams } from "react-router";
 import { Subscriber, SubscriptionsWithUser } from "@/05-model/Subscribers";
@@ -12,17 +12,17 @@ import CourseDetailGrades from "./course-detail-grades";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/02-components/ui/tooltip";
 import { subDays } from "date-fns";
-import { CourseContext } from "@/06-providers/course/course-context";
 import { GenerateId } from "@/05-model/BaseEntity";
 import useBaseComponentCustom from "@/04-hooks/use-base-component-custom";
 import { courseSubscriptionService } from "@/03-http/course-subscription-service";
 import { User } from "@/05-model/User";
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";
+import { useCourseBasicInfo } from "@/04-hooks/use-course-basic-info";
 
 const CourseDetailTabs = () => {
 
 	const { courseId } = useParams();
-	const { course, setSubscribersNumber } = useContext(CourseContext);
+	const { course, setSubscribersNumber } = useCourseBasicInfo();
 	const [activeTab, setActiveTab] = useState("subscribers");
 
 	const {
@@ -50,6 +50,9 @@ const CourseDetailTabs = () => {
 	useEffect(() => {
 		setSubscribersNumber(subscriptionsWithUser.length);
 	}, [subscriptionsWithUser])
+
+	// Vincolo dei 30 giorni entro la data di chiusura per assegnazione valutazioni
+	const isGradesEnabled = course?.status === "Chiuso" && course.closeDate && new Date(course.closeDate) > subDays(new Date(), 30);
 
 	const onAddSubscriber = async (users: User[]) => {
 		for (const user of users) {
@@ -82,9 +85,7 @@ const CourseDetailTabs = () => {
 				{subscriptionsWithUser.filter(subscriptionWithUser => subscriptionWithUser.subscription.grade !== null).length}
 			</Badge>
 		</>
-	)
-
-	const isGradesEnabled = course?.status === "Chiuso" && course.closeDate && new Date(course.closeDate) > subDays(new Date(), 30);
+	)	
 
 	if (isLoading || !course)
 		return <CourseDetailTabsSkeleton />;

@@ -1,6 +1,5 @@
-import { useContext } from "react";
 import { Navigate } from "react-router";
-import { AuthContext } from "@/06-providers/auth/auth-context";
+import { useAuth } from "@/04-hooks/use-auth";
 
 interface ProtectedRouteProps {
 	children: React.ReactNode;
@@ -8,7 +7,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
-	const { user } = useContext(AuthContext);
+	const { user } = useAuth();
 
 	if (!user?.isAdmin) {
 	   return <Navigate to='/'></Navigate>

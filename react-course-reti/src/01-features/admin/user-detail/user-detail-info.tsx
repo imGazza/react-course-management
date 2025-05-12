@@ -39,12 +39,17 @@ const UserDetailInfo = ({ userId }: { userId: string }) => {
 										variant="outline"
 										className="mt-2 text-md font-medium px-3 py-1"
 									>
-										{user.isAdmin ? (
-											<ShieldCheck className="text-green-500 dark:text-green-400 h-12 w-12" />
-										) : (
-											<UserIcon />
-										)}
-										{user.isAdmin ? "Amministratore" : "Studente"}
+										{user.isAdmin ? 
+											<>
+												<ShieldCheck className="text-green-500 dark:text-green-400 h-12 w-12" />
+												Amministratore
+											</>											
+											: 
+											<>
+												<UserIcon />
+												Studente
+											</>											
+										}
 									</Badge>
 								</div>
 
@@ -103,3 +108,4 @@ const UserDetailInfoSkeleton = () => {
 		</div>
 	)
 }
+export { UserDetailInfoSkeleton };

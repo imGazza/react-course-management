@@ -2,6 +2,8 @@ import { BaseEntity } from "@/05-model/BaseEntity";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BaseComponentProps } from "./use-base-component";
 import { toast } from "sonner";
+import { ErrorMessage } from "@/02-components/utils/error-messages";
+import { toaster } from "@/02-components/utils/toaster";
 
 interface BaseComponentCustomProps<
 	T extends BaseEntity,
@@ -41,7 +43,7 @@ const useBaseComponentCustom = <
 	const query = useQuery<Z>({
 		queryKey: queryKey,
 		queryFn: fetch,
-		refetchOnWindowFocus: false,
+		refetchOnWindowFocus: false
 	});
 
 	// Estrae l'entità T dall'oggetto U
@@ -69,19 +71,19 @@ const useBaseComponentCustom = <
 	const addMutation = useMutation({
 		mutationFn: add,
 		onSuccess: (added: T) => addQueryData(queryClient, added),
-		onError: (error) => onError(error)
+		onError: () => onError(ErrorMessage.ADD_ERROR)
 	});
 
 	const editMutation = useMutation({
 		mutationFn: edit,
 		onSuccess: (edited: T) => editQueryData(queryClient, edited),
-		onError: (error) => onError(error)
+		onError: () => onError(ErrorMessage.EDIT_ERROR)
 	});
 
 	const deleteMutation = useMutation({
 		mutationFn: del,
 		onSuccess: (_, id: string) => deleteQueryData(queryClient, id),
-		onError: (error) => onError(error)
+		onError: () => onError(ErrorMessage.DELETE_ERROR)
 	});
 
 	// QueryData
@@ -133,9 +135,7 @@ const useBaseComponentCustom = <
 		});
 	};
 
-	const isLoading = query.isLoading || addMutation.isPending || editMutation.isPending || deleteMutation.isPending;
-
-	
+	const isLoading = query.isLoading || addMutation.isPending || editMutation.isPending || deleteMutation.isPending;	
 
 	const refetch = () => {
 		queryClient.invalidateQueries({ queryKey: queryKey });
@@ -145,8 +145,8 @@ const useBaseComponentCustom = <
 		queryClient.removeQueries({ queryKey: queryKey });
 	}
 
-	const onError = (error: Error) => {
-		toast.error(error.message);
+	const onError = (error: string) => {
+		toaster.errorToast(error);
 	}
 
 	return {

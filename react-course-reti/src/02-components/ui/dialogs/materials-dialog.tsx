@@ -4,6 +4,8 @@ import { Book, Download } from "lucide-react";
 import { Material } from "@/05-model/Material";
 import { DownloadMaterial, GetFileSizeInMB } from "@/02-components/utils/course/course-utils";
 import { ScrollArea } from "@/02-components/ui/scroll-area";
+import { ErrorMessage } from "@/02-components/utils/error-messages";
+import { toaster } from "@/02-components/utils/toaster";
 
 interface MaterialsDialogProps {
 	materials: Material[];
@@ -13,8 +15,8 @@ interface MaterialsDialogProps {
 const handleFileDownload = async (material: Material) => {
 	try {
 		await DownloadMaterial(material);
-	} catch (e) {
-		//Toast che mostra come errore e.message
+	} catch {
+		toaster.errorToast(ErrorMessage.DOWNLOAD_FILE)
 	}
 }
 

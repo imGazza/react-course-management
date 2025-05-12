@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { subscriberService } from "@/03-http/base/services/subscriber";
 import { ScrollArea } from "@/02-components/ui/scroll-area";
 import { avatarFallback } from "@/02-components/utils/misc";
+import { toaster } from "@/02-components/utils/toaster";
 
 interface CourseDetailSubscriberProps {
 	initialSubscriptionsWithUser: SubscriptionsWithUser[];
@@ -25,6 +26,7 @@ const CourseDetailGrades = ({ initialSubscriptionsWithUser }: CourseDetailSubscr
 		setNotGradedSubs(subscriptionsWithUser.filter(s => s.subscription.grade === null));
 	}, [subscriptionsWithUser]);
 
+	// Triggerato con l'input del numero
 	const handleGradeChange = (value: string, subscriber: SubscriptionsWithUser) => {
 		const grade = parseInt(value);
 		if (isNaN(grade))
@@ -34,6 +36,7 @@ const CourseDetailGrades = ({ initialSubscriptionsWithUser }: CourseDetailSubscr
 			s.subscription.id === subscriber.subscription.id ? { ...s, subscription: { ...s.subscription, grade: grade } } : s));
 	};
 
+	// Triggerato al blur (chiamata API)
 	const handleGradeSubmit = async (subscribptionWithUser: SubscriptionsWithUser) => {
 		setEditingId(null);
 		if (subscribptionWithUser.subscription.grade === null)
@@ -49,8 +52,8 @@ const CourseDetailGrades = ({ initialSubscriptionsWithUser }: CourseDetailSubscr
 				subscriptionDate: subscribptionWithUser.subscription.subscriptionDate,
 				grade: subscribptionWithUser.subscription.grade
 			});
-		} catch (e) {
-			// Toast che mostra come errore e.message
+		} catch {
+			toaster.errorToast("Si è verificato un errore durante la modifica della valutazione");
 		}
 	};
 

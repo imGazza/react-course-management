@@ -10,6 +10,8 @@ import { ScrollArea } from "@/02-components/ui/scroll-area";
 import useBaseComponent from "@/04-hooks/use-base-component";
 import { materialService } from "@/03-http/base/services/material";
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";
+import { ErrorMessage } from "@/02-components/utils/error-messages";
+import { toaster } from "@/02-components/utils/toaster";
 
 const CourseDetailMaterial = () => {
   const { courseId } = useParams();
@@ -19,8 +21,7 @@ const CourseDetailMaterial = () => {
     queryKey: ["materials", courseId!],
     fetch: () => materialService.getMaterialsByCourseId(courseId!),
     add: materialService.add,
-    del: materialService.delete,
-    
+    del: materialService.delete    
   });
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,16 +30,16 @@ const CourseDetailMaterial = () => {
       if (!material) return;
 
       onAdd(material);
-    } catch (e) {
-      //Toast che mostra come errore e.message
+    } catch {
+      toaster.errorToast(ErrorMessage.UPLOAD_FILE)
     }    
   }
 
   const handleFileDownload = async (material: Material) => {
     try {
       await DownloadMaterial(material);
-    } catch (e) {
-      //Toast che mostra come errore e.message
+    } catch {
+      toaster.errorToast(ErrorMessage.DOWNLOAD_FILE)
     }
   }
 
@@ -46,8 +47,8 @@ const CourseDetailMaterial = () => {
     try {
       await DeleteMaterial(material);
       onDelete(material.id);
-    } catch (e) {
-      //Toast che mostra come errore e.message 
+    } catch {
+      toaster.errorToast(ErrorMessage.DELETE_FILE)
     }    
   }
 

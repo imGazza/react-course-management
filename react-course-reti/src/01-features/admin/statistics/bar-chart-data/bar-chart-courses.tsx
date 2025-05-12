@@ -44,7 +44,7 @@ const chartConfig = {
 	},
 } satisfies ChartConfig
 
-const SELECTABLE_COURSES = 5
+const SELECTABLE_COURSES_AMOUNT = 5
 
 const BarChartCourses = () => {
 
@@ -54,14 +54,19 @@ const BarChartCourses = () => {
 
 	useEffect(() => {
 		async function initializeChartData() {
+
+			// Recupero dati grezzi dato che li uso sia per popolare la dropdown che per creare i dati del grafico
 			const baseData = await getBaseData();
+
 			setCourseOptions([...baseData.uniqueCourses].map(course => ({
 				label: course,
 				value: course
 			})));
-			const chartData = await createBarChartData(baseData);
-			setChartData(chartData);
-			setSelectedValues([...baseData.uniqueCourses].slice(0, SELECTABLE_COURSES));
+			// Seleziono i primi SELECTABLE_COURSES_AMOUNT nella dropdown
+			setSelectedValues([...baseData.uniqueCourses].slice(0, SELECTABLE_COURSES_AMOUNT));
+
+			const chartData = await createBarChartData(baseData);			
+			setChartData(chartData);			
 		}
 		initializeChartData();
 	}, [])
@@ -72,7 +77,7 @@ const BarChartCourses = () => {
 				return current.filter(v => v !== value);
 			}
 			else {
-				if (current.length >= SELECTABLE_COURSES) {
+				if (current.length >= SELECTABLE_COURSES_AMOUNT) {
 					return [...current.slice(1), value];
 				}
 				return [...current, value];
@@ -84,7 +89,7 @@ const BarChartCourses = () => {
 		<Card>
 			<CardHeader className="relative">
 				<CardTitle className="text-xs md:text-base">Iscrizioni per corso</CardTitle>
-				<CardDescription className="text-xs md:text-base">{`Seleziona fino a ${SELECTABLE_COURSES} corsi`}</CardDescription>
+				<CardDescription className="text-xs md:text-base">{`Seleziona fino a ${SELECTABLE_COURSES_AMOUNT} corsi`}</CardDescription>
 				<div className="absolute right-6">
 					<Popover>
 						<PopoverTrigger asChild>

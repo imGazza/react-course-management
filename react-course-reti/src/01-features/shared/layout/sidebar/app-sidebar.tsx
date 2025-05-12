@@ -4,7 +4,6 @@ import {
   Command,
   Library,
   LogIn,
-  SunMoon,
   Users,
 } from "lucide-react"
 
@@ -20,11 +19,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/02-components/ui/sidebar"
-import { AuthContext } from "@/06-providers/auth/auth-context"
-import { ThemeContext } from "@/06-providers/theme/theme-context"
 import { Link } from "react-router"
+import { useAuth } from "@/04-hooks/use-auth"
 
-var menu = {
+const menu = {
   navMainAdmin: [
     {
       title: "Corsi",
@@ -65,20 +63,9 @@ var menu = {
 
 const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {  
   
-  const { user, removeSessionUser } = React.useContext(AuthContext);
-  const { setTheme, theme } = React.useContext(ThemeContext);
-  
-  const toggleTheme = () => {
-    return theme === "dark" ? "light" : "dark";
-  }
+  const { user, removeSessionUser } = useAuth();
 
-  const menuSecondary = [    
-      {
-        title: "Tema",
-        onClick: () => setTheme(toggleTheme()),
-        icon: SunMoon,
-      }
-  ]
+  const navType = user?.isAdmin? menu.navMainAdmin : menu.navMainUser
 
   return (
     <Sidebar variant="inset" {...props}>
@@ -100,10 +87,10 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={!user ? menu.navMainGuest : user.isAdmin ? menu.navMainAdmin : menu.navMainUser} />
-        <NavSecondary items={menuSecondary} className="mt-auto" />
+        <NavMain user={user} items={!user ? menu.navMainGuest : navType} />
+        <NavSecondary className="mt-auto pb-4" />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="border-t border-dashed">
         <NavUser user={user} logout={removeSessionUser} />
       </SidebarFooter>
     </Sidebar>

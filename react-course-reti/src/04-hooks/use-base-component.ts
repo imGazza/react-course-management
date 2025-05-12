@@ -1,3 +1,5 @@
+import { ErrorMessage } from "@/02-components/utils/error-messages";
+import { toaster } from "@/02-components/utils/toaster";
 import { BaseEntity } from "@/05-model/BaseEntity";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -30,37 +32,31 @@ const useBaseComponent = <
 	edit,
 	del
 }: BaseComponentProps<T, Z>) => {
-
-	//TODO: Aggiungi gestione errori
 	const queryClient = useQueryClient();	
 
 	const query = useQuery<Z>({
 		queryKey: queryKey,
 		queryFn: fetch,
-		refetchOnWindowFocus: false,
-		throwOnError(error) {
-			onError(error);
-			return true;
-		},
+		refetchOnWindowFocus: false
 	});
 
 	// Mutations
 	const addMutation = useMutation({
 		mutationFn: add,
 		onSuccess: (added: T) => addQueryData(queryClient, added),
-		onError: (error) => onError(error)
+		onError: () => onError(ErrorMessage.ADD_ERROR)
 	});
 
 	const editMutation = useMutation({
 		mutationFn: edit,
 		onSuccess: (edited: T) => editQueryData(queryClient, edited),
-		onError: (error) => onError(error)
+		onError: () => onError(ErrorMessage.EDIT_ERROR)
 	});
 
 	const deleteMutation = useMutation({
 		mutationFn: del,
 		onSuccess: (_, id: string) => deleteQueryData(queryClient, id),
-		onError: (error) => onError(error)
+		onError: () => onError(ErrorMessage.DELETE_ERROR)
 	});
 
 	// QueryData
@@ -103,8 +99,8 @@ const useBaseComponent = <
 		queryClient.removeQueries({ queryKey: queryKey });
 	}
 
-	const onError = (error: unknown) => {
-		toast.error(error as string);
+	const onError = (error: string) => {
+		toaster.errorToast(error);
 	}
 
 	return {

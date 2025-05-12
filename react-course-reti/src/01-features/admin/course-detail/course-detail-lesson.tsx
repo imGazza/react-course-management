@@ -1,22 +1,22 @@
 import { Plus, Presentation, BookOpenText, Edit, Trash2 } from "lucide-react"
 import { Button } from "@/02-components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/02-components/ui/card"
-import { useContext, useEffect } from "react"
+import { useEffect } from "react"
 import { useParams } from "react-router"
 import { AreLessonsDifferent, Lesson } from "@/05-model/Lesson"
-import GazzaDialog from "@/02-components/ui/gazza-dialog"
+import GazzaDialog from "@/02-components/ui/dialogs/gazza-dialog"
 import LessonDialog from "@/02-components/ui/dialogs/lesson-dialog"
 import { Skeleton } from "@/02-components/ui/skeleton"
 import { ScrollArea } from "@/02-components/ui/scroll-area"
-import { CourseContext } from "@/06-providers/course/course-context"
 import useBaseComponent from "@/04-hooks/use-base-component"
 import { lessonService } from "@/03-http/base/services/lesson"
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc"
+import { useCourseBasicInfo } from "@/04-hooks/use-course-basic-info"
 
 const CourseDetailLesson = () => {
 
 	const { courseId } = useParams();
-	const { setLessonsNumber } = useContext(CourseContext);
+	const { setLessonsNumber } = useCourseBasicInfo();
 	const { query: {data : lessons = []}, onAdd, onEdit, onDelete, isLoading} = useBaseComponent<Lesson, Lesson[]>({
 		queryKey: ["lessons", courseId!],
 		fetch: () => lessonService.getLessonsByCourseId(courseId!),
@@ -26,6 +26,7 @@ const CourseDetailLesson = () => {
 	})
 
 	useEffect(() => {
+		// Context Usato per visualizzare il numero di lezioni nelle card a top pagina
 		setLessonsNumber(lessons.length);
 	}, [lessons])
 

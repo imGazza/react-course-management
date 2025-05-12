@@ -2,14 +2,13 @@ import { UserMinus, Lock } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/02-components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/02-components/ui/table"
 import { SubscriptionsWithUser } from "@/05-model/Subscribers"
-import { useContext } from "react"
 import { Button } from "@/02-components/ui/button"
 import { ScrollArea } from "@/02-components/ui/scroll-area"
 import { Skeleton } from "@/02-components/ui/skeleton"
-import { CourseContext } from "@/06-providers/course/course-context"
 import ComboboxUsers from "./combobox-users"
 import { User } from "@/05-model/User"
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc"
+import { useCourseBasicInfo } from "@/04-hooks/use-course-basic-info"
 
 interface CourseDetailSubscriberProps {
 	subscriptionsWithUser: SubscriptionsWithUser[];
@@ -19,7 +18,7 @@ interface CourseDetailSubscriberProps {
 
 const CourseDetailSubscriber = ({ subscriptionsWithUser, onAddSubscriber, onDeleteSubscriber }: CourseDetailSubscriberProps) => {
 
-	const { course } = useContext(CourseContext);
+	const { course } = useCourseBasicInfo();
 	
 	const isReadOnly = course?.status === "Chiuso";
 

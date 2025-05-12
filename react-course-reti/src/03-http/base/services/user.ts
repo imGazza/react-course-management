@@ -16,5 +16,9 @@ class UserService extends BaseService<User>  {
     getUsersWithSubscriptions = async (): Promise<UserEmbedsSubscriptions[]> => {
         return client.get<UserEmbedsSubscriptions[]>(`${BASE_URL}?_embed=subscribers`);
     }
+
+    deleteUser = async (id: number): Promise<User> => {
+        return client.delete(`${BASE_URL}/${id}&_dependent=subscriptions`);
+    }
 }
 export const userService = new UserService();

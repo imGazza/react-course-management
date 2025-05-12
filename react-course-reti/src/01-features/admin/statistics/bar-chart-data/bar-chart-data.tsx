@@ -7,17 +7,18 @@ export interface BarChartUnit {
 	[key: string]: number
 }
 
-export const createBarChartData = async ({ uniqueCourses, allCoursesWithSubscriptions } : { uniqueCourses: Set<string>, allCoursesWithSubscriptions: CourseEmbedsSubscriptions[]}): Promise<BarChartUnit[]> => {
+export const createBarChartData = async ({ uniqueCourses, allCoursesEmbedsSubscriptions } : { uniqueCourses: Set<string>, allCoursesEmbedsSubscriptions: CourseEmbedsSubscriptions[]}): Promise<BarChartUnit[]> => {
 	const start = subYears(new Date(), 5);
 	const end = new Date();
 
 	const yearRange = eachYearOfInterval({ start, end });
 
+	// Per ogni anno, mappa ogni corso a una chiave valore con NomeCorso: NumeroIscritti]
 	const result = yearRange.map(year => ({
 		year: year.getFullYear(),
 		...Object.fromEntries([...uniqueCourses].map(course => [
 			course,
-			allCoursesWithSubscriptions.find(c => c.name === course && c.year === year.getFullYear())?.subscribers?.length ?? 0
+			allCoursesEmbedsSubscriptions.find(c => c.name === course && c.year === year.getFullYear())?.subscribers?.length ?? 0
 		]))
 	}))
 
@@ -25,11 +26,11 @@ export const createBarChartData = async ({ uniqueCourses, allCoursesWithSubscrip
 }
 
 export const getBaseData = async () => {
-	const allCoursesWithSubscriptions = await courseService.getCoursesEmbedsSubscribers(0);
-	const uniqueCourses = new Set(allCoursesWithSubscriptions.map(course => course.name));
+	const allCoursesEmbedsSubscriptions = await courseService.getCoursesEmbedsSubscribers(0);
+	const uniqueCourses = new Set(allCoursesEmbedsSubscriptions.map(course => course.name));
 
 	return {
 		uniqueCourses,
-		allCoursesWithSubscriptions
+		allCoursesEmbedsSubscriptions
 	}
 }

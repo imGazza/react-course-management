@@ -8,26 +8,24 @@ import {
 } from "@/02-components/ui/card"
 import { AreCoursesDifferent, Course } from "@/05-model/Course";
 import { Button } from "@/02-components/ui/button";
-import GazzaDialog from "@/02-components/ui/gazza-dialog";
+import GazzaDialog from "@/02-components/ui/dialogs/gazza-dialog";
 import CourseDialog from "@/02-components/ui/dialogs/course-dialog";
-import GazzaConfirmDialog from "@/02-components/ui/gazza-confirm-dialog";
+import GazzaConfirmDialog from "@/02-components/ui/dialogs/gazza-confirm-dialog";
 import { Skeleton } from "@/02-components/ui/skeleton";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { courseService } from "@/03-http/base/services/course";
 import { useNavigate, useParams } from "react-router";
 import { Popover, PopoverContent, PopoverTrigger } from "@/02-components/ui/popover";
 import { Calendar } from "@/02-components/ui/calendar";
-import { CourseContext } from "@/06-providers/course/course-context";
 import useBaseComponent from "@/04-hooks/use-base-component";
+import { useCourseBasicInfo } from "@/04-hooks/use-course-basic-info";
 
 const CourseDetailCards = () => {
 
   const { courseId } = useParams();
-  const { course, setCourseData, lessonsNumber, subscribersNumber } = useContext(CourseContext);
+  const { course, setCourseData, lessonsNumber, subscribersNumber } = useCourseBasicInfo();
   const [nextStatus, setNextStatus] = useState<"Pianificato" | "In corso" | "Chiuso">("Pianificato");
   const [closeDate, setCloseDate] = useState<Date>();
-
-  //TODO: sistema il testo del titolo che straborda sotto
 
   const {
       query: { data: courseData = null }, 
@@ -127,7 +125,7 @@ const CourseDetailCards = () => {
             }
           </div>
           <CardDescription>{course.year}</CardDescription>
-          <CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums line-clamp-1">
+          <CardTitle className="@[250px]/card:text-4xl/[3rem] text-2xl font-semibold tabular-nums line-clamp-1">
             {course.name}
           </CardTitle>
         </CardHeader>
@@ -207,7 +205,7 @@ const CourseDetailCardsSkeleton = () => {
   return (
     <>
       <Card className="@container/card flex flex-col md:flex-row overflow-hidden p-0">
-        <Skeleton className="w-full h-[215px]" />
+        <Skeleton className="w-full" />
       </Card>
 
       <Card className="py-6 flex flex-col gap-8">
@@ -217,7 +215,7 @@ const CourseDetailCardsSkeleton = () => {
             <Skeleton className="h-9 w-9 rounded-md" />
           </div>
           <Skeleton className="h-4 w-20 mb-2" />
-          <Skeleton className="h-8 w-3/4" />
+          <Skeleton className="h-9 w-3/4" />
         </CardHeader>
         <CardFooter className="flex-col items-start gap-3">
           <Skeleton className="h-4 w-24" />
@@ -249,3 +247,4 @@ const CourseDetailCardsSkeleton = () => {
     </>
   )
 }
+export { CourseDetailCardsSkeleton }
