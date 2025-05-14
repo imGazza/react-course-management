@@ -41,5 +41,5 @@ Se qualcosa non dovesse funzionare, questi sono i comandi singoli rispettivi:
 
 ## Repository
 
-E' stata usata una repository Github durante lo sviluppo, disponibile a <https://github.com/imGazza/react-course-reti.git>
+E' stata usata una repository Github durante lo sviluppo, disponibile a <https://github.com/imGazza/react-course-reti.git>, branch **exam-final**
 
