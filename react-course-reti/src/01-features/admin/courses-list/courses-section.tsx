@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { courseService } from "@/03-http/base/services/course"
-import { AreCoursesDifferent, Course, CourseWithSubscriptions } from "@/05-model/Course"
+import { AreCoursesDifferent, Course, CourseWithSubscriptions } from "@/05-model/base/Course"
 import CourseCard, { CourseCardSkeleton } from "./course-card"
 import YearSelect from "./year-select"
 import { Plus } from "lucide-react"
@@ -8,9 +7,9 @@ import CourseDialog from "@/02-components/ui/dialogs/course-dialog"
 import GazzaDialog from "@/02-components/ui/dialogs/gazza-dialog"
 import { Button } from "@/02-components/ui/button"
 import useBreadcrumbs from "@/04-hooks/use-breadcrums"
-import useBaseComponentCustom from "@/04-hooks/use-base-component-custom"
-import { courseSubscriptionService } from "@/03-http/course-subscription-service"
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc"
+import { courseSectionService } from "@/03-http/expanded/course-section-service"
+import useBaseComponent from "@/04-hooks/use-base-component"
 
 const CoursesSection = () => {
 
@@ -23,33 +22,36 @@ const CoursesSection = () => {
     onEdit,
     onDelete,
     isLoading
-  } = useBaseComponentCustom<Course, CourseWithSubscriptions, 'course', CourseWithSubscriptions[]>(
+  } = useBaseComponent<CourseWithSubscriptions, CourseWithSubscriptions[]>(
     {
       queryKey: ["courses"],
-      fetch: () => courseSubscriptionService.getCourseWithSubscriptions(),
-      add: courseService.add,
-      edit: courseService.edit,
-      del: courseService.deleteCourse,
-      entityKey: 'course',
-      defaultEmptyItem: { subscriptions: [] },
+      fetch: courseSectionService.getCoursesSection,
+      add: courseSectionService.addCourseSection,
+      edit: courseSectionService.editCoursesSection,
+      del: courseSectionService.deleteCourseSection,
+      equals: courseSectionService.sameItem,
     }
   )
 
   const [year, setYear] = useState<string>(CURRENT_YEAR);
 
   const onAddCourse = async (course: Course) => {
-    onAdd(course);
+    onAdd({ course: course, subscriptions: []  });
   }
 
-  const onEditCourse = async (course: Course) => {
-    if (!AreCoursesDifferent(course, courseWithSubscriptions.find(c => c.course.id === course.id)!.course))
+  const onEditCourse = async (editedCourse: Course) => {
+    const old = courseWithSubscriptions.find(c => c.course.id === editedCourse.id);
+    if (!old || !AreCoursesDifferent(editedCourse, old.course))
       return;
 
-    onEdit(course);
+    onEdit({ course: editedCourse, subscriptions: old.subscriptions });
   }
 
-  const onDeleteCourse = async (id: string) => {
-    onDelete(id);
+  const onDeleteCourse = async (deletedCourse: Course) => {
+    const toDelete = courseWithSubscriptions.find(c => c.course.id === deletedCourse.id);
+    if (!toDelete)
+      return;
+    onDelete(toDelete);
   };
 
   const filteredCoursesWithSubscriptions = courseWithSubscriptions.length > 0 ? courseWithSubscriptions.filter(c => c.course.year.toString() === year) : [];
@@ -64,7 +66,7 @@ const CoursesSection = () => {
 
   return (
     <>
-      <div className="flex items-center justify-end px-6">
+      <div className="flex items-center justify-between px-4 md:px-6">
         <YearSelect year={year} minYear={minYear} maxYear={maxYear} onSelectedYear={setYear} />
         <GazzaDialog dialogComponent={(props) => <CourseDialog submit={onAddCourse} {...props} />}>
           <Button variant="outline" className="flex items-center gap-1 cursor-pointer">

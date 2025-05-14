@@ -4,31 +4,29 @@ import { Card } from "@/02-components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/02-components/ui/tabs"
 import { Badge } from "@/02-components/ui/badge"
 import { useParams } from "react-router"
-import { Subscriber } from "@/05-model/Subscribers"
 import { Button } from "@/02-components/ui/button"
 import { Skeleton } from "@/02-components/ui/skeleton"
-import { GenerateId } from "@/05-model/BaseEntity"
-import useBaseComponent from "@/04-hooks/use-base-component-custom"
-import { courseEnrollmentService } from "@/03-http/course-enrollment-service"
-import { subscriberService } from "@/03-http/base/services/subscriber"
-import { CourseEnrollmentInfoForUser } from "@/05-model/Course"
+import { GenerateId } from "@/05-model/base/BaseEntity"
+import { courseEnrollmentService } from "@/03-http/expanded/course-enrollment-service"
+import { CourseEnrollmentInfoForUser } from "@/05-model/base/Course"
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc"
+import useBaseComponent from "@/04-hooks/use-base-component"
 
 const UserInfoCourses = () => {
 
 	const { userId } = useParams();
 
-	const { 
-		query: { data: enrollments = [] as CourseEnrollmentInfoForUser[]},
+	const {
+		query: { data: enrollments = [] as CourseEnrollmentInfoForUser[] },
 		onAdd,
 		onDelete,
-		isLoading 
-	} = useBaseComponent<Subscriber, CourseEnrollmentInfoForUser, 'userSubscription', CourseEnrollmentInfoForUser[]>({
+		isLoading
+	} = useBaseComponent<CourseEnrollmentInfoForUser, CourseEnrollmentInfoForUser[]>({
 		queryKey: ["enrollments", userId],
 		fetch: () => courseEnrollmentService.getCourseEnrollmentInfo(userId!),
-		add: subscriberService.add,
-		del: subscriberService.delete,
-		entityKey: 'userSubscription'
+		add: courseEnrollmentService.addCourseEnrollmentInfo,
+		del: courseEnrollmentService.deleteCourseSection,
+		equals: courseEnrollmentService.sameItem
 	})
 
 	const enrolledCourses = enrollments.filter(enrollment => enrollment.userSubscription);
@@ -44,23 +42,30 @@ const UserInfoCourses = () => {
 		}
 	}
 
-	const subscribe = async (course: CourseEnrollmentInfoForUser) => {
+	const subscribe = async (enrollment: CourseEnrollmentInfoForUser) => {
+		const existingEnrollment = enrollments.find(e => e.courseWithSubscriptions.course.id === enrollment.courseWithSubscriptions.course.id);
+		if (!existingEnrollment) {
+			return;
+		}
+
 		onAdd({
-			id: GenerateId(),
-			userId: userId!,
-			courseId: course.courseWithSubscriptions.course.id,
-			subscriptionDate: new Date().toISOString(),
-			grade: null
+			courseWithSubscriptions: enrollment.courseWithSubscriptions,
+			userSubscription: {
+				id: GenerateId(),
+				userId: userId!,
+				courseId: enrollment.courseWithSubscriptions.course.id,
+				subscriptionDate: new Date().toISOString(),
+				grade: null
+			}
 		});
 	}
 
 	const unsubscribe = async (enrollment: CourseEnrollmentInfoForUser) => {
-		const subscriberId = enrollments.find(e => e.userSubscription!.id === enrollment.userSubscription!.id)?.userSubscription!.id;
-		if (!subscriberId) {
+		const userSubscription = enrollments.find(e => e.userSubscription?.id === enrollment.userSubscription!.id)?.userSubscription;
+		if (!userSubscription) {
 			return;
 		}
-
-		onDelete(subscriberId);
+		onDelete(enrollment);
 	}
 
 	const subscribeFooter = (buttonText: string, enrollment: CourseEnrollmentInfoForUser) => (
@@ -108,7 +113,7 @@ const UserInfoCourses = () => {
 				) : (
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 						{enrolledCourses.map((enrollment) => (
-							<CourseCard key={enrollment.courseWithSubscriptions.course.id} courseWithSubscriptions={ enrollment.courseWithSubscriptions } customFooter={subscribeFooter("Rimuovi iscrizione", enrollment)} />
+							<CourseCard key={enrollment.courseWithSubscriptions.course.id} courseWithSubscriptions={enrollment.courseWithSubscriptions} customFooter={subscribeFooter("Rimuovi iscrizione", enrollment)} />
 						))}
 					</div>
 				)}

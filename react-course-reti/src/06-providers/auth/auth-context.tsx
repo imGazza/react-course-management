@@ -1,4 +1,4 @@
-import { User } from "@/05-model/User";
+import { User } from "@/05-model/base/User";
 import { createContext } from "react";
 
 export const AuthContext = createContext<{

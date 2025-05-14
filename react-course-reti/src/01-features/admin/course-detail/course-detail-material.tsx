@@ -2,7 +2,7 @@ import { FileText, Book, Upload, Download, Trash2 } from "lucide-react";
 import { Button } from "@/02-components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/02-components/ui/card";
 import { ChangeEvent, useRef } from "react";
-import { Material } from "@/05-model/Material";
+import { Material } from "@/05-model/base/Material";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import { useParams } from "react-router";
 import { DeleteMaterial, DownloadMaterial, GetFileSizeInMB, SaveAndGetMaterial } from "@/02-components/utils/course/course-utils";
@@ -12,6 +12,9 @@ import { materialService } from "@/03-http/base/services/material";
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";
 import { ErrorMessage } from "@/02-components/utils/error-messages";
 import { toaster } from "@/02-components/utils/toaster";
+import { FileTooBigError } from "@/01-features/shared/errors/custom-exceptions/file-too-big";
+import { NoFileSelectedError } from "@/01-features/shared/errors/custom-exceptions/no-file-selected";
+import { FileNotAcceptedError } from "@/01-features/shared/errors/custom-exceptions/file-not-accepted";
 
 const CourseDetailMaterial = () => {
   const { courseId } = useParams();
@@ -21,7 +24,8 @@ const CourseDetailMaterial = () => {
     queryKey: ["materials", courseId!],
     fetch: () => materialService.getMaterialsByCourseId(courseId!),
     add: materialService.add,
-    del: materialService.delete    
+    del: materialService.deleteMaterial,
+    equals: (m1, m2) => m1.id === m2.id,
   });
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -30,8 +34,15 @@ const CourseDetailMaterial = () => {
       if (!material) return;
 
       onAdd(material);
-    } catch {
-      toaster.errorToast(ErrorMessage.UPLOAD_FILE)
+    } catch (e) {
+      if(e instanceof FileTooBigError)
+        toaster.errorToast(ErrorMessage.FILE_TOO_BIG);
+      else if(e instanceof NoFileSelectedError)
+        toaster.errorToast(ErrorMessage.NO_FILE_SELECTED);
+      else if(e instanceof FileNotAcceptedError)
+        toaster.errorToast(ErrorMessage.FILE_NOT_ACCEPTED);
+      else
+        toaster.errorToast(ErrorMessage.UPLOAD_FILE)
     }    
   }
 
@@ -46,7 +57,7 @@ const CourseDetailMaterial = () => {
   const handleFileDelete = async (material: Material) => {
     try {
       await DeleteMaterial(material);
-      onDelete(material.id);
+      onDelete(material);
     } catch {
       toaster.errorToast(ErrorMessage.DELETE_FILE)
     }    

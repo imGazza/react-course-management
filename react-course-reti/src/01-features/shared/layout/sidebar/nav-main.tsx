@@ -17,7 +17,7 @@ import {
   SidebarMenuSubItem,
 } from "@/02-components/ui/sidebar"
 import { Link } from "react-router"
-import { User } from "@/05-model/User"
+import { User } from "@/05-model/base/User"
 
 const NavMain = ({
   user,

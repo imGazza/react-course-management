@@ -1,7 +1,10 @@
-import { Material } from "@/05-model/Material";
+import { Material } from "@/05-model/base/Material";
 import { ChangeEvent } from "react";
-import { GenerateId } from "@/05-model/BaseEntity";
+import { GenerateId } from "@/05-model/base/BaseEntity";
 import { IsFileSizeValid } from "../file-manipulation/file-manipulation";
+import { FileTooBigError } from "@/01-features/shared/errors/custom-exceptions/file-too-big";
+import { NoFileSelectedError } from "@/01-features/shared/errors/custom-exceptions/no-file-selected";
+import { FileNotAcceptedError } from "@/01-features/shared/errors/custom-exceptions/file-not-accepted";
 
 const TO_MB_DIVIDER = 1024 * 1024;
 const ACCEPTED_MATERIAL_FILE_EXTENSIONS = ['pdf', 'ppt', 'pptx', 'txt', 'mp4'];
@@ -9,11 +12,11 @@ const MATERIALS_BASE_URL = "http://localhost:3001/api/material";
 
 export const SaveAndGetMaterial = async (event: ChangeEvent<HTMLInputElement>, courseId: string) => {
 	const file = event.target.files?.[0];
-	if (!file) throw new Error('Non è stato selezionato nessun file');
-	if (!IsFileSizeValid(file)) throw new Error('Dimensione file superiore a 10MB');
+	if (!file) throw new NoFileSelectedError();
+	if (!IsFileSizeValid(file)) throw new FileTooBigError();
 
 	const fileExtension = file.name.split('.').pop()?.toLowerCase();
-	if (!ACCEPTED_MATERIAL_FILE_EXTENSIONS.includes(fileExtension!)) throw new Error('Estensione file non supportata');
+	if (!ACCEPTED_MATERIAL_FILE_EXTENSIONS.includes(fileExtension!)) throw new FileNotAcceptedError();
 
 	const formData = new FormData();
 	formData.append("material", file);

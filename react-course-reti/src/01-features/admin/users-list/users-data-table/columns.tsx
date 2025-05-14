@@ -5,7 +5,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/02-c
 import UserDialog from "@/02-components/ui/dialogs/user-dialog"
 import GazzaConfirmDialog from "@/02-components/ui/dialogs/gazza-confirm-dialog"
 import GazzaDialog from "@/02-components/ui/dialogs/gazza-dialog"
-import { User, UserState } from "@/05-model/User"
+import { User, UserState } from "@/05-model/base/User"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, Pencil, ShieldCheck, SquareArrowOutUpRight, Trash2, User as UserIcon } from "lucide-react"
 import { Link } from "react-router"
@@ -13,7 +13,7 @@ import { avatarFallback } from "@/02-components/utils/misc"
 
 interface ColumnsProps {
 	onEditUser: (user: User) => void;
-	onDeleteUser: (id: string) => void;
+	onDeleteUser: (user: User) => void;
 }
 
 export const columns = ({ onEditUser, onDeleteUser }: ColumnsProps): ColumnDef<UserState>[] => [
@@ -126,7 +126,7 @@ export const columns = ({ onEditUser, onDeleteUser }: ColumnsProps): ColumnDef<U
 							<Pencil className="h-4 w-4" />
 						</Button>
 					</GazzaDialog>
-					<GazzaConfirmDialog dialogTitle="Elimina utente" dialogMessage={`Sei sicuro di voler eliminare ${state.user.firstName} ${state.user.lastName}?`} onConfirm={() => onDeleteUser(state.user.id)}>
+					<GazzaConfirmDialog dialogTitle="Elimina utente" dialogMessage={`Sei sicuro di voler eliminare ${state.user.firstName} ${state.user.lastName}?`} onConfirm={() => onDeleteUser(state.user)}>
 						{state.isDeletable ?
 							DeleteButton :
 							<TooltipProvider>

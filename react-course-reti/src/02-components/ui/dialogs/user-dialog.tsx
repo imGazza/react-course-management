@@ -5,11 +5,9 @@ import { Input } from "@/02-components/ui/input";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { BaseDialogProps } from "@/02-components/utils/interfaces/dialog-base-props";
-import { GenerateId } from "@/05-model/BaseEntity";
-import { User } from "@/05-model/User";
+import { GenerateId } from "@/05-model/base/BaseEntity";
+import { User } from "@/05-model/base/User";
 import { Switch } from "@/02-components/ui/switch";
-
-//TODO: Sistema il warning che appare all'apertura del popover
 
 interface LessonDialogProps extends BaseDialogProps {
     user?: User;

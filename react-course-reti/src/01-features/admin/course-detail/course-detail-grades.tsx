@@ -1,20 +1,20 @@
 import { Card } from "@/02-components/ui/card"
-import { SubscriptionsWithUser } from "@/05-model/Subscribers";
+import { SubscriptionsWithUser } from "@/05-model/base/Subscription";
 import { Avatar, AvatarFallback, AvatarImage } from "@/02-components/ui/avatar";
 import { Badge } from "@/02-components/ui/badge";
 import { Button } from "@/02-components/ui/button";
 import { Input } from "@/02-components/ui/input";
 import { useEffect, useState } from "react";
-import { subscriberService } from "@/03-http/base/services/subscriber";
 import { ScrollArea } from "@/02-components/ui/scroll-area";
 import { avatarFallback } from "@/02-components/utils/misc";
 import { toaster } from "@/02-components/utils/toaster";
+import { subscriptionService } from "@/03-http/base/services/subscription";
 
-interface CourseDetailSubscriberProps {
+interface CourseDetailSubscriptionProps {
 	initialSubscriptionsWithUser: SubscriptionsWithUser[];
 }
 
-const CourseDetailGrades = ({ initialSubscriptionsWithUser }: CourseDetailSubscriberProps) => {
+const CourseDetailGrades = ({ initialSubscriptionsWithUser }: CourseDetailSubscriptionProps) => {
 
 	const [gradedSubs, setGradedSubs] = useState<SubscriptionsWithUser[]>([]);
 	const [notGradedSubs, setNotGradedSubs] = useState<SubscriptionsWithUser[]>([]);
@@ -27,13 +27,13 @@ const CourseDetailGrades = ({ initialSubscriptionsWithUser }: CourseDetailSubscr
 	}, [subscriptionsWithUser]);
 
 	// Triggerato con l'input del numero
-	const handleGradeChange = (value: string, subscriber: SubscriptionsWithUser) => {
+	const handleGradeChange = (value: string, subscription: SubscriptionsWithUser) => {
 		const grade = parseInt(value);
 		if (isNaN(grade))
 			return;
 
 		setSubscriptionsWithUser(subscriptionsWithUser.map(s => 
-			s.subscription.id === subscriber.subscription.id ? { ...s, subscription: { ...s.subscription, grade: grade } } : s));
+			s.subscription.id === subscription.subscription.id ? { ...s, subscription: { ...s.subscription, grade: grade } } : s));
 	};
 
 	// Triggerato al blur (chiamata API)
@@ -45,7 +45,7 @@ const CourseDetailGrades = ({ initialSubscriptionsWithUser }: CourseDetailSubscr
 		try {
 			// Unica chiamata del componente, non uso l'hook di react-query per semplicità
 			// Replico l'oggetto altrimenti viene aggiunto il campo "user" a db.json
-			await subscriberService.edit({
+			await subscriptionService.edit({
 				id: subscribptionWithUser.subscription.id,
 				userId: subscribptionWithUser.subscription.userId,
 				courseId: subscribptionWithUser.subscription.courseId,

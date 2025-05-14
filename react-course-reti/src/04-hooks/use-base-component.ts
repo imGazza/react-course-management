@@ -1,43 +1,46 @@
+import { NotFound404Error } from "@/01-features/shared/errors/custom-exceptions/not-found-404";
 import { ErrorMessage } from "@/02-components/utils/error-messages";
 import { toaster } from "@/02-components/utils/toaster";
-import { BaseEntity } from "@/05-model/BaseEntity";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 
 export interface BaseComponentProps<
-	T extends BaseEntity, // Entità base per CRUD nelle mutations
-    Z = T
+	T,
+	Z = T
 > {
 	queryKey: readonly unknown[];
 	fetch: () => Promise<Z>;
 	add?: (data: T) => Promise<T>;
 	edit?: (data: T) => Promise<T>;
-	del?: (id: string) => Promise<T>;
+	del?: (data: T) => Promise<void>;
+	equals: (a: T, b: T) => boolean;
 }
 
 /**
  * Custom hook per eseguire operazioni CRUD sui componenti
- * @template T - Tipo base dell'entità che finisce a DB
+ * @template T - Entità da mandare ai servizi
  * @template Z - Tipo generico specificato per poter gestire diversi tipi di T (singola entità o array, necessario per far star tranquillo Typescript)
- * 
  **/
 
 const useBaseComponent = <
-	T extends BaseEntity,
-    Z = T
+	T,
+	Z = T
 >({
 	queryKey,
 	fetch,
 	add,
 	edit,
-	del
+	del,
+	equals
 }: BaseComponentProps<T, Z>) => {
-	const queryClient = useQueryClient();	
+	const queryClient = useQueryClient();
 
 	const query = useQuery<Z>({
 		queryKey: queryKey,
 		queryFn: fetch,
-		refetchOnWindowFocus: false
+		refetchOnWindowFocus: false,
+		throwOnError: true,
+		// Non eseguo retry, tanto il server è demo, se non va la prima richiesta non vanno nemmeno i retry
+		retry: false
 	});
 
 	// Mutations
@@ -55,34 +58,35 @@ const useBaseComponent = <
 
 	const deleteMutation = useMutation({
 		mutationFn: del,
-		onSuccess: (_, id: string) => deleteQueryData(queryClient, id),
+		onSuccess: (_, deleted: T) => deleteQueryData(queryClient, deleted),
 		onError: () => onError(ErrorMessage.DELETE_ERROR)
 	});
 
 	// QueryData
 
-    // Se viene fatta un'add, significa che si parte da un array in partenza, quindi aggiungo l'elemento alla fine
+	// Se viene fatta un'add, significa che si parte da un array in partenza, quindi aggiungo l'elemento alla fine
 	const addQueryData = (queryClient: QueryClient, added: T) => {
 		queryClient.setQueryData(queryKey, (prev: T[]) => {
-			return [...prev, added];
+			if (prev)
+				return [...prev, added];
 		});
 	};
 
 	// Se arrivo da array, devo trovare l'elemento e sostituirlo, altrimenti se è un singolo elemento, basta sostituirlo
 	const editQueryData = (queryClient: QueryClient, edited: T) => {
-		queryClient.setQueryData(queryKey, (prev: T[] | T) => {			
-            if (Array.isArray(prev))
-				return prev.map(item => item.id === edited.id ? edited : item);
+		queryClient.setQueryData(queryKey, (prev: T[] | T) => {
+			if (Array.isArray(prev))
+				return prev.map(item => equals(item, edited) ? edited : item);
 			else
 				return edited;
 		});
 	};
 
 	// Se arrivo da array, rimuovo l'element, altrimenti non restituisco nulla, sto cancellando l'entità stessa
-	const deleteQueryData = (queryClient: QueryClient, id: string) => {
+	const deleteQueryData = (queryClient: QueryClient, deleted: T) => {
 		queryClient.setQueryData(queryKey, (prev: T[] | T) => {
 			if (Array.isArray(prev)) {
-				return prev.filter(item => item.id !== id);
+				return prev.filter(item => !equals(item, deleted));
 			} else {
 				return prev;
 			}
@@ -90,7 +94,7 @@ const useBaseComponent = <
 	};
 
 	const isLoading = query.isLoading || addMutation.isPending || editMutation.isPending || deleteMutation.isPending;
-	
+
 	const refetch = () => {
 		queryClient.invalidateQueries({ queryKey: queryKey });
 	};

@@ -6,16 +6,14 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { DialogDescription, } from "@radix-ui/react-dialog";
 import { BaseDialogProps } from "@/02-components/utils/interfaces/dialog-base-props";
-import { GenerateId } from "@/05-model/BaseEntity";
-import { Lesson } from "@/05-model/Lesson";
+import { GenerateId } from "@/05-model/base/BaseEntity";
+import { Lesson } from "@/05-model/base/Lesson";
 import { Popover, PopoverContent, PopoverTrigger } from "@/02-components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/02-components/ui/calendar";
 import { cn } from "@/98-lib/utils";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
-
-//TODO: Sistema il warning che appare all'apertura del popover
 
 interface LessonDialogProps extends BaseDialogProps {
     lesson?: Lesson;

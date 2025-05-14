@@ -1,14 +1,14 @@
 import { useMemo } from "react";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/02-components/ui/card";
 import { Users, BookOpenText, GraduationCap, Presentation } from "lucide-react";
-import { CourseWithSubscriptions } from "@/05-model/Course";
-import { Lesson } from "@/05-model/Lesson";
+import { CourseWithSubscriptions } from "@/05-model/base/Course";
+import { Lesson } from "@/05-model/base/Lesson";
 import useBreadcrumbs from "@/04-hooks/use-breadcrums";
 import { useQueries } from "@tanstack/react-query";
 import { lessonService } from "@/03-http/base/services/lesson";
-import { userManagementService } from "@/03-http/users-management-service";
-import { UserWithSubscriptions } from "@/05-model/User";
-import { courseSubscriptionService } from "@/03-http/course-subscription-service";
+import { userManagementService } from "@/03-http/expanded/users-management-service";
+import { UserWithSubscriptions } from "@/05-model/base/User";
+import { courseSubscriptionService } from "@/03-http/expanded/embeds/course-subscription-service";
 
 const StatisticsCards = () => {
 
@@ -44,7 +44,7 @@ const StatisticsCards = () => {
 		return averageLessonsPerCourse;
 	}
 
-	const countMostPopularCourseTotalSubscribers = (coursesWithSubscriptions: CourseWithSubscriptions[]) => {
+	const countMostPopularCourseTotalSubscriptions = (coursesWithSubscriptions: CourseWithSubscriptions[]) => {
 		return Math.max(...coursesWithSubscriptions.map(courseWithSubscriptions => courseWithSubscriptions.subscriptions?.length || 0));
 	}
 
@@ -70,7 +70,7 @@ const StatisticsCards = () => {
 	const statistics = useMemo(() => ({
 		averageLessonsPerCourse: countAverageLessonsPerCourse(lessons),
 		averageCoursesPerUser: countAverageCoursesPerUser(usersWithSubscriptions),
-		mostPopularCourseTotalSubscribers: countMostPopularCourseTotalSubscribers(coursesWithSubscriptions),
+		mostPopularCourseTotalSubscriptions: countMostPopularCourseTotalSubscriptions(coursesWithSubscriptions),
 		uniqueSubscribedUsers: countUniqueSubscribedUsers(usersWithSubscriptions)
 	}), [coursesWithSubscriptions, usersWithSubscriptions, lessons]);
 
@@ -111,7 +111,7 @@ const StatisticsCards = () => {
 						Popolarità
 					</div>
 					<div className="text-muted-foreground">
-						{`Il corso più popolare conta ${statistics.mostPopularCourseTotalSubscribers} iscritt${statistics.mostPopularCourseTotalSubscribers === 1 ? "o" : "i"}`}
+						{`Il corso più popolare conta ${statistics.mostPopularCourseTotalSubscriptions} iscritt${statistics.mostPopularCourseTotalSubscriptions === 1 ? "o" : "i"}`}
 					</div>
 				</CardFooter>
 			</Card>

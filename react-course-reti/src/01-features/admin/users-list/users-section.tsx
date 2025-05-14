@@ -1,13 +1,12 @@
 import useBreadcrumbs from "@/04-hooks/use-breadcrums";
 import { Card } from "@/02-components/ui/card"
 import UsersTableWrapper from "./users-data-table/users-table-wrapper"
-import { AreUsersDifferent, User, UserState } from "@/05-model/User";
+import { AreUsersDifferent, User, UserState } from "@/05-model/base/User";
 import UsersSectionCards from "./users-section-cards";
-import useBaseComponentCustom from "@/04-hooks/use-base-component-custom";
-import { userService } from "@/03-http/base/services/user";
-import { userManagementService } from "@/03-http/users-management-service";
 import { toaster } from "@/02-components/utils/toaster";
 import { WarningMessage } from "@/02-components/utils/error-messages";
+import useBaseComponent from "@/04-hooks/use-base-component";
+import { userSectionService } from "@/03-http/expanded/user-section-service";
 
 const UsersSection = () => {
 
@@ -19,37 +18,37 @@ const UsersSection = () => {
 		onEdit,
 		onDelete,
 		isLoading
-	} = useBaseComponentCustom<User, UserState, "user", UserState[]>({
+	} = useBaseComponent<UserState, UserState[]>({
 		queryKey: ["usersState"],
-		fetch: () => userManagementService.getUsersState(),
-		add: userService.add,
-		edit: userService.edit,
-		del: userService.delete,
-		entityKey: 'user',
-		defaultEmptyItem: {
-			subscriptionsNumber: 0,
-			isDeletable: true
-		}
+		fetch: () => userSectionService.getUsersState(),
+		add: userSectionService.addUserSection,
+		edit: userSectionService.editUsersSection,
+		del: userSectionService.deleteUsersSection,
+		equals: userSectionService.sameItem
 	});
 
 	const onAddUser = async (user: User) => {
-		if (usersState.find(u => u.user.email === user.email)){
+		const userState = usersState.find(u => u.user.email === user.email)
+		if(userState){
 			toaster.warnToast(WarningMessage.USER_ALREADY_EXISTS)
 			return;
 		}
-
-		onAdd(user);
+		onAdd({ user: user, subscriptionsNumber: 0, isDeletable: true });
 	}
 
 	const onEditUser = async (editedUser: User) => {
-		if (!AreUsersDifferent(editedUser, usersState.find(u => u.user.id === editedUser.id)!.user))
+		const old = usersState.find(u => u.user.id === editedUser.id);
+		if (!old || !AreUsersDifferent(editedUser, old.user))
 			return;
 
-		onEdit(editedUser);
+		onEdit({ user: editedUser, subscriptionsNumber: old.subscriptionsNumber, isDeletable: old.isDeletable });
 	}
 
-	const onDeleteUser = async (id: string) => {
-		onDelete(id);
+	const onDeleteUser = async (deletedUser: User) => {
+		const deletedUserState = usersState.find(u => u.user.id === deletedUser.id);
+		if (!deletedUserState)
+			return;
+		onDelete(deletedUserState);
 	}
 
 	return (

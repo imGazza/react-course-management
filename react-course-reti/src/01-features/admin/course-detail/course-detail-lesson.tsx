@@ -3,7 +3,7 @@ import { Button } from "@/02-components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/02-components/ui/card"
 import { useEffect } from "react"
 import { useParams } from "react-router"
-import { AreLessonsDifferent, Lesson } from "@/05-model/Lesson"
+import { AreLessonsDifferent, Lesson } from "@/05-model/base/Lesson"
 import GazzaDialog from "@/02-components/ui/dialogs/gazza-dialog"
 import LessonDialog from "@/02-components/ui/dialogs/lesson-dialog"
 import { Skeleton } from "@/02-components/ui/skeleton"
@@ -12,17 +12,19 @@ import useBaseComponent from "@/04-hooks/use-base-component"
 import { lessonService } from "@/03-http/base/services/lesson"
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc"
 import { useCourseBasicInfo } from "@/04-hooks/use-course-basic-info"
+import { cn } from "@/98-lib/utils"
 
 const CourseDetailLesson = () => {
 
 	const { courseId } = useParams();
 	const { setLessonsNumber } = useCourseBasicInfo();
-	const { query: {data : lessons = []}, onAdd, onEdit, onDelete, isLoading} = useBaseComponent<Lesson, Lesson[]>({
+	const { query: { data: lessons = [] }, onAdd, onEdit, onDelete, isLoading } = useBaseComponent<Lesson, Lesson[]>({
 		queryKey: ["lessons", courseId!],
 		fetch: () => lessonService.getLessonsByCourseId(courseId!),
 		add: lessonService.add,
 		edit: lessonService.edit,
-		del: lessonService.delete,
+		del: lessonService.deleteLesson,
+		equals: (l1, l2) => l1.id === l2.id
 	})
 
 	useEffect(() => {
@@ -41,9 +43,11 @@ const CourseDetailLesson = () => {
 		onEdit(lesson);
 	}
 
-	const onDeleteLesson = async (lessonId: string) => {
-		onDelete(lessonId);
+	const onDeleteLesson = async (lesson: Lesson) => {
+		onDelete(lesson);
 	}
+
+	const sortedLessons = lessons.sort((a, b) => new Date(a.lessonDate).getTime() - new Date(b.lessonDate).getTime());
 
 	if (isLoading)
 		return <CourseDetailLessonSkeleton />
@@ -62,9 +66,14 @@ const CourseDetailLesson = () => {
 						{
 							lessons.length !== 0 ?
 
-								lessons.map((lesson) => (
-									<div key={lesson.id} className="flex items-center justify-between p-3 border rounded-md">
-										<div className="flex items-center gap-3">
+								sortedLessons.map((lesson) => (
+									<div key={lesson.id} className={cn(
+										"flex items-center justify-between p-3 rounded-md relative border backdrop-blur-[2px] hover:backdrop-blur-[4px] transition-all",
+										new Date() <= new Date(lesson.lessonDate)
+											? "bg-gradient-to-r from-orange-50/30 to-transparent border-orange-100/50 before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-orange-400/50 before:rounded-l-md dark:from-orange-950/30 dark:border-orange-900/50"
+											: "bg-gradient-to-r from-sky-50/30 to-transparent border-sky-100/50 before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-sky-400/50 before:rounded-l-md dark:from-sky-950/30 dark:border-sky-900/50"
+									)}>
+										<div className="flex items-center gap-3 relative z-10">
 											<Presentation className="h-5 w-5 text-muted-foreground" />
 											<div>
 												<p className="font-medium">{lesson.name}</p>
@@ -83,7 +92,7 @@ const CourseDetailLesson = () => {
 													<Edit />
 												</Button>
 											</GazzaDialog>
-											<Button variant="ghost" size="sm" onClick={() => onDeleteLesson(lesson.id)}>
+											<Button variant="ghost" size="sm" onClick={() => onDeleteLesson(lesson)}>
 												<Trash2 />
 											</Button>
 										</div>

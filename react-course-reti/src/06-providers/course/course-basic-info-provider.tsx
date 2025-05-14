@@ -9,7 +9,7 @@ interface CourseProvidesProps {
 function CourseBasicInfoProvider({ children }: Readonly<CourseProvidesProps>) {
 
     const [course, setCourse] = useState<Course | null>(null);
-    const [subscribersNumber, setSubscribersNumber] = useState<number>(0);
+    const [subscriptionsNumber, setSubscriptionsNumber] = useState<number>(0);
     const [lessonsNumber, setLessonsNumber] = useState<number>(0);
 
     const setCourseData = (course: Course) => {
@@ -20,8 +20,8 @@ function CourseBasicInfoProvider({ children }: Readonly<CourseProvidesProps>) {
         setLessonsNumber(lessonsNumber);
     }
 
-    const setSubscribersNumberValue = (lessonsNumber: number) => {
-        setSubscribersNumber(lessonsNumber);
+    const setSubscriptionsNumberValue = (lessonsNumber: number) => {
+        setSubscriptionsNumber(lessonsNumber);
     }
 
     const value = useMemo(
@@ -29,12 +29,12 @@ function CourseBasicInfoProvider({ children }: Readonly<CourseProvidesProps>) {
             return {
                 course: course,
                 lessonsNumber: lessonsNumber,
-                subscribersNumber: subscribersNumber,
+                subscriptionsNumber: subscriptionsNumber,
                 setCourseData: setCourseData,
                 setLessonsNumber: setLessonsNumberValue,
-                setSubscribersNumber: setSubscribersNumberValue                
+                setSubscriptionsNumber: setSubscriptionsNumberValue                
             }
-    },[course, lessonsNumber, subscribersNumber])
+    },[course, lessonsNumber, subscriptionsNumber])
 
     return (
         <CourseBasicInfoContext.Provider value={value}>{children}</CourseBasicInfoContext.Provider>

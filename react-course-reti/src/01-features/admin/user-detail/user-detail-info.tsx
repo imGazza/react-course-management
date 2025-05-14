@@ -4,7 +4,7 @@ import { Card } from "@/02-components/ui/card";
 import { Badge } from "@/02-components/ui/badge";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import useBaseComponent from "@/04-hooks/use-base-component";
-import { User } from "@/05-model/User";
+import { User } from "@/05-model/base/User";
 import { userService } from "@/03-http/base/services/user";
 import { avatarFallback } from "@/02-components/utils/misc";
 
@@ -13,6 +13,7 @@ const UserDetailInfo = ({ userId }: { userId: string }) => {
 	const { query: { data: user }, isLoading } = useBaseComponent<User>({
 			queryKey: ["user", userId],
 			fetch: () => userService.get(userId),
+			equals: (u1, u2) => u1.id === u2.id
 		}
 	)
 

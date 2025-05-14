@@ -17,6 +17,7 @@ import {
 import { AreaChartUnit, createAreaChartData } from "./area-chart-data"
 import { useEffect, useState } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/02-components/ui/select"
+import { curveCardinal } from 'd3-shape';
 
 const chartConfig = {
 	subscribed: {
@@ -24,7 +25,7 @@ const chartConfig = {
 		color: "hsl(var(--chart-1))",
 	},
 	users: {
-		label: "Iscritti",
+		label: "Iscrizioni a corsi",
 		color: "hsl(var(--chart-2))",
 	},
 } satisfies ChartConfig
@@ -47,10 +48,11 @@ const AreaChartSubscriptions = () => {
 		setChartData(chartData);
 	}
 
+
 	return (
 		<Card>
 			<CardHeader className="relative">
-				<CardTitle className="text-xs md:text-base">Registrazioni e iscritti</CardTitle>
+				<CardTitle className="text-xs md:text-base">Registrazioni e iscrizioni</CardTitle>
 				<CardDescription className="text-xs md:text-base">
 					Seleziona l'intervallo di tempo
 				</CardDescription>
@@ -123,14 +125,14 @@ const AreaChartSubscriptions = () => {
 						</defs>
 						<Area
 							dataKey="Utenti"
-							type="natural"
+							type="monotone"
 							fill="url(#fillUsers)"
 							fillOpacity={0.4}
 							stroke="var(--color-users)"
 						/>
 						<Area
-							dataKey="Iscritti"
-							type="natural"
+							dataKey="Iscrizioni"
+							type="monotone"
 							fill="url(#fillSubscribed)"
 							fillOpacity={0.4}
 							stroke="var(--color-subscribed)"
@@ -140,7 +142,7 @@ const AreaChartSubscriptions = () => {
 			</CardContent>
 			<CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 leading-none">
-					Confronto tra registrazioni e iscritti ai corsi
+					Confronto tra registrazioni al portale e iscritti ai corsi
         </div>
       </CardFooter>
 		</Card>

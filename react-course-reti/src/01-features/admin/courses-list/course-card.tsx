@@ -2,7 +2,7 @@ import { Pencil, SquareArrowOutUpRight, Trash2, Users } from "lucide-react"
 import { Badge } from "@/02-components/ui/badge"
 import { Button } from "@/02-components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/02-components/ui/card"
-import { Course, CourseWithSubscriptions } from "@/05-model/Course"
+import { Course, CourseWithSubscriptions } from "@/05-model/base/Course"
 import { Skeleton } from "@/02-components/ui/skeleton"
 import CourseDialog from "@/02-components/ui/dialogs/course-dialog"
 import GazzaDialog from "@/02-components/ui/dialogs/gazza-dialog"
@@ -18,14 +18,14 @@ const statusColors = {
 
 interface CourseCardProps {
   courseWithSubscriptions: CourseWithSubscriptions;
-  onEdit?: (data: Course) => void;
-  onDelete?: (id: string) => void;
+  onEdit?: (course: Course) => void;
+  onDelete?: (course: Course) => void;
   customFooter?: React.ReactNode;
 }
 
 const CourseCard = ({ courseWithSubscriptions, onEdit, onDelete, customFooter }: CourseCardProps) => {
 
-  const statusColor = statusColors[courseWithSubscriptions.course.status] || statusColors["Pianificato"];
+  const statusColor = (statusColors[courseWithSubscriptions.course.status]) || statusColors["Pianificato"];
 
   const defaultFooter = (
     <>
@@ -41,7 +41,7 @@ const CourseCard = ({ courseWithSubscriptions, onEdit, onDelete, customFooter }:
           </Button>
         </GazzaDialog>
         {courseWithSubscriptions.course.status === "Pianificato" ?
-          <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${courseWithSubscriptions.course.name}?`} onConfirm={() => onDelete!(courseWithSubscriptions.course.id)}>
+          <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${courseWithSubscriptions.course.name}?`} onConfirm={() => onDelete!(courseWithSubscriptions.course)}>
             <Button variant="outline" size="icon" className="flex items-center hover:border-delete-red-foreground hover:bg-delete-red hover:text-delete-red-foreground">
               <Trash2 />
             </Button>

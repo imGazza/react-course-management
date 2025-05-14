@@ -1,4 +1,4 @@
-import { BaseEntity } from "@/05-model/BaseEntity";
+import { BaseEntity } from "@/05-model/base/BaseEntity";
 import client from "./client";
 
 export class BaseService<T extends BaseEntity> {

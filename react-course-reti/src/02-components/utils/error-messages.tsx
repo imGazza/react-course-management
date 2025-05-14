@@ -7,6 +7,9 @@ export enum ErrorMessage {
 	UPLOAD_FILE = "Impossibile caricare il file. Il server è up and running?",
 	DOWNLOAD_FILE = "Impossibile scaricare il file. Il server è up and running?",
 	DELETE_FILE = "Impossibile eliminare il file. Il server è up and running?",
+  FILE_TOO_BIG = "Il file è troppo grande",
+  NO_FILE_SELECTED = "Nessun file selezionato",
+  FILE_NOT_ACCEPTED = "Il formato del file non è accettato",
 }
 
 export enum WarningMessage {

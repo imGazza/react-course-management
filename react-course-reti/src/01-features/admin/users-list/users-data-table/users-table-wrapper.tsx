@@ -1,7 +1,7 @@
 import GazzaDialog from "@/02-components/ui/dialogs/gazza-dialog";
 import { columns } from "./columns"
 import { DataTable, DataTableSkeleton } from "./data-table"
-import { User, UserState } from "@/05-model/User";
+import { User, UserState } from "@/05-model/base/User";
 import { Button } from "@/02-components/ui/button";
 import { Plus } from "lucide-react";
 import UserDialog from "@/02-components/ui/dialogs/user-dialog";
@@ -10,7 +10,7 @@ interface UsersTableWrapperProps {
 	users: UserState[];
 	onAddUser: (user: User) => void;
 	onEditUser: (user: User) => void;
-	onDeleteUser: (id: string) => void;
+	onDeleteUser: (user: User) => void;
 	loading: boolean
 }
 

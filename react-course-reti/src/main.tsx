@@ -10,7 +10,9 @@ import { ErrorMessage } from './02-components/utils/error-messages.tsx';
 
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: () => {      
+    onError: () => {
+      // Vecchia versione, non dovrebbe mai arrivare qua perchè ora il fetch
+      // di react-query ha throwOnError, viene quindi presa dall'ErrorBoundary
       toaster.errorToast(ErrorMessage.FETCH_ERROR);
     },
   }),

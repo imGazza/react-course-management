@@ -1,7 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/02-components/ui/card"
 import { BookOpen, ExternalLink, FileText, GraduationCap, Star } from "lucide-react";
 import { Badge } from "@/02-components/ui/badge";
-import { Course } from "@/05-model/Course";
 import { Progress } from "@/02-components/ui/progress";
 import { Separator } from "@/02-components/ui/separator";
 import { Button } from "@/02-components/ui/button";
@@ -10,20 +9,20 @@ import MaterialsDialog from "@/02-components/ui/dialogs/materials-dialog";
 import LessonsDialog from "@/02-components/ui/dialogs/lessons-dialog";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import useBreadcrumbs from "@/04-hooks/use-breadcrums";
-import { PersonalCoursesInfo } from "@/05-model/PersonalCourses";
-import useBaseComponentCustom from "@/04-hooks/use-base-component-custom";
-import { personalCoursesService } from "@/03-http/personal-courses-service";
+import { PersonalCoursesInfo } from "@/05-model/PersonalCourse";
+import { personalCoursesService } from "@/03-http/expanded/personal-courses-service";
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";
 import { useAuth } from "@/04-hooks/use-auth";
+import useBaseComponent from "@/04-hooks/use-base-component";
 
 const PersonalCoursesList = () => {
 
 	useBreadcrumbs([{ label: "I miei corsi", url: "#"}]);	
 	const { user } = useAuth();
-	const { query: { data: personalCourses = [] }, isLoading } = useBaseComponentCustom<Course, PersonalCoursesInfo, 'course', PersonalCoursesInfo[]>({
+	const { query: { data: personalCourses = [] }, isLoading } = useBaseComponent<PersonalCoursesInfo, PersonalCoursesInfo[]>({
 		queryKey: ['personalCourses'],
 		fetch: () => personalCoursesService.getPersonalCoursesWithInfo(user!.id),
-		entityKey: 'course',
+		equals: personalCoursesService.sameItem
 	})
 
 	if (isLoading)
@@ -64,9 +63,8 @@ const PersonalCoursesList = () => {
 													<h3 className="text-lg font-semibold">{personalCourse.course.name}</h3>
 												</div>
 												<div className="flex gap-2">
-													{personalCourse.course.status && (
-														<Badge variant="outline">{personalCourse.course.status}</Badge>
-													)}
+													<Badge variant="outline">{personalCourse.course.year}</Badge>
+													<Badge variant="outline">{personalCourse.course.status}</Badge>
 													<Badge variant="secondary">{personalCourse.progress.percentageCompleted}% Completato</Badge>
 												</div>
 											</div>

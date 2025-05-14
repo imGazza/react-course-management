@@ -1,10 +1,13 @@
 import { RouterProvider } from 'react-router';
-import { routes } from '@/07-routing/routes';
+import { router } from '@/07-routing/router';
+import ErrorBoundary from './01-features/shared/errors/error-boundary-default';
 
 function App() {
 
   return (
-    <RouterProvider router={routes} />
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
   )
 }
 

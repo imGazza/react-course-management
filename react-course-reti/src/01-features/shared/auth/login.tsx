@@ -57,7 +57,7 @@ const Login = ({ className, ...props }: React.ComponentProps<"div">) => {
                       {...register("email", { required: true })}
                       id="email"
                       type="email"
-                      placeholder="admin@example.com"
+                      placeholder="luca.gazzardi@email.com"
                     />
                   </div>
                   <div className="grid gap-3">

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { AuthContext } from "./auth-context";
-import { User } from "@/05-model/User";
+import { User } from "@/05-model/base/User";
 import { useNavigate } from "react-router";
 import { useQueryClient } from "@tanstack/react-query";
 

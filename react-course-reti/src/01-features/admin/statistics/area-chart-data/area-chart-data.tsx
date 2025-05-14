@@ -1,7 +1,7 @@
-import { subscriberService } from "@/03-http/base/services/subscriber";
+import { subscriptionService } from "@/03-http/base/services/subscription";
 import { userService } from "@/03-http/base/services/user";
-import { Subscriber } from "@/05-model/Subscribers";
-import { User } from "@/05-model/User";
+import { Subscription } from "@/05-model/base/Subscription";
+import { User } from "@/05-model/base/User";
 import { eachMonthOfInterval, subMonths } from "date-fns";
 
 const months = [
@@ -12,7 +12,7 @@ const months = [
 export interface AreaChartUnit {
 	monthPeriod: string,
 	Utenti: number,
-	Iscritti: number
+	Iscrizioni: number
 }
 
 // Area Chart
@@ -20,14 +20,14 @@ export interface AreaChartUnit {
 export const createAreaChartData = async (months: string) => {
 	const monthsNumber = parseInt(months);
 
-	const { allUsers, allSubscribers } = await getBaseData();
+	const { allUsers, allSubscriptions } = await getBaseData();
 
 	const today = new Date();
 	const start = subMonths(new Date(), monthsNumber);
 	const end = new Date(today.getFullYear(), today.getMonth());
 
 	const signedUpUsers = getSignedUpUsersPerMonth(allUsers, start, end);
-	const subscribedUsers = getSubscribedPerMonth(allSubscribers, start, end);
+	const subscribedUsers = getSubscribedPerMonth(allSubscriptions, start, end);
 
 	return processRawData(signedUpUsers, subscribedUsers, start, end);
 }
@@ -35,14 +35,14 @@ export const createAreaChartData = async (months: string) => {
 // Recupero i dati generali di base che servono a popolare il grafico
 const getBaseData = async () => {
 
-	const [allUsers, allSubscribers] = await Promise.all([
+	const [allUsers, allSubscriptions] = await Promise.all([
 		userService.getAll(0),
-		subscriberService.getAll(0)
+		subscriptionService.getAll(0)
 	]);
 
 	return {
 		allUsers,
-		allSubscribers
+		allSubscriptions
 	}
 }
 
@@ -54,16 +54,16 @@ const getSignedUpUsersPerMonth = (allUsers: User[], start: Date, end: Date) => {
 	);
 }
 
-const getSubscribedPerMonth = (allSubscribers: Subscriber[], start: Date, end: Date) => {
-	return allSubscribers.filter(
-		subscriber =>
-			new Date(subscriber.subscriptionDate) >= start &&
-			new Date(subscriber.subscriptionDate) < end
+const getSubscribedPerMonth = (allSubscriptions: Subscription[], start: Date, end: Date) => {
+	return allSubscriptions.filter(
+		subscription =>
+			new Date(subscription.subscriptionDate) >= start &&
+			new Date(subscription.subscriptionDate) < end
 	);
 }
 
 // Riorganizzo i dati per la giusta visualizzazione nel grafico
-const processRawData = (users: User[], subscribers: Subscriber[], start: Date, end: Date): AreaChartUnit[] => {
+const processRawData = (users: User[], subscriptions: Subscription[], start: Date, end: Date): AreaChartUnit[] => {
 	const monthPeriods = eachMonthOfInterval({ start, end });
 
 	const result = monthPeriods.map(monthPeriod => ({
@@ -72,7 +72,7 @@ const processRawData = (users: User[], subscribers: Subscriber[], start: Date, e
 			new Date(u.joinedDate).getMonth() === monthPeriod.getMonth() && 
 			new Date(u.joinedDate).getFullYear() === monthPeriod.getFullYear())
 			.length,
-		Iscritti: subscribers.filter(u => 
+		Iscrizioni: subscriptions.filter(u => 
 			new Date(u.subscriptionDate).getMonth() === monthPeriod.getMonth() && 
 			new Date(u.subscriptionDate).getFullYear() === monthPeriod.getFullYear())
 			.length

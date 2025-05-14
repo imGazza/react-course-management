@@ -3,20 +3,21 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "
 import { Popover, PopoverContent, PopoverTrigger } from "@/02-components/ui/popover"
 import { userService } from "@/03-http/base/services/user"
 import useBaseComponent from "@/04-hooks/use-base-component"
-import { User } from "@/05-model/User"
+import { User, usersSameItem } from "@/05-model/base/User"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { useState } from "react"
 
 interface ComboboxUsersProps {
-	onAddSubscriber: (users: User[]) => void;
+	onAddSubscription: (users: User[]) => void;
 }
 
-const ComboboxUsers = ({ onAddSubscriber }: ComboboxUsersProps) => {
+const ComboboxUsers = ({ onAddSubscription }: ComboboxUsersProps) => {
 
 	const { query: { data: users = [] } } = useBaseComponent<User, User[]>(
 		{
 			queryKey: ["users"],
-			fetch: userService.getAll
+			fetch: userService.getAll,
+			equals: usersSameItem
 		}
 	)
 
@@ -34,7 +35,7 @@ const ComboboxUsers = ({ onAddSubscriber }: ComboboxUsersProps) => {
 	}
 
 	const onAdd = async (userIds: string[]) => {
-		onAddSubscriber(users.filter(user => userIds.includes(user.id)));
+		onAddSubscription(users.filter(user => userIds.includes(user.id)));
 		setSelectedValues([]);
 	}
 

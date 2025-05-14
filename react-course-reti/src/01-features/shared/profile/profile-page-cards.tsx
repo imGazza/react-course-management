@@ -1,10 +1,10 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/02-components/ui/card"
-import {  subscriberService } from "@/03-http/base/services/subscriber";
-import { SubscriptionsEmbedsCourse } from "@/05-model/Subscribers";
-import { User } from "@/05-model/User";
+import { SubscriptionsWithCourse } from "@/05-model/base/Subscription";
+import { User } from "@/05-model/base/User";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import useBaseComponent from "@/04-hooks/use-base-component";
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";
+import { profilePageService } from "@/03-http/expanded/profile-page-service";
 
 interface ProfilePageCardsProps {
 	user: User;
@@ -12,9 +12,10 @@ interface ProfilePageCardsProps {
 
 const ProfilePageCards = ({ user }: ProfilePageCardsProps) => {
 
-	const { query: { data: subscriptions = [] }, isLoading } = useBaseComponent<SubscriptionsEmbedsCourse, SubscriptionsEmbedsCourse[]>({
+	const { query: { data: subscriptions = [] }, isLoading } = useBaseComponent<SubscriptionsWithCourse, SubscriptionsWithCourse[]>({
 		queryKey: ["subscriptions", user.id],
-		fetch: () => subscriberService.getSubscribersWithCourseByUserId(user.id)
+		fetch: () => profilePageService.getSubscriptionsWithCourse(user.id),
+		equals: (s1, s2) => s1.subscription.id === s2.subscription.id
 	});
 
 	if(isLoading)
@@ -65,7 +66,7 @@ const ProfilePageCards = ({ user }: ProfilePageCardsProps) => {
 						Valutazioni ricevute
 					</CardDescription>
 					<CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums line-clamp-1">
-						{subscriptions.filter(s => s.grade).length}
+						{subscriptions.filter(s => s.subscription.grade).length}
 					</CardTitle>
 				</CardHeader>
 			</Card>

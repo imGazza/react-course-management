@@ -10,3 +10,7 @@ export function createSkeletonArray(length: number) {
 export function skeletonUniqueId(): string{
   return `skeleton-row-${crypto.randomUUID()}`
 }
+
+export function loader() {
+  throw new Error('Error');
+}

@@ -1,4 +1,5 @@
 import {
+  Bomb,
   ChevronsUpDown,
   LogIn,
   LogOut,
@@ -25,10 +26,11 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/02-components/ui/sidebar"
-import { User } from "@/05-model/User"
+import { User } from "@/05-model/base/User"
 import { Link } from "react-router"
 import { cn } from "@/98-lib/utils"
-import { avatarFallback } from "@/02-components/utils/misc"
+import { avatarFallback, loader } from "@/02-components/utils/misc"
+import { useState } from "react"
 
 interface NavUserProps {
   user: User | null,
@@ -36,10 +38,27 @@ interface NavUserProps {
 }
 
 const NavUser = ({ user, logout }: NavUserProps) => {
-  const { isMobile } = useSidebar()  
-  
+  const { isMobile } = useSidebar()
+
+  const [hasError, setHasError] = useState(false);
+
+  const simulateError = false;
+
+  // Simulazione errore per testare pagina di errore generico
+  const handleError = () => {
+    try {
+      loader();
+    } catch {
+      setHasError(true);
+    }
+  };
+
+  if (hasError) {
+    throw new Error('Error from dropdown menu item click');
+  }
+
   const UserInfo = () => {
-    if (user){
+    if (user) {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -79,11 +98,17 @@ const NavUser = ({ user, logout }: NavUserProps) => {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <Link to="/profile">
-                <DropdownMenuItem>                
+                <DropdownMenuItem>
                   <UserPen />
                   Profilo
                 </DropdownMenuItem>
               </Link>
+              {simulateError &&
+                <DropdownMenuItem onClick={handleError}>
+                  <Bomb />
+                  Simula errore
+                </DropdownMenuItem>
+              }
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={logout}>
@@ -94,7 +119,7 @@ const NavUser = ({ user, logout }: NavUserProps) => {
         </DropdownMenu>
       )
     }
-    else{
+    else {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -137,11 +162,11 @@ const NavUser = ({ user, logout }: NavUserProps) => {
                   Login
                 </DropdownMenuItem>
               </Link>
-            </DropdownMenuGroup>            
+            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       )
-    }    
+    }
   }
 
   return (

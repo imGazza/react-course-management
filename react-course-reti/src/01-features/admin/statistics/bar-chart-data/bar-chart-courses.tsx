@@ -44,7 +44,7 @@ const chartConfig = {
 	},
 } satisfies ChartConfig
 
-const SELECTABLE_COURSES_AMOUNT = 5
+const SELECTABLE_COURSES_AMOUNT = 3
 
 const BarChartCourses = () => {
 

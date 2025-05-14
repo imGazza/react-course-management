@@ -1,5 +1,5 @@
 import { courseService } from "@/03-http/base/services/course";
-import { CourseEmbedsSubscriptions } from "@/05-model/Course";
+import { CourseEmbedsSubscriptions } from "@/05-model/base/Course";
 import { eachYearOfInterval, subYears } from "date-fns";
 
 export interface BarChartUnit {
@@ -18,7 +18,7 @@ export const createBarChartData = async ({ uniqueCourses, allCoursesEmbedsSubscr
 		year: year.getFullYear(),
 		...Object.fromEntries([...uniqueCourses].map(course => [
 			course,
-			allCoursesEmbedsSubscriptions.find(c => c.name === course && c.year === year.getFullYear())?.subscribers?.length ?? 0
+			allCoursesEmbedsSubscriptions.find(c => c.name === course && c.year === year.getFullYear())?.subscriptions?.length ?? 0
 		]))
 	}))
 
@@ -26,7 +26,7 @@ export const createBarChartData = async ({ uniqueCourses, allCoursesEmbedsSubscr
 }
 
 export const getBaseData = async () => {
-	const allCoursesEmbedsSubscriptions = await courseService.getCoursesEmbedsSubscribers(0);
+	const allCoursesEmbedsSubscriptions = await courseService.getCoursesEmbedsSubscriptions(0);
 	const uniqueCourses = new Set(allCoursesEmbedsSubscriptions.map(course => course.name));
 
 	return {

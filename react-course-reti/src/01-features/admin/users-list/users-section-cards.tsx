@@ -1,5 +1,5 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/02-components/ui/card"
-import { UserState } from "@/05-model/User"
+import { UserState } from "@/05-model/base/User"
 import { Skeleton } from "@/02-components/ui/skeleton"
 import { subDays } from "date-fns";
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";

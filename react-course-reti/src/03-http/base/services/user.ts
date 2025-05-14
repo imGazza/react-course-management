@@ -1,4 +1,4 @@
-import { User, UserEmbedsSubscriptions } from "@/05-model/User";
+import { User, UserEmbedsSubscriptions } from "@/05-model/base/User";
 import client from "../client";
 import { BaseService } from "../base-service";
 
@@ -10,15 +10,15 @@ class UserService extends BaseService<User>  {
     } 
 
     getUserToLog = async (email: string, password: string, delay?: number): Promise<User[]> => {
-        return client.get<User[]>(`${BASE_URL}?email=${email}&password=${password}`, delay);
+        return await client.get<User[]>(`${BASE_URL}?email=${email}&password=${password}`, delay);
     }
 
     getUsersWithSubscriptions = async (): Promise<UserEmbedsSubscriptions[]> => {
-        return client.get<UserEmbedsSubscriptions[]>(`${BASE_URL}?_embed=subscribers`);
+        return await client.get<UserEmbedsSubscriptions[]>(`${BASE_URL}?_embed=subscriptions`);
     }
 
-    deleteUser = async (id: number): Promise<User> => {
-        return client.delete(`${BASE_URL}/${id}&_dependent=subscriptions`);
+    deleteUser = async (user: User): Promise<void> => {
+        await client.delete(`${BASE_URL}/${user.id}?_dependent=subscriptions`);
     }
 }
 export const userService = new UserService();

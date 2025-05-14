@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/02-components/ui/card"
-import { AreCoursesDifferent, Course } from "@/05-model/Course";
+import { AreCoursesDifferent, Course } from "@/05-model/base/Course";
 import { Button } from "@/02-components/ui/button";
 import GazzaDialog from "@/02-components/ui/dialogs/gazza-dialog";
 import CourseDialog from "@/02-components/ui/dialogs/course-dialog";
@@ -19,11 +19,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/02-components/ui/popo
 import { Calendar } from "@/02-components/ui/calendar";
 import useBaseComponent from "@/04-hooks/use-base-component";
 import { useCourseBasicInfo } from "@/04-hooks/use-course-basic-info";
+import { it } from "date-fns/locale";
 
 const CourseDetailCards = () => {
 
   const { courseId } = useParams();
-  const { course, setCourseData, lessonsNumber, subscribersNumber } = useCourseBasicInfo();
+  const { course, setCourseData, lessonsNumber, subscriptionsNumber } = useCourseBasicInfo();
   const [nextStatus, setNextStatus] = useState<"Pianificato" | "In corso" | "Chiuso">("Pianificato");
   const [closeDate, setCloseDate] = useState<Date>();
 
@@ -38,7 +39,8 @@ const CourseDetailCards = () => {
       queryKey: ['course', courseId!],
       fetch: () => courseService.get(courseId!),
       edit: courseService.edit,
-      del: courseService.deleteCourse,
+      del: courseService.deleteCourseDependentSubscriptions,
+      equals: (c1, c2) => c1.id === c2.id,
     }
   )
 
@@ -66,8 +68,8 @@ const CourseDetailCards = () => {
     onEdit(editedCourse);
   }
 
-  const onDeleteCourse = async (id: string) => {
-    onDelete(id);
+  const onDeleteCourse = async (deletedCourse: Course) => {
+    onDelete(deletedCourse);
 
     //Rimuovo la query dei corsi per triggerare lo stato di loading dopo la navigazione sulla lista
     remove(["courses"]);
@@ -96,7 +98,7 @@ const CourseDetailCards = () => {
     onEdit(updatedCourse);
   }
 
-  if (isLoading || !course || isNaN(lessonsNumber) || isNaN(subscribersNumber))
+  if (isLoading || !course || isNaN(lessonsNumber) || isNaN(subscriptionsNumber))
     return (
       <CourseDetailCardsSkeleton />
     )
@@ -117,7 +119,7 @@ const CourseDetailCards = () => {
               </Button>
             </GazzaDialog>
             {course.status === "Pianificato" ?
-              <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDeleteCourse(course.id)}>
+              <GazzaConfirmDialog dialogTitle="Elimina corso" dialogMessage={`Sei sicuro di voler eliminare ${course.name}?`} onConfirm={() => onDeleteCourse(course)}>
                 <Button variant="outline" size="icon" className="flex items-center hover:border-delete-red-foreground hover:bg-delete-red hover:text-delete-red-foreground">
                   <Trash2 />
                 </Button>
@@ -145,7 +147,7 @@ const CourseDetailCards = () => {
             Iscrizioni
           </CardDescription>
           <CardTitle className="@[250px]/card:text-4xl text-2xl font-semibold tabular-nums">
-            {subscribersNumber}
+            {subscriptionsNumber}
           </CardTitle>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1 text-sm">
@@ -188,6 +190,7 @@ const CourseDetailCards = () => {
                       mode="single"
                       selected={closeDate}
                       onSelect={(date) => onCloseDateChange(date)}
+                      locale={it}
                     />
                   </PopoverContent>
                 </Popover>

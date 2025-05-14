@@ -2,7 +2,7 @@ import { Card } from "@/02-components/ui/card";
 import { Input } from "@/02-components/ui/input";
 import { Button } from "@/02-components/ui/button";
 import { ChangeEvent, useEffect, useRef, useState, DragEvent } from "react";
-import { AreUsersDifferent, User } from "@/05-model/User";
+import { AreUsersDifferent, User } from "@/05-model/base/User";
 import { useForm } from "react-hook-form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/02-components/ui/avatar";
 import { Label } from "@/02-components/ui/label";
@@ -15,6 +15,9 @@ import { avatarFallback } from "@/02-components/utils/misc";
 import { toaster } from "@/02-components/utils/toaster";
 import { ErrorMessage } from "@/02-components/utils/error-messages";
 import { useAuth } from "@/04-hooks/use-auth";
+import { FileTooBigError } from "../errors/custom-exceptions/file-too-big";
+import { NoFileSelectedError } from "../errors/custom-exceptions/no-file-selected";
+import { FileNotAcceptedError } from "../errors/custom-exceptions/file-not-accepted";
 
 interface ProfilePageEditProps {
 	user: User;
@@ -88,8 +91,15 @@ const ProfilePageEdit = ({ user }: ProfilePageEditProps) => {
 			const updatedUser = await userService.edit(editedUser);
 			setSessionUser(updatedUser);
 			queryClient.removeQueries({ queryKey: ["user", user.id] }); // rimuovo cache per forzare refetch dell'utente
-		} catch {
-			toaster.errorToast(ErrorMessage.EDIT_ERROR);
+		} catch (e){
+			if(e instanceof FileTooBigError)
+        toaster.errorToast(ErrorMessage.FILE_TOO_BIG);
+      else if(e instanceof NoFileSelectedError)
+        toaster.errorToast(ErrorMessage.NO_FILE_SELECTED);
+      else if(e instanceof FileNotAcceptedError)
+        toaster.errorToast(ErrorMessage.FILE_NOT_ACCEPTED);
+      else
+        toaster.errorToast(ErrorMessage.UPLOAD_FILE)
 		} finally {
 			setLoading(false);
 		}

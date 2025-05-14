@@ -1,78 +1,87 @@
 import { TabsContent } from "@radix-ui/react-tabs";
 import { Card } from "@/02-components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/02-components/ui/tabs"
-import CourseDetailSubscriber from "./course-detail-subscriber";
+import CourseDetailSubscription from "./course-detail-subscription";
 import { GraduationCap, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Badge } from "@/02-components/ui/badge";
 import { useParams } from "react-router";
-import { Subscriber, SubscriptionsWithUser } from "@/05-model/Subscribers";
-import { subscriberService } from "@/03-http/base/services/subscriber";
+import { Subscription, SubscriptionsWithUser } from "@/05-model/base/Subscription";
 import CourseDetailGrades from "./course-detail-grades";
 import { Skeleton } from "@/02-components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/02-components/ui/tooltip";
 import { subDays } from "date-fns";
-import { GenerateId } from "@/05-model/BaseEntity";
-import useBaseComponentCustom from "@/04-hooks/use-base-component-custom";
-import { courseSubscriptionService } from "@/03-http/course-subscription-service";
-import { User } from "@/05-model/User";
+import { GenerateId } from "@/05-model/base/BaseEntity";
+import { User } from "@/05-model/base/User";
 import { createSkeletonArray, skeletonUniqueId } from "@/02-components/utils/misc";
 import { useCourseBasicInfo } from "@/04-hooks/use-course-basic-info";
+import useBaseComponent from "@/04-hooks/use-base-component";
+import { courseTabsService } from "@/03-http/expanded/course-tabs-service";
+import { toaster } from "@/02-components/utils/toaster";
 
 const CourseDetailTabs = () => {
 
 	const { courseId } = useParams();
-	const { course, setSubscribersNumber } = useCourseBasicInfo();
-	const [activeTab, setActiveTab] = useState("subscribers");
+	const { course, setSubscriptionsNumber } = useCourseBasicInfo();
+	const [activeTab, setActiveTab] = useState("subscriptions");
 
 	const {
 		query: { data: subscriptionsWithUser = [] },
 		onAdd,
 		onDelete,
 		isLoading,
-		remove 
-	} = useBaseComponentCustom<Subscriber, SubscriptionsWithUser, 'subscription', SubscriptionsWithUser[]>({
-			queryKey: ['subscriptions', courseId!],
-			fetch: () => courseSubscriptionService.getSubscriptionsWithUserByCourseId(courseId!),
-			add: subscriberService.add,
-			del: subscriberService.delete,
-			entityKey: 'subscription'
-		});
+		remove
+	} = useBaseComponent<SubscriptionsWithUser, SubscriptionsWithUser[]>({
+		queryKey: ['subscriptions', courseId!],
+		fetch: () => courseTabsService.getCourseTabsSubscriptions(courseId!),
+		add: courseTabsService.addCourseTabsSubscription,
+		del: courseTabsService.deleteTabsSectionSubscription,
+		equals: courseTabsService.sameItem
+	});
 
 	useEffect(() => {
 		if (!course)
 			return;
 
-		if (!isGradesEnabled) setActiveTab("subscribers");
+		if (!isGradesEnabled) setActiveTab("subscriptions");
 
 	}, [course])
 
 	useEffect(() => {
-		setSubscribersNumber(subscriptionsWithUser.length);
+		setSubscriptionsNumber(subscriptionsWithUser.length);
 	}, [subscriptionsWithUser])
 
 	// Vincolo dei 30 giorni entro la data di chiusura per assegnazione valutazioni
 	const isGradesEnabled = course?.status === "Chiuso" && course.closeDate && new Date(course.closeDate) > subDays(new Date(), 30);
 
-	const onAddSubscriber = async (users: User[]) => {
+	const onAddSubscription = async (users: User[]) => {
 		for (const user of users) {
-			if (subscriptionsWithUser.find(subscriptionWithUser => subscriptionWithUser.user.id === user.id))
+			const existentUser = subscriptionsWithUser.find(subscriptionWithUser => subscriptionWithUser.user.id === user.id)?.user;
+			if (existentUser){
+				toaster.warnToast(`L'utente ${existentUser.firstName} ${existentUser.lastName} è già iscritto al corso`);				
 				continue;
+			}				
 
 			onAdd({
-				id: GenerateId(),
-				userId: user.id,
-				courseId: courseId!,
-				subscriptionDate: new Date().toISOString(),
-				grade: null
+				user: user,
+				subscription: {
+					id: GenerateId(),
+					userId: user.id,
+					courseId: courseId!,
+					subscriptionDate: new Date().toISOString(),
+					grade: null
+				}
 			});
+			remove(['subscriptions', courseId!]);
 		}
-		remove(['subscriptions', courseId!]); // remove perchè aggiungendo un iscritto senza relation di User, perdo le info dell'utente
-	}
+	};
 
-	const onDeleteSubscriber = async (id: string) => {
-		onDelete(id);
-	}
+	const onDeleteSubscription = async (subscription: Subscription) => {
+		const subscriptionWithUser = subscriptionsWithUser.find(subscriptionWithUser => subscriptionWithUser.subscription.id === subscription.id);
+		if (!subscriptionWithUser)
+			return;
+		onDelete(subscriptionWithUser);
+	};
 
 	const GradesTabContent = (
 		<>
@@ -85,16 +94,16 @@ const CourseDetailTabs = () => {
 				{subscriptionsWithUser.filter(subscriptionWithUser => subscriptionWithUser.subscription.grade !== null).length}
 			</Badge>
 		</>
-	)	
+	);
 
 	if (isLoading || !course)
 		return <CourseDetailTabsSkeleton />;
 
 	return (
 		<Card className="col-span-1 sm:col-span-4 flex flex-col px-6 h-[560px]">
-			<Tabs defaultValue="subscribers" className="h-full" value={activeTab} onValueChange={setActiveTab}>
+			<Tabs defaultValue="subscriptions" className="h-full" value={activeTab} onValueChange={setActiveTab}>
 				<TabsList className="grid grid-cols-2 w-full md:w-fit">
-					<TabsTrigger value="subscribers" className="cursor-pointer">
+					<TabsTrigger value="subscriptions" className="cursor-pointer">
 						<Users className="h-4 w-4 mr-1" />
 						Iscrizioni
 						<Badge
@@ -125,8 +134,8 @@ const CourseDetailTabs = () => {
 						</TooltipProvider>
 					}
 				</TabsList>
-				<TabsContent value="subscribers" className="flex flex-col justify-between">
-					<CourseDetailSubscriber subscriptionsWithUser={subscriptionsWithUser} onAddSubscriber={onAddSubscriber} onDeleteSubscriber={onDeleteSubscriber} />
+				<TabsContent value="subscriptions" className="flex flex-col justify-between">
+					<CourseDetailSubscription subscriptionsWithUser={subscriptionsWithUser} onAddSubscription={onAddSubscription} onDeleteSubscription={onDeleteSubscription} />
 				</TabsContent>
 				<TabsContent value="grades" className="flex flex-col justify-between">
 					<CourseDetailGrades initialSubscriptionsWithUser={subscriptionsWithUser} />
