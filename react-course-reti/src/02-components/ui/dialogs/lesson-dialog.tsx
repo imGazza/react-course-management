@@ -37,6 +37,8 @@ const LessonDialog = ({ lesson, submit, setOpen, open, courseId }: LessonDialogP
     useEffect(() => {
         register("lessonDate", { required: true });
         reset(defaultValues);
+
+        return removePointerNoneFromBody();
     }, [open]);
 
     const selectedDate = watch("lessonDate");
@@ -44,6 +46,10 @@ const LessonDialog = ({ lesson, submit, setOpen, open, courseId }: LessonDialogP
     const onSubmit = (data: Lesson) => {
         submit(data);
         setOpen(false);
+    }
+
+    const removePointerNoneFromBody = () => {
+        document.body.style.removeProperty('pointer-events');
     }
 
     return (
