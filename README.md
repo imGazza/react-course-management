@@ -2,7 +2,7 @@
 
 Course management app in React.
 
-### Features:
+### Features
 
 - Authentication
 - Admin Dashboard:
