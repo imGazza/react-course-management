@@ -28,4 +28,4 @@ Course management app in React.
 
 - Clone the repository
 - Command ``` npm install ```
-- Command ``` npm run dev:all ``` to launch Json Server, the File Managemenet server and React App
+- Command ``` npm run dev:all ``` to launch Json Server, the File Management server and React App
